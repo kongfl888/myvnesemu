@@ -1680,7 +1680,7 @@ BOOL	NES::ReadState( FILE* fp )
 				// Ver0.30以降 Ver0.60以降
 					FILEHDR2 hdr2;
 					// ヘッダ部読み直し
-					if( ::fseek( fp, -sizeof(BLOCKHDR), SEEK_CUR ) ) {
+					if( ::fseek( fp, -(LONG)sizeof(BLOCKHDR), SEEK_CUR ) ) {
 						// ファイルの読み込みに失敗しました
 						throw	CApp::GetErrorString( IDS_ERROR_READ );
 					}

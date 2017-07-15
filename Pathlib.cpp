@@ -9,7 +9,7 @@ string	CPathlib::SplitPath( LPCSTR lpszPath )
 	CHAR	szDir  [ _MAX_DIR ];
 	CHAR	szTemp [ _MAX_PATH+1 ];
 	string	path;
-	::_splitpath( lpszPath, szDrive, szDir, NULL, NULL );
+	::_splitpath_s(lpszPath, szDrive, sizeof(szDrive), szDir, sizeof(szDir), NULL, 0, NULL, 0);
 	::_makepath( szTemp, szDrive, szDir, NULL, NULL );
 	path = szTemp;
 	return	path;
@@ -19,7 +19,7 @@ string	CPathlib::SplitFname( LPCSTR lpszPath )
 {
 	CHAR	szTemp [ _MAX_PATH+1 ];
 	string	fname;
-	::_splitpath( lpszPath, NULL, NULL, szTemp, NULL );
+	::_splitpath_s(lpszPath, NULL, 0, NULL, 0, szTemp, sizeof(szTemp), NULL, 0);
 	fname = szTemp;
 	return	fname;
 }
@@ -30,7 +30,7 @@ string	CPathlib::SplitFnameExt( LPCSTR lpszPath )
 	CHAR	szExt  [ _MAX_EXT ];
 	CHAR	szTemp [ _MAX_PATH+1 ];
 	string	fname;
-	::_splitpath( lpszPath, NULL, NULL, szFname, szExt );
+	::_splitpath_s(lpszPath, NULL, 0, NULL, 0, szFname, sizeof(szFname), szExt, sizeof(szExt));
 	::_makepath( szTemp, NULL, NULL, szFname, szExt );
 	fname = szTemp;
 	return	fname;
@@ -41,7 +41,7 @@ string	CPathlib::SplitExt( LPCSTR lpszPath )
 	CHAR	szExt[ _MAX_EXT ];
 //	CHAR	szTemp[ _MAX_PATH+1 ];
 	string	fname;
-	::_splitpath( lpszPath, NULL, NULL, NULL, szExt );
+	::_splitpath_s(lpszPath, NULL, 0, NULL, 0, NULL, 0, szExt, sizeof(szExt));
 	fname = szExt;
 	return	fname;
 }
@@ -52,7 +52,7 @@ string	CPathlib::MakePath( LPCSTR lpszPath, LPCSTR lpszFname )
 	CHAR	szDir  [ _MAX_DIR ];
 	CHAR	szTemp [ _MAX_PATH+1 ];
 	string	path;
-	::_splitpath( lpszPath, szDrive, szDir, NULL, NULL );
+	::_splitpath_s(lpszPath, szDrive, sizeof(szDrive), szDir, sizeof(szDir), NULL, 0, NULL, 0);
 	::_makepath( szTemp, szDrive, szDir, lpszFname, NULL );
 	path = szTemp;
 	return	path;
@@ -64,7 +64,7 @@ string	CPathlib::MakePathExt( LPCSTR lpszPath, LPCSTR lpszFname, LPCSTR lpszExt 
 	CHAR	szDir  [ _MAX_DIR ];
 	CHAR	szTemp [ _MAX_PATH+1 ];
 	string	path;
-	::_splitpath( lpszPath, szDrive, szDir, NULL, NULL );
+	::_splitpath_s(lpszPath, szDrive, sizeof(szDrive), szDir, sizeof(szDir), NULL, 0, NULL, 0);
 	::_makepath( szTemp, szDrive, szDir, lpszFname, lpszExt );
 	path = szTemp;
 	return	path;
@@ -122,7 +122,8 @@ BOOL	CPathlib::SelectFolder( HWND hWnd, LPCSTR lpszTitle, LPSTR lpszFolder )
 		path.resize( _MAX_PATH+1 );
 		::SHGetPathFromIDList( pidl, lpszFolder );
 		if( ::strlen(lpszFolder) > 3 ) {	// ƒhƒ‰ƒCƒu–¼‚Ìê‡‚ğœ‚­
-			::strcat( lpszFolder, "\\" );
+			size_t len = ::strlen(lpszFolder);
+			::strcat_s(lpszFolder, len + 2, "\\");
 		}
 		IMalloc* pMalloc;
 		::SHGetMalloc( &pMalloc );

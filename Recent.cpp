@@ -68,8 +68,8 @@ void	CRecent::MakeManuPath( LPSTR lpszPath )
 	}
 
 	lpszPath[nVolume] = '\0';
-	::strcat( lpszPath, "\\..." );
-	::strcat( lpszPath, lpszCur );
+	::strcat_s(lpszPath, strlen(lpszPath) + 5, "\\...");
+	::strcat_s(lpszPath, strlen(lpszPath) + strlen(lpszCur) + 1, lpszCur);
 }
 
 void	CRecent::UpdateMenu( HMENU hMenu )
@@ -116,7 +116,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 				}
 				*pDst = 0;
 				::wsprintf( szRecent, "&%d ", (i+1)%10 );
-				::strcat( szRecent, szTemp );
+				::strcat_s(szRecent, _countof(szRecent), szTemp);
 
 				// Add to menu
 				::InsertMenu( hPathMenu, i, MF_BYPOSITION, ID_MRU_PATH0+i, szRecent );
@@ -157,7 +157,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 				}
 				*pDst = 0;
 				::wsprintf( szRecent, "&%d ", (i+1)%10 );
-				::strcat( szRecent, szTemp );
+				::strcat_s(szRecent, _countof(szRecent), szTemp);
 
 				// Add to menu
 				::InsertMenu( hFileMenu, i, MF_BYPOSITION, ID_MRU_FILE0+i, szRecent );

@@ -76,10 +76,10 @@ void	CFolderDlg::PathCheck( LPSTR lpszPath )
 	if( len > 3 ) {
 		if( isleadbyte( (UINT)lpszPath[len-2] ) ) {
 			// MBCSÇ≈ÅèÇ™ñ≥Ç¢èÍçá
-				::strcat( lpszPath, "\\" );
+			::strcat_s(lpszPath, len + 2, "\\");
 		} else {
 			if( lpszPath[ len-1 ] != '\\' ) {
-				::strcat( lpszPath, "\\" );
+				::strcat_s(lpszPath, len + 2, "\\");
 			}
 		}
 	}

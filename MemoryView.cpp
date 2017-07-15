@@ -545,9 +545,9 @@ void	CMemoryView::OnDraw( HDC hDC )
 			CHAR	szTemp[16];
 			INT	addr = address+d;
 			::wsprintf( szTemp, "%02X ", CPU_MEM_BANK[addr>>13][addr&0x1FFF] );
-			::strcat( szBuf, szTemp );
+			::strcat_s(szBuf, _countof(szBuf), szTemp);
 		}
-		::strcat( szBuf, " " );
+		::strcat_s( szBuf, _countof(szBuf), " " );
 		for( INT a = 0; a < 16; a++ ) {
 			CHAR	szTemp[16];
 			INT	addr = address+a;
@@ -557,7 +557,7 @@ void	CMemoryView::OnDraw( HDC hDC )
 			} else {
 				::wsprintf( szTemp, "%1c", ::isprint(CPU_MEM_BANK[addr>>13][addr&0x1FFF])?CPU_MEM_BANK[addr>>13][addr&0x1FFF]:'.' );
 			}
-			::strcat( szBuf, szTemp );
+			::strcat_s(szBuf, _countof(szBuf), szTemp);
 		}
 
 		::TextOut( hDC, OFFSETH, OFFSETV+FONTHEIGHT*(2+i), szBuf, ::strlen(szBuf) );

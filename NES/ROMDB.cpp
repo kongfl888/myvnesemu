@@ -84,6 +84,7 @@ FILE*	fp = NULL;
 CHAR	buf[512];
 const UCHAR seps[] = ";\n\0";	// セパレータ
 ROMDB	db;
+unsigned char *next_token1 = NULL;
 
 DEBUGOUT( "Database loading...\n" );
 
@@ -102,39 +103,39 @@ DEBUGOUT( "File:%s\n", Path.c_str() );
 			CHAR*	pToken;
 
 			// ALL CRC
-			if( !(pToken = (CHAR*)_mbstok( (UCHAR*)buf, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( (UCHAR*)buf, seps, &next_token1 )) )
 				continue;
 			db.crcall = strtoul( pToken, NULL, 16 );
 			// PRG CRC
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.crc = strtoul( pToken, NULL, 16 );
 
 			// Title
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.title = pToken;
 
 			// Control 1
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.control1 = atoi( pToken );
 			// Control 2
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.control2 = atoi( pToken );
 
 			// PRG SIZE
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.prg_size = atoi( pToken );
 			// CHR SIZE
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.chr_size = atoi( pToken );
 
 			// Country
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			db.country = pToken;
 
@@ -151,28 +152,28 @@ DEBUGOUT( "File:%s\n", Path.c_str() );
 			}
 
 			// Manufacturer
-			if( pToken = (CHAR*)_mbstok( NULL, seps ) ) {
+			if( pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1) ) {
 				db.manufacturer = pToken;
 			} else {
 				db.manufacturer.erase( db.manufacturer.begin(), db.manufacturer.end() );
 			}
 
 			// Sale date
-			if( pToken = (CHAR*)_mbstok( NULL, seps ) ) {
+			if( pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1) ) {
 				db.saledate = pToken;
 			} else {
 				db.saledate.erase( db.saledate.begin(), db.saledate.end() );
 			}
 
 			// Price
-			if( pToken = (CHAR*)_mbstok( NULL, seps ) ) {
+			if( pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1) ) {
 				db.price = pToken;
 			} else {
 				db.price.erase( db.price.begin(), db.price.end() );
 			}
 
 			// Genre
-			if( pToken = (CHAR*)_mbstok( NULL, seps ) ) {
+			if( pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1) ) {
 				db.genre = pToken;
 			} else {
 				db.genre.erase( db.genre.begin(), db.genre.end() );

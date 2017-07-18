@@ -1340,6 +1340,7 @@ FILE*	fp = NULL;
 CHAR	buf[1024+1];
 const UCHAR seps[] = ";\n\0";	// セパレータ
 FILELIST fl;
+unsigned char*  next_token1 = NULL;
 
 //	string	Path = CPathlib::MakePathExt( CApp::GetModulePath(), "launcher", "lst" );
 	string	Path = CPathlib::MakePath( CApp::GetModulePath(), "launcher" );
@@ -1362,91 +1363,91 @@ DEBUGOUT( "Load Launcher File:%s\n", Path.c_str() );
 			CHAR*	pToken;
 
 			// File Name
-			if( !(pToken = (CHAR*)::_mbstok( (UCHAR*)buf, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( (UCHAR*)buf, seps, &next_token1)) )
 				continue;
 			fl.fname = pToken;
 
 			// Path
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.path = pToken;
 
 			// Mapper
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.mapper = ::atoi( pToken );
 
 			// PRG SIZE
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.prg_size = ::atoi( pToken );
 
 			// CHR SIZE
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.chr_size = ::atoi( pToken );
 
 			// ALL CRC
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.crcall = ::strtoul( pToken, NULL, 16 );
 
 			// CRC
-			if( !(pToken = (CHAR*)::_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) )
 				continue;
 			fl.crc = ::strtoul( pToken, NULL, 16 );
 
 			// Info
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.info = pToken;
 			} else {
 				fl.info = "";
 			}
 
 			// DB
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.db = pToken;
 			} else {
 				fl.db = "";
 			}
 
 			// TITLE
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.title = pToken;
 			} else {
 				fl.title = "";
 			}
 
 			// Country
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.country = pToken;
 			} else {
 				fl.country = "";
 			}
 
 			// Manufacturer
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.manufacturer = pToken;
 			} else {
 				fl.manufacturer = "";
 			}
 
 			// Sale date
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.saledate = pToken;
 			} else {
 				fl.saledate = "";
 			}
 
 			// Price
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.price = pToken;
 			} else {
 				fl.price = "";
 			}
 
 			// Genre
-			if( (pToken = (CHAR*)::_mbstok( NULL, seps )) ) {
+			if( (pToken = (CHAR*)::_mbstok_s( NULL, seps, &next_token1)) ) {
 				fl.genre = pToken;
 			} else {
 				fl.genre = "";

@@ -2821,6 +2821,7 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 			CHAR	szMenuString[256];
 			CHAR*	pToken;
 			const UCHAR seps[] = " \t\0";	// セパレータ
+			unsigned char*  next_token1 = NULL;
 
 			// ID番号からインデックスを探す
             INT i;
@@ -2828,7 +2829,7 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 
 			::GetMenuString( m_hMenu, CConfig::ShortcutKeyID[i*3+0], szMenuString, 256, MF_BYCOMMAND );
 
-			if( (pToken = (CHAR*)_mbstok( (UCHAR*)szMenuString, seps )) ) {
+			if( (pToken = (CHAR*)_mbstok_s( (UCHAR*)szMenuString, seps, &next_token1)) ) {
 				string	str = pToken;
 
 				if( Emu.IsRunning() && Nes ) {

@@ -1247,6 +1247,7 @@ DLGCMD	CCheatCodeDlg::OnInput( DLGCMDPARAM )
 	DEBUGOUT( "CCheatCodeDlg::OnInput\n" );
 
 	CCheatCodeInputDlg dlg;
+	unsigned char *  next_token1 = NULL;
 
 	if( dlg.DoModal( m_hWnd ) == IDOK ) {
 		CHEATCODE	code;
@@ -1266,7 +1267,7 @@ DLGCMD	CCheatCodeDlg::OnInput( DLGCMDPARAM )
 
 		// Initial state
 		if( szStr[0] == '#' ) {
-			if( (pToken = (CHAR*)_mbstok( (UCHAR*)szStr, seps )) ) {
+			if( (pToken = (CHAR*)_mbstok_s( (UCHAR*)szStr, seps, &next_token1)) ) {
 				if( ::strlen(pToken) == 2 ) {
 					if( pToken[1] >= '0' && pToken[1] <= '3' ) {
 						code.enable = pToken[1] - '0';
@@ -1277,16 +1278,16 @@ DLGCMD	CCheatCodeDlg::OnInput( DLGCMDPARAM )
 
 		// Address
 		if( szStr[0] != '#' ) {
-			if( !(pToken = (CHAR*)_mbstok( (UCHAR*)szStr, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( (UCHAR*)szStr, seps, &next_token1)) )
 				return;
 		} else {
-			if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+			if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 				return;
 		}
 
 		code.address = ::strtoul( pToken, NULL, 16 );
 		// Type & Length
-		if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+		if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 			return;
 		code.type   = pToken[0]-'0';
 		code.length = pToken[1]-'1';
@@ -1301,7 +1302,7 @@ DLGCMD	CCheatCodeDlg::OnInput( DLGCMDPARAM )
 			code.length = CHEAT_LENGTH_1BYTE;
 
 		// Data
-		if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+		if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 			return;
 		code.data = ::strtoul( pToken, NULL, 16 );
 
@@ -1372,6 +1373,7 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 	ofn.lpstrInitialDir = pathstr.c_str();
 
 	CHAR	szTitle[256], szTemp[256];
+	unsigned char *  next_token1 = NULL;
 
 	CApp::LoadString( IDS_UI_LOADCHEATCODE, szTitle, sizeof(szTitle) );
 	ofn.lpstrTitle = szTitle;
@@ -1401,7 +1403,7 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 
 				// Initial state
 				if( szTemp[0] == '#' ) {
-					if( !(pToken = (CHAR*)_mbstok( (UCHAR*)szTemp, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( (UCHAR*)szTemp, seps, &next_token1)) )
 						continue;
 
 					if( ::strlen(pToken) == 2 ) {
@@ -1413,10 +1415,10 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 
 				// Address
 				if( szTemp[0] != '#' ) {
-					if( !(pToken = (CHAR*)_mbstok( (UCHAR*)szTemp, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( (UCHAR*)szTemp, seps, &next_token1)) )
 						continue;
 				} else {
-					if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 						continue;
 				}
 
@@ -1424,7 +1426,7 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 				// VirtuaNES code
 					code.address = ::strtoul( pToken, NULL, 16 );
 					// Type & Length
-					if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 						continue;
 
 					if( ::strlen( pToken ) == 2 ) {
@@ -1447,12 +1449,12 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 						code.length = CHEAT_LENGTH_1BYTE;
 
 					// Data
-					if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 						continue;
 					code.data = ::strtoul( pToken, NULL, 16 );
 
 					// Comment
-					if( (pToken = (CHAR*)_mbstok( NULL, seps2 )) ) {
+					if( (pToken = (CHAR*)_mbstok_s( NULL, seps2, &next_token1)) ) {
 						code.comment = pToken;
 					} else {
 						code.comment = "";
@@ -1466,7 +1468,7 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 						code.address += 0x6000;
 					}
 					// Length
-					if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 						continue;
 					code.type = CHEAT_TYPE_ALWAYS;
 					code.length = pToken[1]-'1';
@@ -1476,12 +1478,12 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 						code.length = CHEAT_LENGTH_1BYTE;
 
 					// Data
-					if( !(pToken = (CHAR*)_mbstok( NULL, seps )) )
+					if( !(pToken = (CHAR*)_mbstok_s( NULL, seps, &next_token1)) )
 						continue;
 					code.data = ::strtoul( pToken, NULL, 16 );
 
 					// Comment
-					if( (pToken = (CHAR*)_mbstok( NULL, seps3 )) ) {
+					if( (pToken = (CHAR*)_mbstok_s( NULL, seps3, &next_token1)) ) {
 						code.comment = pToken;
 					} else {
 						code.comment = "";

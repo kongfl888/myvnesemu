@@ -3,12 +3,12 @@
 
 // VirtuaNES version
 #define	VIRTUANES_VERSION		0x0097
-#define	VIRTUANES_FIXVERSION		""
-#define	VIRTUANES_PLUGIN_VERSION	0x0095
+#define	VIRTUANES_FIXVERSION		"1"
+#define	VIRTUANES_PLUGIN_VERSION	0x0097
 
 // VirtuaNES window class
 #define	VIRTUANES_WNDCLASS		"VirtuaNESwndclass"
-#define	VIRTUANES_CAPTION		"VirtuaNES"
+#define	VIRTUANES_CAPTION		"VirtuaNES kVer"
 #define	VIRTUANES_MUTEX			"VirtuaNESmutex"
 
 // VirtuaNES Website
@@ -269,7 +269,7 @@
 #define	IDS_CHT_DATA_NOW		0x0703
 #define	IDS_CHT_DATA_OLD		0x0704
 
-// コントロールIDs
+// Control IDs
 // UI
 #define	IDDEFAULT			101
 #define	IDR_MENU			110
@@ -348,13 +348,14 @@
 #define	IDD_DBG_MEMSEARCH		906
 #define	IDD_DBG_MEMSEARCH_MENU		907
 
-// ダイアログ内コントロールIDs
+//In IDs andfinally dialog control
 // IDD_VERSION
 #define	IDC_VER_VERSION			1000
 #define	IDC_VER_ICON			1001
 #define	IDC_VER_WEBSITE			1002
 #define	IDC_VER_COPYRIGHT		1003
 #define	IDC_VER_EMAIL			1004
+#define	IDC_VER_DATE			1005
 
 // IDD_ROMINFO
 #define	IDC_ROM_NAME			1100
@@ -533,7 +534,7 @@
 #define	IDC_CTR_EXW			2040
 #define	IDC_CTR_EXX			2041
 
-#define	IDC_CTR_END			2041	// 終端
+#define	IDC_CTR_END			2041	// Terminal
 
 #define	IDC_CTR_A_RAPID_LIST		2050
 #define	IDC_CTR_B_RAPID_LIST		2051
@@ -709,25 +710,25 @@
 // IDD_DEBUGGER
 //
 
-// メニューコマンド IDs
+// Menu commands IDs
 //
-// ファイル(&F)
+// File(&F)
 #define	ID_OPEN				0x8000
 #define	ID_CLOSE			0x8001
 #define	ID_EXIT				0x8002
 #define	ID_LAUNCHER			0x8010
-#define	ID_LAUNCHER_CLOSE		0x8011	// 内部コマンド
+#define	ID_LAUNCHER_CLOSE		0x8011	// internal command
 #define	ID_ROMINFO			0x8020
 #define	ID_WAVERECORD			0x8028
 #define	ID_ABOUT			0x8080
 #define	ID_HTMLHELP			0x8081
 
-// "ﾈｯﾄﾜｰｸ"POPUP
+// "Network"POPUP
 #define	ID_NETPLAY_CONNECT		0x80D0
 #define	ID_NETPLAY_DISCONNECT		0x80D1
 #define	ID_NETPLAY_CHAT			0x80D2	// ChatWindow
 
-// "ﾑｰﾋﾞｰ"POPUP
+// "MOVIE"POPUP
 #define	ID_MOVIE_REC			0x80E0
 #define	ID_MOVIE_REC_APPEND		0x80E1
 #define	ID_MOVIE_PLAY			0x80E2
@@ -735,7 +736,7 @@
 #define	ID_MOVIE_INFO			0x80E4
 #define	ID_MOVIE_CONVERT		0x80E8
 
-// 最近使ったファイル
+// Recently used files
 #define	ID_MRU_FILE0			0x8300
 #define	ID_MRU_FILE1			0x8301
 #define	ID_MRU_FILE2			0x8302
@@ -746,7 +747,7 @@
 #define	ID_MRU_FILE7			0x8307
 #define	ID_MRU_FILE8			0x8308
 #define	ID_MRU_FILE9			0x8309
-// 最近使ったパス
+// With the recent path
 #define	ID_MRU_PATH0			0x8310
 #define	ID_MRU_PATH1			0x8311
 #define	ID_MRU_PATH2			0x8312
@@ -758,13 +759,13 @@
 #define	ID_MRU_PATH8			0x8318
 #define	ID_MRU_PATH9			0x8319
 
-// 編集(&E)
+// Editing(&E)
 #define	ID_HWRESET			0x8100
 #define	ID_SWRESET			0x8101
 #define	ID_PAUSE			0x8102
 #define	ID_STATE_LOAD			0x8103
 #define	ID_STATE_SAVE			0x8104
-// "ｽﾃｰﾄｽﾛｯﾄ"POPUP
+// "STATE "POPUP
 #define	ID_STATE_SLOT0			0x8110
 #define	ID_STATE_SLOT1			0x8111
 #define	ID_STATE_SLOT2			0x8112
@@ -776,7 +777,7 @@
 #define	ID_STATE_SLOT8			0x8118
 #define	ID_STATE_SLOT9			0x8119
 
-// "ﾃﾞｨｽｸ"POPUP
+// "DISK"POPUP
 #define	ID_DISK_EJECT			0x8120
 #define	ID_DISK_0A			0x8121
 #define	ID_DISK_0B			0x8122
@@ -788,7 +789,7 @@
 #define	ID_DISK_3B			0x8128
 
 
-// "拡張ｺﾝﾄﾛｰﾗ"POPUP
+// "Extension"POPUP
 #define	ID_EXCTR_NONE			0x8130
 #define	ID_EXCTR_PADDLE			0x8131
 #define	ID_EXCTR_HYPERSHOT		0x8132
@@ -808,9 +809,10 @@
 #define	ID_EXCTR_VSUNISYSTEM		0x813E
 #define	ID_EXCTR_VSUNISYSTEM_ZAPPER	0x813F
 
-#define	ID_EXCTR_END			0x813F		// 終端
+#define	ID_EXCTR_END			0x813F		// Terminal
 
-// "Quickﾛｰﾄﾞ"POPUP
+
+// "Quick load"POPUP
 #define	ID_QUICKLOAD_SLOT0		0x8140
 #define	ID_QUICKLOAD_SLOT1		0x8141
 #define	ID_QUICKLOAD_SLOT2		0x8142
@@ -821,7 +823,7 @@
 #define	ID_QUICKLOAD_SLOT7		0x8147
 #define	ID_QUICKLOAD_SLOT8		0x8148
 #define	ID_QUICKLOAD_SLOT9		0x8149
-// "Quickｾｰﾌﾞ"POPUP
+// "Quick save"POPUP
 #define	ID_QUICKSAVE_SLOT0		0x8150
 #define	ID_QUICKSAVE_SLOT1		0x8151
 #define	ID_QUICKSAVE_SLOT2		0x8152
@@ -833,8 +835,8 @@
 #define	ID_QUICKSAVE_SLOT8		0x8158
 #define	ID_QUICKSAVE_SLOT9		0x8159
 
-// 拡張ﾃﾞﾊﾞｲｽ
-// "ﾃｰﾌﾟﾃﾞﾊﾞｲｽ"POPUP
+// Expansion device
+// "TAPE"POPUP
 #define	ID_TAPE_PLAY			0x8180
 #define	ID_TAPE_REC			0x8181
 #define	ID_TAPE_STOP			0x8182
@@ -842,13 +844,13 @@
 #define	ID_BARCODEBATTLER		0x8190
 #define	ID_VSUNISYSTEM_DIPSWITCH	0x8194
 
-// "ﾀｰﾎﾞﾌｧｲﾙ"POPUP
+// "Turbo file"POPUP
 #define	ID_TURBOFILE_BANK0		0x81A0
 #define	ID_TURBOFILE_BANK1		0x81A1
 #define	ID_TURBOFILE_BANK2		0x81A2
 #define	ID_TURBOFILE_BANK3		0x81A3
 
-// 設定(&C)
+// Setting(&C)
 #define	ID_CFG_EMULATOR			0x8200
 #define	ID_CFG_GRAPHICS			0x8201
 #define	ID_CFG_SOUND			0x8202
@@ -860,13 +862,13 @@
 #define	ID_CFG_GAMEOPTION		0x8208
 #define	ID_CFG_JOYAXIS			0x8209
 #define	ID_CFG_PALETTE			0x820A
-// "画面ｻｲｽﾞ"POPUP
+// "Screen size"POPUP
 #define	ID_ZOOMx1			0x8220
 #define	ID_ZOOMx2			0x8221
 #define	ID_ZOOMx3			0x8222
 #define	ID_ZOOMx4			0x8223
 
-// サウンドミュート
+// Sound mute
 #define	ID_MUTE_0			0x8230
 #define	ID_MUTE_1			0x8231
 #define	ID_MUTE_2			0x8232
@@ -884,7 +886,7 @@
 #define	ID_MUTE_E			0x823E
 #define	ID_MUTE_F			0x823F
 
-// ツール(&T)
+// Tools(&T)
 #define	ID_SEARCH			0x8800
 #define	ID_CHEAT			0x8801
 #define	ID_GENIE			0x8802
@@ -901,7 +903,7 @@
 #define	ID_VIEW_MEMORY			0x8910
 #define	ID_VIEW_WATCH			0x8911
 
-// その他のコマンド(メニュー表示されるものもある)
+// Other commands(menu display)
 #define	ID_STATE_UP			0x9000
 #define	ID_STATE_DOWN			0x9001
 #define	ID_THROTTLE			0x9002
@@ -922,7 +924,7 @@
 #define	ID_ONEFRAME			0x9011
 #define	ID_KEYTHROTTLE			0x9012
 
-// 画面フィルタ
+// Screen filter
 #define	ID_FILTER_NONE			0x9100
 #define	ID_FILTER_2XSAI			0x9101
 #define	ID_FILTER_SUPER2XSAI		0x9102
@@ -932,10 +934,10 @@
 #define	ID_FILTER_LQ2X			0x9106
 #define	ID_FILTER_END			0x9106
 
-// チートメニュー
+// cheat menu
 #define	ID_SCH_APPEND			0x9800
 
-// ランチャーメニュー
+// Launcher menu
 //
 #define	ID_LCH_FOLDER			0xA000
 #define	ID_LCH_DISPEDIT			0xA001

@@ -41,13 +41,16 @@ DLGMSG	CAboutDlg::OnInitDialog( DLGMSGPARAM )
 
 	TCHAR	str[256];
 
-	::wsprintf( str, "VirtuaNES version %01d.%01d%01d%s",
+	::wsprintf( str, "VirtuaNES version k%01d.%01d%01d%s",
 		    (VIRTUANES_VERSION&0xF00)>>8,
 		    (VIRTUANES_VERSION&0x0F0)>>4,
 		    (VIRTUANES_VERSION&0x00F),
 		    VIRTUANES_FIXVERSION );
 
 	::SetDlgItemText( m_hWnd, IDC_VER_VERSION, str );
+
+	::wsprintf( str, "Date: %s, kongfl888",__DATE__ );
+	::SetDlgItemText( m_hWnd, IDC_VER_DATE, str );
 
 //	::SetDlgItemText( m_hWnd, IDC_VER_WEBSITE, VIRTUANES_WEBSITE );
 

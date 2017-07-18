@@ -80,8 +80,8 @@ CDirectInput::DIKEYTBL	CDirectInput::DIKeyTable[] = {
 	DIK_CAPITAL,	"Caps Lock",
 	DIK_NUMLOCK,	"NumLock",
 	DIK_SCROLL,	"ScrollLock",
-	DIK_KANA,	"ƒJƒi",	
-	DIK_KANJI,	"Š¿Žš",
+	DIK_KANA,	"Kana",
+	DIK_KANJI,	"Kanji",
 #endif
 	0x00,		NULL
 };

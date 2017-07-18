@@ -184,7 +184,7 @@ BOOL	CNetPlay::Connect( BOOL bServer, const char* lpszIP, unsigned short Port )
 		// IPアドレス？
 		unsigned long IP_address = ::inet_addr( lpszIP );
 		if( IP_address == INADDR_NONE ) {
-			DEBUGOUT( "CNetPlay:IPアドレスが不正です。\"%s\"\n", lpszIP );
+			DEBUGOUT( "CNetPlay:IP address is invalid.\"%s\"\n", lpszIP );
 			return	FALSE;
 		}
 

@@ -311,11 +311,11 @@ DEBUGOUT( "PAGESIZE:%d\n", NSF_PAGE_SIZE );
 		{
 		string	tempstr;
 		tempstr = CPathlib::SplitPath( fname );
-		::strcpy_s( path, tempstr.c_str() );
+		::strcpy_s( path, sizeof(path), tempstr.c_str() );
 		tempstr = CPathlib::SplitFname( fname );
-		::strcpy_s( name, tempstr.c_str() );
+		::strcpy_s( name, sizeof(name), tempstr.c_str() );
 		// オリジナルファイル名(フルパス)
-		::strcpy_s( fullpath, fname );
+		::strcpy_s( fullpath, sizeof(fullpath), fname );
 		}
 
 		// マッパ設定

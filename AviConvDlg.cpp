@@ -575,7 +575,7 @@ _render_loop:
 			pNes->MovieStop();
 			AviWriter.Close();
 
-			::strcpy_s( g_szErrorMessage, str );
+			::strcpy_s( g_szErrorMessage, sizeof(g_szErrorMessage), str );
 			::PostMessage( pAviConvDlg->m_hWnd, WM_APP+101, 0, (LPARAM)g_szErrorMessage );
 
 			pAviConvDlg->m_bThreadExit = TRUE;

@@ -1359,7 +1359,7 @@ DLGCMD	CCheatCodeDlg::OnLoad( DLGCMDPARAM )
 	OPENFILENAME	ofn;
 	CHAR	szFile[_MAX_PATH];
 
-	::strcpy_s( szFile, tempstr.c_str() );
+	::strcpy_s( szFile, sizeof(szFile), tempstr.c_str() );
 	ZEROMEMORY( &ofn, sizeof(ofn) );
 
 	ofn.lStructSize     = sizeof(ofn);
@@ -1522,7 +1522,7 @@ DLGCMD	CCheatCodeDlg::OnSave( DLGCMDPARAM )
 	OPENFILENAME	ofn;
 	CHAR	szFile[_MAX_PATH];
 
-	::strcpy_s( szFile, tempstr.c_str() );
+	::strcpy_s( szFile, sizeof(szFile), tempstr.c_str() );
 	ZEROMEMORY( &ofn, sizeof(ofn) );
 
 	ofn.lStructSize     = sizeof(ofn);

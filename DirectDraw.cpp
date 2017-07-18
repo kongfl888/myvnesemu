@@ -1873,7 +1873,7 @@ void	CDirectDraw::SetInfoString( LPCSTR str )
 			memcpy( m_szInfo, str, INFOSTR_SIZE );
 			m_szInfo[INFOSTR_SIZE] = '\0';
 		} else {
-			strcpy_s( m_szInfo, str );
+			strcpy_s( m_szInfo, sizeof(m_szInfo),str );
 		}
 	} else {
 		m_szInfo[0] = '\0';
@@ -1888,7 +1888,7 @@ void	CDirectDraw::SetMessageString( LPCSTR str )
 			memcpy( m_szMess, str, INFOSTR_SIZE );
 			m_szMess[INFOSTR_SIZE] = '\0';
 		} else {
-			strcpy_s( m_szMess, str );
+			strcpy_s( m_szMess, sizeof(m_szMess), str );
 		}
 		m_bMessage = TRUE;
 		m_dwMessageTime = ::timeGetTime();

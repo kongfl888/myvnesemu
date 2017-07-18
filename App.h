@@ -24,7 +24,7 @@ public:
 	static	void	SetMenu( HMENU hMenu )			{ m_hMenu = hMenu; }
 	static	void	SetPlugin( HINSTANCE hPlugin )		{ m_hPlugin = hPlugin; LoadErrorString(); }
 
-	static	void	SetModulePath( LPCSTR lpModulePath )	{ ::strcpy_s( m_szModulePath, lpModulePath ); }
+	static	void	SetModulePath( LPCSTR lpModulePath )	{ ::strcpy_s( m_szModulePath, sizeof(m_szModulePath), lpModulePath ); }
 
 	// アプリ内部で使用する
 	static	HINSTANCE	GetInstance()		{ return m_hInstance; }

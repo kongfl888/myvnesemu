@@ -76,11 +76,11 @@ string	CPathlib::CreatePath( LPCSTR lpszBasePath, LPCSTR lpszPath )
 	string	path;
 	if( ::PathIsRelative( lpszPath ) ) {
 		CHAR	szTemp[ _MAX_PATH ];
-		::strcpy_s( szTemp, lpszBasePath );
+		::strcpy_s( szTemp, sizeof(szTemp), lpszBasePath );
 		::PathAppend( szTemp, lpszPath );
 		::PathCanonicalize( szPath, szTemp );
 	} else {
-		::strcpy_s( szPath, lpszPath );
+		::strcpy_s( szPath, sizeof(szPath), lpszPath );
 	}
 	path = szPath;
 	return	path;

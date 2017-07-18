@@ -114,7 +114,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				// (当然の様に対応バージョンでないとダメ)
 				if( ::strlen( lpCmdLine ) > 0 ) {
 					CHAR	szCmdLine[_MAX_PATH];
-					::strcpy_s( szCmdLine, lpCmdLine );
+					::strcpy_s( szCmdLine, sizeof(szCmdLine), lpCmdLine );
 					::PathUnquoteSpaces( szCmdLine );
 
 					COPYDATASTRUCT	cds;

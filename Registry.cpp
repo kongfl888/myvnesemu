@@ -16,14 +16,14 @@ void	CRegistry::SetRegistryKey( LPCTSTR lpszKey )
 {
 #ifndef	INI_USE
 	if( lpszKey ) {
-		::_tcscpy_s( m_szRegistryKey, lpszKey );
+		::_tcscpy_s( m_szRegistryKey, sizeof(m_szRegistryKey), lpszKey );
 	}
 #else
 	string	str;
 	str = CApp::GetModulePath();
 	str += lpszKey;
 
-	::_tcscpy_s(m_szRegistryKey, str.length() + 1, str.c_str());
+	::_tcscpy_s(m_szRegistryKey, sizeof(m_szRegistryKey), str.c_str());
 #endif
 }
 

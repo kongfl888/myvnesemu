@@ -202,9 +202,9 @@ DLGCMD	CGraphicsDlg::OnPaletteBrowse( DLGCMDPARAM )
 	CHAR	szFile[ _MAX_PATH ];
 	string	temp;
 	temp = CPathlib::SplitPath( szTemp );
-	::strcpy_s( szPath, temp.c_str() );
+	::strcpy_s( szPath, sizeof(szPath), temp.c_str() );
 	temp = CPathlib::SplitFnameExt( szTemp );
-	::strcpy_s( szFile, temp.c_str() );
+	::strcpy_s( szFile, sizeof(szFile), temp.c_str() );
 
 	OPENFILENAME	ofn;
 	ZeroMemory( &ofn, sizeof(ofn) );

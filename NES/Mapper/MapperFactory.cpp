@@ -98,6 +98,10 @@
 #include "Mapper118.h"
 #include "Mapper119.h"
 #include "Mapper122.h"
+#include "Mapper175.h"
+#include "Mapper176.h"
+#include "Mapper177.h"
+#include "Mapper178.h"
 #include "Mapper180.h"
 #include "Mapper181.h"
 #include "Mapper185.h"
@@ -138,9 +142,14 @@
 #include "Mapper183.h"
 #include "Mapper190.h"
 #include "Mapper191.h"
+#include "Mapper192.h"
 #include "Mapper193.h"
 #include "Mapper194.h"
+#include "Mapper195.h"
 #include "Mapper198.h"
+#include "Mapper199.h"
+#include "Mapper216.h"
+#include "Mapper220.h"
 #include "Mapper222.h"
 #include "Mapper225.h"
 #include "Mapper226.h"
@@ -164,6 +173,7 @@
 #include "Mapper249.h"
 #include "Mapper251.h"
 #include "Mapper252.h"
+#include "Mapper253.h"
 #include "Mapper254.h"
 #include "Mapper255.h"
 
@@ -257,6 +267,10 @@
 #include "Mapper118.cpp"
 #include "Mapper119.cpp"
 #include "Mapper122.cpp"
+#include "Mapper175.cpp"
+#include "Mapper176.cpp"
+#include "Mapper177.cpp"
+#include "Mapper178.cpp"
 #include "Mapper180.cpp"
 #include "Mapper181.cpp"
 #include "Mapper185.cpp"
@@ -297,9 +311,14 @@
 #include "Mapper183.cpp"
 #include "Mapper190.cpp"
 #include "Mapper191.cpp"
+#include "Mapper192.cpp"
 #include "Mapper193.cpp"
 #include "Mapper194.cpp"
+#include "Mapper195.cpp"
 #include "Mapper198.cpp"
+#include "Mapper199.cpp"
+#include "Mapper216.cpp"
+#include "Mapper220.cpp"
 #include "Mapper222.cpp"
 #include "Mapper225.cpp"
 #include "Mapper226.cpp"
@@ -323,6 +342,7 @@
 #include "Mapper249.cpp"
 #include "Mapper251.cpp"
 #include "Mapper252.cpp"
+#include "Mapper253.cpp"
 #include "Mapper254.cpp"
 #include "Mapper255.cpp"
 
@@ -492,6 +512,14 @@ Mapper*	CreateMapper( NES* parent, INT no )
 		case	122:
 		case	184:
 			return new Mapper122(parent);
+		case	175:
+			return new Mapper175(parent);
+		case	176:
+			return new Mapper176(parent);
+		case	177:
+			return new Mapper177(parent);
+		case	178:
+			return new Mapper178(parent);
 		case	180:
 			return new Mapper180(parent);
 		case	181:
@@ -569,12 +597,22 @@ Mapper*	CreateMapper( NES* parent, INT no )
 			return new Mapper190(parent);
 		case	191:
 			return new Mapper191(parent);
+		case	192:
+			return new Mapper192(parent);
 		case	193:
 			return new Mapper193(parent);
 		case	194:
 			return new Mapper194(parent);
+		case	195:
+			return new Mapper195(parent);
 		case	198:
 			return new Mapper198(parent);
+		case	199:
+			return new Mapper199(parent);
+		case	216:
+			return new Mapper216(parent);
+		case	220:
+			return new Mapper220(parent);
 		case	222:
 			return new Mapper222(parent);
 		case	225:
@@ -621,6 +659,8 @@ Mapper*	CreateMapper( NES* parent, INT no )
 			return new Mapper251(parent);
 		case	252:
 			return new Mapper252(parent);
+		case	253:
+			return new Mapper253(parent);
 		case	254:
 			return new Mapper254(parent);
 		case	255:

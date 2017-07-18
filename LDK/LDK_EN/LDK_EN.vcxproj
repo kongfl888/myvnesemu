@@ -94,7 +94,6 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>$(ProjectDir)LDK.def</ModuleDefinitionFile>
     </Link>
     <ResourceCompile>
       <Culture>0x0804</Culture>

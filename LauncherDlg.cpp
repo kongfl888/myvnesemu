@@ -137,7 +137,7 @@ void	CLauncherDlg::Destroy()
 		} else {
 			FILELIST& fl = m_FileList[m_SelectPos];
 			string	Path = CPathlib::MakePath( fl.path.c_str(), fl.fname.c_str() );
-			::strcpy( Config.launcher.szLastSelect, Path.c_str() );
+			::strcpy_s( Config.launcher.szLastSelect, Path.c_str() );
 		}
 
 		if( !m_bFileLoaded ) {
@@ -164,9 +164,9 @@ INT CALLBACK CLauncherDlg::ListViewCompare( LPARAM lParam1, LPARAM lParam2, LPAR
 	switch( lParamSort ) {
 		case	COLUMN_FILENAME:
 #if	1
-			::strcpy( szTemp, fl1.fname.c_str() );
+			::strcpy_s( szTemp, fl1.fname.c_str() );
 			s1 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
-			::strcpy( szTemp, fl2.fname.c_str() );
+			::strcpy_s( szTemp, fl2.fname.c_str() );
 			s2 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
 			if( !Config.launcher.bSortDir ) {
 				ret = s1.compare( s2.c_str() );
@@ -190,9 +190,9 @@ INT CALLBACK CLauncherDlg::ListViewCompare( LPARAM lParam1, LPARAM lParam2, LPAR
 			}
 			return	ret;
 		case	COLUMN_PATH:
-			::strcpy( szTemp, fl1.path.c_str() );
+			::strcpy_s( szTemp, fl1.path.c_str() );
 			s1 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
-			::strcpy( szTemp, fl2.path.c_str() );
+			::strcpy_s( szTemp, fl2.path.c_str() );
 			s2 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
 			if( !Config.launcher.bSortDir ) {
 				ret = s1.compare( s2.c_str() );
@@ -267,9 +267,9 @@ _Compare_Num:
 
 _Compare_Str:
 #if	1
-			::strcpy( szTemp, s1.c_str() );
+			::strcpy_s( szTemp, s1.c_str() );
 			s1 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
-			::strcpy( szTemp, s2.c_str() );
+			::strcpy_s( szTemp, s2.c_str() );
 			s2 = (CHAR*)::_mbsupr( (UCHAR*)szTemp );
 			if( !Config.launcher.bSortDir ) {
 				ret = s1.compare( s2.c_str() );
@@ -386,16 +386,16 @@ void	CLauncherDlg::SetListView( INT index, FILELIST& fl )
 		INT	image = 0;
 
 		if( Mapper == 20 ) {
-			::strcpy( szStr, "FDS" );
+			::strcpy_s( szStr, "FDS" );
 			if( fl.mapper&0xF000 )
 				image = 4;
 			else
 				image = 3;
 		} else if( Mapper == 0x100 ) {
-			::strcpy( szStr, "NSF" );
+			::strcpy_s( szStr, "NSF" );
 			image = 5;
 		} else if( Mapper > 0x100 ) {
-			::strcpy( szStr, "Unknown" );
+			::strcpy_s( szStr, "Unknown" );
 			image = 0;
 		} else {
 			::wsprintf( szStr, "%d", fl.mapper&0xFF );
@@ -423,7 +423,7 @@ void	CLauncherDlg::SetListView( INT index, FILELIST& fl )
 			::wsprintf( szStr, "%d", 16*fl.prg_size );
 		} else {
 		// Bad file
-			::strcpy( szStr, "0" );
+			::strcpy_s( szStr, "0" );
 		}
 		ListView_SetItemText( hWndCtrl, index, RealOrder[3], szStr );
 	}
@@ -1070,7 +1070,7 @@ DLGNOTIFY CLauncherDlg::OnDoubleClickListView( DLGNOTIFYPARAM )
 //DEBUGOUT( "Item double click!! SEL=%08X\n", m_SelectPos );
 		FILELIST& fl = m_FileList[m_SelectPos];
 		string	path = CPathlib::MakePath( fl.path.c_str(), fl.fname.c_str() );
-		::strcpy( m_LaunchPath, path.c_str() );
+		::strcpy_s( m_LaunchPath, path.c_str() );
 
 		// メインウインドウにポスト
 		::PostMessage( CApp::GetHWnd(), WM_VNS_LAUNCHERCMD, 0, (LPARAM)m_LaunchPath );
@@ -1109,7 +1109,7 @@ DLGCMD	CLauncherDlg::OnOK( DLGCMDPARAM )
 //DebugOut( "Item double click!! SEL=%08X\n", m_SelectPos );
 		FILELIST& fl = m_FileList[m_SelectPos];
 		string	path = CPathlib::MakePath( fl.path.c_str(), fl.fname.c_str() );
-		::strcpy( m_LaunchPath, path.c_str() );
+		::strcpy_s( m_LaunchPath, path.c_str() );
 
 		// メインウインドウにポスト
 		::PostMessage( CApp::GetHWnd(), WM_VNS_LAUNCHERCMD, 0, (LPARAM)m_LaunchPath );

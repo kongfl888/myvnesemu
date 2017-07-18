@@ -60,7 +60,7 @@ BOOL	CPlugin::FindPlugin( LPCSTR lpModulePath )
 				if( ver >= VIRTUANES_PLUGIN_VERSION ) {
 					m_Plugin[m_PluginNum].LocaleID = GetVlpLocaleID();
 					string	Path = CPathlib::MakePath( lpModulePath, find.cFileName );
-					::strcpy( m_Plugin[m_PluginNum].Path, Path.c_str() );
+					::strcpy_s( m_Plugin[m_PluginNum].Path, Path.c_str() );
 					GetVlpLanguage( m_Plugin[m_PluginNum].Language );
 					m_PluginNum++;
 				}

@@ -16,7 +16,7 @@ CHAR	CRecent::m_TempPath[_MAX_PATH];
 LPCSTR	CRecent::GetName( INT nID )
 {
 	// CRecent::Add Because it may come back pointing at the same pointer at once temporary copy
-	::strcpy( m_TempPath, m_RecentName[nID] );
+	::strcpy_s( m_TempPath, m_RecentName[nID] );
 	return	(LPCSTR)m_TempPath;
 }
 
@@ -36,7 +36,7 @@ void	CRecent::MakeManuPath( LPSTR lpszPath )
 
 	// When the file name is 30 characters or more
 	if( ::strlen( FileName.c_str() ) >= 30 ) {
-		::strcpy( lpszPath, FileName.c_str() );
+		::strcpy_s(lpszPath, FileName.length() + 1, FileName.c_str());
 		return;
 	}
 
@@ -56,7 +56,7 @@ void	CRecent::MakeManuPath( LPSTR lpszPath )
 
 	INT	nVolume = lpszCur - lpszPath;
 	if( 30 < nVolume+5+::strlen(FileName.c_str()) ) {
-		::strcpy( lpszPath, FileName.c_str() );
+		::strcpy_s(lpszPath, FileName.length() + 1, FileName.c_str());
 		return;
 	}
 
@@ -102,7 +102,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			if( ::strlen(m_RecentPath[i]) > 0 ) {
 				// Shorten paths for menus
-				::strcpy( szRecent, m_RecentPath[i] );
+				::strcpy_s( szRecent, m_RecentPath[i] );
 
 				// Convert '&' in file with '&' to '&&'
 				LPCSTR	pSrc = szRecent;
@@ -142,7 +142,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			if( ::strlen(m_RecentName[i]) > 0 ) {
 				// Shorten paths for menus
-				::strcpy( szRecent, m_RecentName[i] );
+				::strcpy_s( szRecent, m_RecentName[i] );
 				MakeManuPath( szRecent );
 
 				// '&'Convert '&' in file with '&&'
@@ -184,10 +184,10 @@ void	CRecent::Add( LPCSTR lpszPath )
 		if( j == RECENT_MAX )
 			j--;
 		for( ; j > 0; j-- ) {
-			::strcpy( &m_RecentName[j][0], &m_RecentName[j-1][0] );
+			::strcpy_s(&m_RecentName[j][0], strlen(&m_RecentName[j - 1][0]) + 1, &m_RecentName[j - 1][0]);
 		}
 	}
-	::strcpy( m_RecentName[0], lpszPath );
+	::strcpy_s( m_RecentName[0], lpszPath );
 
 	string	temp = CPathlib::SplitPath( lpszPath );
 	if( ::strlen(m_RecentPath[0]) > 0 ) {
@@ -202,10 +202,10 @@ void	CRecent::Add( LPCSTR lpszPath )
 		if( j == RECENT_MAX )
 			j--;
 		for( ; j > 0; j-- ) {
-			::strcpy( m_RecentPath[j], m_RecentPath[j-1] );
+			::strcpy_s( m_RecentPath[j], m_RecentPath[j-1] );
 		}
 	}
-	::strcpy( m_RecentPath[0], temp.c_str() );
+	::strcpy_s( m_RecentPath[0], temp.c_str() );
 }
 
 void	CRecent::Load()
@@ -216,12 +216,12 @@ void	CRecent::Load()
 	for( i = 0; i < RECENT_MAX; i++ ) {
 		::wsprintf( szEntry, "Path%d", i+1 );
 		if( CRegistry::GetProfileString( "Recent Path List", szEntry, szTemp, sizeof(szTemp) ) )
-			::strcpy( m_RecentPath[i], szTemp );
+			::strcpy_s( m_RecentPath[i], szTemp );
 	}
 	for( i = 0; i < RECENT_MAX; i++ ) {
 		::wsprintf( szEntry, "File%d", i+1 );
 		if( CRegistry::GetProfileString( "Recent File List", szEntry, szTemp, sizeof(szTemp) ) )
-			::strcpy( m_RecentName[i], szTemp );
+			::strcpy_s( m_RecentName[i], szTemp );
 	}
 }
 

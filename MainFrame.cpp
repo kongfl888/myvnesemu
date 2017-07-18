@@ -412,7 +412,7 @@ WNDMSG	CMainFrame::OnCreate( WNDMSGPARAM )
 			::memcpy( m_szCommandLine, pCmd+1, ::strlen(pCmd)-2 );
 			m_szCommandLine[::strlen(m_szCommandLine)] = '\0';
 		} else {
-			::strcpy( m_szCommandLine, pCmd );
+			::strcpy_s( m_szCommandLine, pCmd );
 		}
 		::PostMessage( m_hWnd, WM_VNS_COMMANDLINE, 0, 0L );
 	}
@@ -1337,12 +1337,12 @@ void	CMainFrame::OnEmulationStart( LPCSTR szFile, BOOL bChecked )
 			throw	szErrorString;
 		}
 	} catch( CHAR* str ) {
-		::strcpy( szErrorString, str );
+		::strcpy_s( szErrorString, str );
 		PostMessage( m_hWnd, WM_VNS_ERRORMSG, 0, (LPARAM)szErrorString );
 #ifndef	_DEBUG
 	} catch(...) {
 		// 不明なエラーが発生しました
-		::strcpy( szErrorString, CApp::GetErrorString( IDS_ERROR_UNKNOWN ) );
+		::strcpy_s( szErrorString, CApp::GetErrorString( IDS_ERROR_UNKNOWN ) );
 		PostMessage( m_hWnd, WM_VNS_ERRORMSG, 0, (LPARAM)szErrorString );
 #endif
 	}
@@ -1358,7 +1358,7 @@ WNDCMD	CMainFrame::OnRomInfo( WNDCMDPARAM )
 	CRomInfoDlg dlg;
 
 	// メンバの設定
-	::strcpy( dlg.m_szName, Nes->rom->GetRomName() );
+	::strcpy_s( dlg.m_szName, Nes->rom->GetRomName() );
 	dlg.m_nMapper = Nes->rom->GetMapperNo();
 	dlg.m_nPRG    = Nes->rom->GetPROM_SIZE();
 	dlg.m_nCHR    = Nes->rom->GetVROM_SIZE();
@@ -1406,7 +1406,7 @@ WNDCMD	CMainFrame::OnWaveRecord( WNDCMDPARAM )
 		OPENFILENAME	ofn;
 		CHAR	szFile[_MAX_PATH];
 
-		::strcpy( szFile, tempstr.c_str() );
+		::strcpy_s( szFile, tempstr.c_str() );
 		ZEROMEMORY( &ofn, sizeof(ofn) );
 
 		CHAR	szTitle[256];
@@ -1619,7 +1619,7 @@ WNDCMD	CMainFrame::OnGenie( WNDCMDPARAM )
 	OPENFILENAME	ofn;
 	CHAR	szFile[_MAX_PATH];
 
-	::strcpy( szFile, tempstr.c_str() );
+	::strcpy_s( szFile, tempstr.c_str() );
 	ZEROMEMORY( &ofn, sizeof(ofn) );
 
 	ofn.lStructSize     = sizeof(ofn);
@@ -2428,7 +2428,7 @@ WNDCMD	CMainFrame::OnMovieCommand( WNDCMDPARAM )
 	OPENFILENAME	ofn;
 	CHAR	szFile[_MAX_PATH];
 
-	::strcpy( szFile, tempstr.c_str() );
+	::strcpy_s( szFile, tempstr.c_str() );
 	ZEROMEMORY( &ofn, sizeof(ofn) );
 
 	ofn.lStructSize     = sizeof(ofn);
@@ -2593,7 +2593,7 @@ WNDCMD	CMainFrame::OnTapeCommand( WNDCMDPARAM )
 	OPENFILENAME	ofn;
 	CHAR	szFile[_MAX_PATH];
 
-	::strcpy( szFile, tempstr.c_str() );
+	::strcpy_s( szFile, tempstr.c_str() );
 	ZEROMEMORY( &ofn, sizeof(ofn) );
 
 	ofn.lStructSize     = sizeof(ofn);

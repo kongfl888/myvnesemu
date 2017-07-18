@@ -824,7 +824,7 @@ INT	nNetTimeoutCount = 0;
 			}
 		} catch( CHAR* str ) {
 			bPause = TRUE;
-			::strcpy( g_szErrorMessage, str );
+			::strcpy_s( g_szErrorMessage, str );
 			::PostMessage( g_hWnd, WM_VNS_ERRORMSG, 0, (LPARAM)g_szErrorMessage );
 			::SetEvent( g_hEventAccept );
 #ifndef	_DEBUG
@@ -1124,7 +1124,7 @@ static	BOOL	bPalettePut = FALSE;
 _emulate_error:;
 			} catch( CHAR* str ) {
 				bPause = TRUE;
-				::strcpy( g_szErrorMessage, str );
+				::strcpy_s( g_szErrorMessage, str );
 				::PostMessage( g_hWnd, WM_VNS_ERRORMSG, 0, (LPARAM)g_szErrorMessage );
 #ifndef	_DEBUG
 			} catch(...) {

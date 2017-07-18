@@ -259,21 +259,21 @@ WORD	szKeyTemp[64];
 	path.bIpsPath      = (BOOL)CRegistry::GetProfileInt( section.c_str(), "IpsPathUse",      path.bIpsPath );
 
 	if( CRegistry::GetProfileString( section.c_str(), "RomPath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szRomPath, szTemp );
+		::strcpy_s( path.szRomPath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "SavePath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szSavePath, szTemp );
+		::strcpy_s( path.szSavePath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "StatePath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szStatePath, szTemp );
+		::strcpy_s( path.szStatePath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "SnapshotPath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szSnapshotPath, szTemp );
+		::strcpy_s( path.szSnapshotPath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "MoviePath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szMoviePath, szTemp );
+		::strcpy_s( path.szMoviePath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "WavePath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szWavePath, szTemp );
+		::strcpy_s( path.szWavePath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "CheatPath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szCheatPath, szTemp );
+		::strcpy_s( path.szCheatPath, szTemp );
 	if( CRegistry::GetProfileString( section.c_str(), "IpsPath", szTemp, sizeof(szTemp) ) )
-		::strcpy( path.szIpsPath, szTemp );
+		::strcpy_s( path.szIpsPath, szTemp );
 
 // Emulator
 	section = "Emulation";
@@ -327,7 +327,7 @@ WORD	szKeyTemp[64];
 	graphics.bPaletteFile = (BOOL)CRegistry::GetProfileInt( section.c_str(), "PaletteUse", graphics.bPaletteFile );
 
 	if( CRegistry::GetProfileString( section.c_str(), "PaletteFile", szTemp, sizeof(szTemp) ) )
-		::strcpy( graphics.szPaletteFile, szTemp );
+		::strcpy_s( graphics.szPaletteFile, szTemp );
 
 // Sound
 	section = "Sound";
@@ -465,11 +465,11 @@ WORD	szKeyTemp[64];
 	for( i = 0; i < 16; i++ ) {
 		::wsprintf( keys, "Folder%02d", i );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( launcher.szFolder[i], szTemp );
+			::strcpy_s( launcher.szFolder[i], szTemp );
 	}
 
 	if( CRegistry::GetProfileString( section.c_str(), "LastSelect", szTemp, sizeof(szTemp) ) )
-		::strcpy( launcher.szLastSelect, szTemp );
+		::strcpy_s( launcher.szLastSelect, szTemp );
 
 	launcher.bActivePause = (BOOL)CRegistry::GetProfileInt( section.c_str(), "ActivePause",  launcher.bActivePause );
 
@@ -479,19 +479,19 @@ WORD	szKeyTemp[64];
 	for( i = ESF_MOEPRO_STRIKE; i <= ESF_MOEPRO_WA; i++ ) {
 		::wsprintf( keys, "Moepro%02d", i );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( extsound.szExtSoundFile[i], szTemp );
+			::strcpy_s( extsound.szExtSoundFile[i], szTemp );
 	}
 
 	for( i = ESF_MOETENNIS_00, j = 0; i <= ESF_MOETENNIS_12; i++, j++ ) {
 		::wsprintf( keys, "Moetennis%02d", j );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( extsound.szExtSoundFile[i], szTemp );
+			::strcpy_s( extsound.szExtSoundFile[i], szTemp );
 	}
 
 	for( i = ESF_DISKSYSTEM_BOOT, j = 0; i <= ESF_DISKSYSTEM_SEEKEND; i++, j++ ) {
 		::wsprintf( keys, "DiskSound%02d", j );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( extsound.szExtSoundFile[i], szTemp );
+			::strcpy_s( extsound.szExtSoundFile[i], szTemp );
 	}
 
 // NetPlay
@@ -501,20 +501,20 @@ WORD	szKeyTemp[64];
 		netplay.rcChatPos = rc;
 
 	if( CRegistry::GetProfileString( section.c_str(), "NickName", szTemp, sizeof(szTemp) ) )
-		::strcpy( netplay.szNick, szTemp );
+		::strcpy_s( netplay.szNick, szTemp );
 
 	netplay.nRecentPort = CRegistry::GetProfileInt( section.c_str(), "RecnetPortNum", netplay.nRecentPort );
 	for( i = 0; i < netplay.nRecentPort; i++ ) {
 		::wsprintf( keys, "RecentPort%02d", i );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( netplay.szRecentPort[i], szTemp );
+			::strcpy_s( netplay.szRecentPort[i], szTemp );
 	}
 
 	netplay.nRecentHost = CRegistry::GetProfileInt( section.c_str(), "RecnetHostNum", netplay.nRecentHost );
 	for( i = 0; i < netplay.nRecentHost; i++ ) {
 		::wsprintf( keys, "RecentHost%02d", i );
 		if( CRegistry::GetProfileString( section.c_str(), keys, szTemp, sizeof(szTemp) ) )
-			::strcpy( netplay.szRecentHost[i], szTemp );
+			::strcpy_s( netplay.szRecentHost[i], szTemp );
 	}
 }
 

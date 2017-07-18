@@ -90,7 +90,7 @@ void	CNetPlayDlg::AddRecentPort( LPCSTR lpszPort )
 	for( ; j > 0; j-- ) {
 		::lstrcpy( Config.netplay.szRecentPort[j], Config.netplay.szRecentPort[j-1] );
 	}
-	::strcpy( Config.netplay.szRecentPort[0], lpszPort );
+	::strcpy_s( Config.netplay.szRecentPort[0], lpszPort );
 	if( !bFound ) {
 		Config.netplay.nRecentPort++;
 	}
@@ -117,7 +117,7 @@ void	CNetPlayDlg::AddRecentHost( LPCSTR lpszHost )
 	for( ; j > 0; j-- ) {
 		::lstrcpy( Config.netplay.szRecentHost[j], Config.netplay.szRecentHost[j-1] );
 	}
-	::strcpy( Config.netplay.szRecentHost[0], lpszHost );
+	::strcpy_s( Config.netplay.szRecentHost[0], lpszHost );
 	if( !bFound ) {
 		Config.netplay.nRecentHost++;
 	}

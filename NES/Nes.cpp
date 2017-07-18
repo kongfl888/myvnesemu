@@ -3912,7 +3912,7 @@ void	NES::SetBarcode2Data( LPBYTE code, INT len )
 	m_Barcode2seq = 0;
 	m_Barcode2ptr = 0;
 
-	::strcpy( (char*)m_Barcode2data, (char*)code );
+	::strcpy_s((char*)m_Barcode2data, strlen((char*)code) + 1, (char*)code);
 
 	m_Barcode2data[13] = 'S';
 	m_Barcode2data[14] = 'U';

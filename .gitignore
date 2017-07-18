@@ -1,0 +1,53 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.psess
+*.pyc
+*.sdf
+*.suo
+*.user
+*.vspx
+*.exp
+*.ilk
+*.pdb
+*.idb
+*.opensdf
+*.aps
+*.db
+*.opendb
+
+
+# Precompiled Headers
+*.gch
+*.pch
+
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+*.vlp
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+.vs/
+ipch/
+[Dd]ebug/
+[Rr]elease/
+launcher.lst
+VirtuaNES.ini

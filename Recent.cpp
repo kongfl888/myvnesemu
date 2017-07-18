@@ -1,5 +1,5 @@
 //
-// Recent File クラス
+// Recent File class
 //
 #include <TCHAR.h>
 
@@ -15,7 +15,7 @@ CHAR	CRecent::m_TempPath[_MAX_PATH];
 
 LPCSTR	CRecent::GetName( INT nID )
 {
-	// CRecent::Add で同じポインタを指して戻ってくる事があるので一旦テンポラリにコピー
+	// CRecent::Add Because it may come back pointing at the same pointer at once temporary copy
 	::strcpy( m_TempPath, m_RecentName[nID] );
 	return	(LPCSTR)m_TempPath;
 }
@@ -30,11 +30,11 @@ void	CRecent::MakeManuPath( LPSTR lpszPath )
 	string	FullPath = lpszPath;
 	string	FileName = CPathlib::SplitFnameExt( lpszPath );
 
-	// 30文字以下はそのまま
+	// 30 characters or less is left intact
 	if( FullPath.size() <= 30 )
 		return;
 
-	// ファイル名が30文字以上の場合
+	// When the file name is 30 characters or more
 	if( ::strlen( FileName.c_str() ) >= 30 ) {
 		::strcpy( lpszPath, FileName.c_str() );
 		return;
@@ -74,25 +74,25 @@ void	CRecent::MakeManuPath( LPSTR lpszPath )
 
 void	CRecent::UpdateMenu( HMENU hMenu )
 {
-	// メニューなし？
+	// No menu?
 	if( !hMenu )
 		return;
 
-	// ﾌｧｲﾙ(&F)メニューの取得
+	// File(&F) Getting a menu
 	HMENU hSubMenu = ::GetSubMenu( hMenu, 0 );
 
-	// 最近使ったﾌｫﾙﾀﾞ(&P)ポップアップメニューの取得
+	// Recent folder(&P)Get pop-up menu
 	HMENU hPathMenu = ::GetSubMenu( hSubMenu, 12 );
-	// 最近使ったﾌｧｲﾙ(&F)ポップアップメニューの取得
+	// Recent files(&F)Get pop-up menu
 	HMENU hFileMenu = ::GetSubMenu( hSubMenu, 13 );
 
-	// 項目が無い場合
+	// When there is no item
 	if( ::strlen(m_RecentPath[0]) <= 0 ) {
-		// ディセーブルにする
+		// disable
 		::EnableMenuItem( hPathMenu, ID_MRU_PATH0, MF_BYCOMMAND|MF_GRAYED );
 	} else {
 		INT	i;
-		// メニューアイテムの削除
+		// Delete menu item
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			::DeleteMenu( hPathMenu, ID_MRU_PATH0+i, MF_BYCOMMAND );
 		}
@@ -101,10 +101,10 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 		CHAR	szTemp[_MAX_PATH];
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			if( ::strlen(m_RecentPath[i]) > 0 ) {
-				// パスをメニュー用に短くしたりする
+				// Shorten paths for menus
 				::strcpy( szRecent, m_RecentPath[i] );
 
-				// '&'付きのファイルの'&'を'&&'に変換する
+				// Convert '&' in file with '&' to '&&'
 				LPCSTR	pSrc = szRecent;
 				LPSTR	pDst = szTemp;
 				while( *pSrc != 0 ) {
@@ -118,7 +118,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 				::wsprintf( szRecent, "&%d ", (i+1)%10 );
 				::strcat( szRecent, szTemp );
 
-				// メニューに追加
+				// Add to menu
 				::InsertMenu( hPathMenu, i, MF_BYPOSITION, ID_MRU_PATH0+i, szRecent );
 			} else {
 				break;
@@ -126,13 +126,13 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 		}
 	}
 
-	// 項目が無い場合
+	// When there is no item
 	if( ::strlen(m_RecentName[0]) <= 0 ) {
-		// ディセーブルにする
+		// Disable
 		::EnableMenuItem( hFileMenu, ID_MRU_FILE0, MF_BYCOMMAND|MF_GRAYED );
 	} else {
 		INT	i;
-		// メニューアイテムの削除
+		// Delete menu item
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			::DeleteMenu( hFileMenu, ID_MRU_FILE0+i, MF_BYCOMMAND );
 		}
@@ -141,11 +141,11 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 		CHAR	szTemp[_MAX_PATH];
 		for( i = 0; i < RECENT_MAX; i++ ) {
 			if( ::strlen(m_RecentName[i]) > 0 ) {
-				// パスをメニュー用に短くしたりする
+				// Shorten paths for menus
 				::strcpy( szRecent, m_RecentName[i] );
 				MakeManuPath( szRecent );
 
-				// '&'付きのファイルの'&'を'&&'に変換する
+				// '&'Convert '&' in file with '&&'
 				LPCSTR	pSrc = szRecent;
 				LPSTR	pDst = szTemp;
 				while( *pSrc != 0 ) {
@@ -159,7 +159,7 @@ void	CRecent::UpdateMenu( HMENU hMenu )
 				::wsprintf( szRecent, "&%d ", (i+1)%10 );
 				::strcat( szRecent, szTemp );
 
-				// メニューに追加
+				// Add to menu
 				::InsertMenu( hFileMenu, i, MF_BYPOSITION, ID_MRU_FILE0+i, szRecent );
 			} else {
 				break;

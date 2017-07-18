@@ -450,6 +450,8 @@ INT	nNetTimeoutCount = 0;
 		try {
 			bOneStep = FALSE;
 
+			bThrottle = Config.emulator.bThrottle;
+
 			Ev = EV_NONE;
 			if( WAIT_OBJECT_0 == ::WaitForSingleObject(g_hEvent,0) ) {
 				Ev = g_Event;
@@ -579,8 +581,13 @@ INT	nNetTimeoutCount = 0;
 				case	EV_THROTTLE:
 					if( !NetPlay.IsConnect() ) {
 						bThrottle = !bThrottle;
+
+						Config.emulator.bThrottle = bThrottle;
+
 						if( bThrottle ) {
 							DirectDraw.SetMessageString( "Throttle ON." );
+							::wsprintf(szStr, "Throttle ON. FPS:%d", Config.emulator.nThrottleFPS);
+							DirectDraw.SetMessageString(szStr);
 						} else {
 							DirectDraw.SetMessageString( "Throttle OFF." );
 						}

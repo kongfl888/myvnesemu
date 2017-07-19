@@ -3,7 +3,12 @@
 
 // VirtuaNES version
 #define	VIRTUANES_VERSION		0x0097
-#define	VIRTUANES_FIXVERSION		"1"
+#ifndef LDKVERSION
+	#include "version_r.h"
+	#define	VIRTUANES_FIXVERSION		Rversion
+#else
+	#define	VIRTUANES_FIXVERSION		"1"
+#endif
 #define	VIRTUANES_PLUGIN_VERSION	0x0097
 
 // VirtuaNES window class

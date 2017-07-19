@@ -51,3 +51,4 @@ ipch/
 [Rr]elease/
 launcher.lst
 VirtuaNES.ini
+version_r.h

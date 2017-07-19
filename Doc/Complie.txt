@@ -1,0 +1,6 @@
+////////////////////////(C)2017 kongfl888///////////////////////////////////
+
+
+1. Create a file named  "build.user.bat" in solution directory containing the following entries, adapted for your system:
+        SET "GIT=C:\Program Files\Git"
+2. Open VirtuaNES.sln with Visual Studio.

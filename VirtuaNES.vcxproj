@@ -90,6 +90,9 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)genversion.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -113,6 +116,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>res;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Culture>0x0411</Culture>
     </ResourceCompile>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -124,6 +128,9 @@
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;winmm.lib;comctl32.lib;imm32.lib;dinput8.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <PreBuildEvent>
+      <Command>call $(SolutionDir)genversion.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />

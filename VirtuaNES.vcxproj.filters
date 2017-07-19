@@ -781,8 +781,8 @@
     <ClCompile Include="NES\VsUnisystem.cpp">
       <Filter>NES</Filter>
     </ClCompile>
-    <ClCompile Include="zlib\unzip.c">
-      <Filter>Zlib</Filter>
+    <ClCompile Include="zlib\minizip\unzip.c">
+      <Filter>Zlib\minizip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1619,8 +1619,8 @@
     <ClInclude Include="NES\VsUnisystem.h">
       <Filter>NES</Filter>
     </ClInclude>
-    <ClInclude Include="zlib\unzip.h">
-      <Filter>Zlib</Filter>
+    <ClInclude Include="zlib\minizip\unzip.h">
+      <Filter>Zlib\minizip</Filter>
     </ClInclude>
     <ClInclude Include="zlib\zconf.h">
       <Filter>Zlib</Filter>
@@ -1652,7 +1652,7 @@
     </Manifest>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="zlib\zlib.lib">
+    <Library Include="zlib\lib\zlib.lib">
       <Filter>Zlib</Filter>
     </Library>
   </ItemGroup>

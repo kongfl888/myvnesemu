@@ -898,7 +898,7 @@
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Wnd.cpp" />
     <ClCompile Include="WndHook.cpp" />
-    <ClCompile Include="zlib\unzip.c" />
+    <ClCompile Include="zlib\minizip\unzip.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VirtuaNES.rc" />
@@ -1706,7 +1706,7 @@
     <ClInclude Include="WaveRec.h" />
     <ClInclude Include="Wnd.h" />
     <ClInclude Include="WndHook.h" />
-    <ClInclude Include="zlib\unzip.h" />
+    <ClInclude Include="zlib\minizip\unzip.h" />
     <ClInclude Include="zlib\zconf.h" />
     <ClInclude Include="zlib\zlib.h" />
   </ItemGroup>
@@ -1721,7 +1721,7 @@
     <Manifest Include="res\VirtuaNES.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="zlib\zlib.lib" />
+    <Library Include="zlib\lib\zlib.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

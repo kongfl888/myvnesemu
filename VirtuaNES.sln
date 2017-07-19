@@ -4,12 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VirtuaNES", "VirtuaNES.vcxproj", "{48706967-F8D3-466B-A057-3F6B382F9269}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49} = {2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chinese", "LDK\LDK_CN\LDK_CN.vcxproj", "{82FCCAD5-9430-485A-9F20-B830D3C1BC74}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "English", "LDK\LDK_EN\LDK_EN.vcxproj", "{A4199FF6-E98B-47A1-A6DE-8DC94B4FA412}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Japanese", "LDK\LDK_JA\LDK_JA.vcxproj", "{826F23DC-F851-47B9-95F6-05294B5C8460}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib\zlib.vcxproj", "{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +54,14 @@ Global
 		{826F23DC-F851-47B9-95F6-05294B5C8460}.Release|x64.Build.0 = Release|x64
 		{826F23DC-F851-47B9-95F6-05294B5C8460}.Release|x86.ActiveCfg = Release|Win32
 		{826F23DC-F851-47B9-95F6-05294B5C8460}.Release|x86.Build.0 = Release|Win32
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Debug|x64.ActiveCfg = Debug|x64
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Debug|x64.Build.0 = Debug|x64
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Debug|x86.ActiveCfg = Debug|Win32
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Debug|x86.Build.0 = Debug|Win32
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Release|x64.ActiveCfg = Release|x64
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Release|x64.Build.0 = Release|x64
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Release|x86.ActiveCfg = Release|Win32
+		{2FCD4B66-9CF9-4C8F-BC70-37CD20002D49}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -661,6 +661,9 @@
     <ClCompile Include="NES\Mapper\Mapper255.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="NES\Mapper\Sachen.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
     <ClCompile Include="NES\Mapper\MapperFactory.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
@@ -1482,6 +1485,9 @@
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\MapperNSF.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Sachen.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\ApuEX\emu2413\2413tone.h">

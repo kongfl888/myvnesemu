@@ -782,7 +782,7 @@
       <Filter>NES</Filter>
     </ClCompile>
     <ClCompile Include="zlib\minizip\unzip.c">
-      <Filter>Zlib\minizip</Filter>
+      <Filter>Zlib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1620,7 +1620,7 @@
       <Filter>NES</Filter>
     </ClInclude>
     <ClInclude Include="zlib\minizip\unzip.h">
-      <Filter>Zlib\minizip</Filter>
+      <Filter>Zlib</Filter>
     </ClInclude>
     <ClInclude Include="zlib\zconf.h">
       <Filter>Zlib</Filter>

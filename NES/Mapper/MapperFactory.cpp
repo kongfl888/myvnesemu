@@ -199,6 +199,7 @@
 #include "Mapper167.h"
 
 #include "Sachen.h"	//146,147,148,150
+#include "Subor.h"	//168
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -374,6 +375,7 @@
 #include "Mapper167.cpp"
 
 #include "Sachen.cpp"	//146,147,148,150
+#include "Subor.cpp"	//168
 
 //////////////////////////////////////////////////////////////////////////
 // Mapper Factory
@@ -721,6 +723,10 @@ Mapper*	CreateMapper( NES* parent, INT no )
 			return new Mapper165(parent);
 		case	167:
 			return new Mapper167(parent);
+		case	168:
+			return new MapperSubor999(parent);
+		case	632:	//SUBOR_999:
+			return new MapperSubor999(parent);
 
 		default:
 			break;

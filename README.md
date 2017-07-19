@@ -12,5 +12,5 @@ It uses Zlib from http://www.zlib.net/
 # 0.97 source code download
 http://virtuanes.s1.xrea.com:8080/
 
-#In the end
+# In the end
 Thanks to all the friends who contributed before!

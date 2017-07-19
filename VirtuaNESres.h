@@ -5,6 +5,9 @@
 #define	VIRTUANES_VERSION		0x0097
 #ifndef LDKVERSION
 	#include "version_r.h"
+	#ifndef Rversion
+		#define Rversion "1"
+	#endif
 	#define	VIRTUANES_FIXVERSION		Rversion
 #else
 	#define	VIRTUANES_FIXVERSION		"1"

@@ -105,6 +105,7 @@ protected:
 	// Clock process
 	BOOL	m_bClockProcess;
 private:
+	char 	*Disassemble(int addr, BYTE *opcode);
 };
 
 #endif	// !__CPU_INCLUDED__

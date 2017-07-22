@@ -5,14 +5,26 @@
 #define	VIRTUANES_VERSION		0x0097
 #ifndef LDKVERSION
 	#include "version_r.h"
-	#ifndef Rversion
-		#define Rversion "1"
+	#ifndef GversionStr
+		#define GversionStr "0.97"
 	#endif
+	#ifndef Rversion
+		#define Rversion 1
+	#endif
+	#ifndef Rhash
+		#define Rhash ""
+	#endif
+	#define	VIRTUANES_GITVERSION		GversionStr
 	#define	VIRTUANES_FIXVERSION		Rversion
+	#define	VIRTUANES_FIXVERSION_HASH	Rhash
 #else
-	#define	VIRTUANES_FIXVERSION		"1"
+	#define	VIRTUANES_GITVERSION		"0.97"
+	#define	VIRTUANES_FIXVERSION		1
+	#define	VIRTUANES_FIXVERSION_HASH	""
 #endif
 #define	VIRTUANES_PLUGIN_VERSION	0x0097
+
+#define VERSION_NUM         0,9,7,VIRTUANES_FIXVERSION
 
 // VirtuaNES window class
 #define	VIRTUANES_WNDCLASS		"VirtuaNESwndclass"

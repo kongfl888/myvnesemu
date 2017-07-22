@@ -20,15 +20,18 @@ set "gitexe=%GIT%\bin\git.exe"
 set "gitbashexe=%GIT%\bin\bash.exe"
 
 for /f "tokens=1,2,3 delims=-" %%a in ('"%gitexe%" describe --long') do ( set "MainVer=%%a" && set "GitBuildVer=%%b" && set "gitHash=%%c" )
+echo.
 echo Main Version: %MainVer%
 echo Build Version: %GitBuildVer%
 echo Hash: %gitHash%
-
+echo.
 REM echo %GitBuildVer%|findstr /be "[0-9]*" >nul && GOTO ChangVer || GOTO MissingVar 
 echo %MainVer%|findstr /be "[0-9.]*" >nul && GOTO ChangVer || GOTO MissingVar 
 
 :ChangVer
-REM echo.#define Rversion ^"%GitBuildVer%^" > %gitver_file%
+REM echo.#define Rversion %GitBuildVer% > %gitver_file%
+REM echo.#define Rhash ^"%gitHash%^" >> %gitver_file%
+REM echo.#define GversionStr ^"%MainVer%^" >> %gitver_file%
 
 "%gitbashexe%" --no-cd version.sh %*
 :END
@@ -38,6 +41,8 @@ EXIT /B 0
 
 
 :MissingVar
-echo.#define Rversion ^"1^" > %gitver_file%
+echo.#define Rversion 1 > %gitver_file%
+echo.#define Rhash ^"^" >> %gitver_file%
+echo.#define GversionStr ^"0.97^" >> %gitver_file%
 POPD
 EXIT /B 0

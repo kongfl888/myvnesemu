@@ -344,7 +344,7 @@ END
 
 IDD_CFG_FOLDER DIALOG DISCARDABLE  0, 0, 256, 270
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "文件夹设置"
+CAPTION "目录设置"
 FONT 9, "Microsoft YaHei"
 BEGIN
     DEFPUSHBUTTON   "确定",IDOK,130,250,55,14
@@ -1403,7 +1403,7 @@ BEGIN
         MENUITEM "控制器(&C)",              ID_CFG_CONTROLLER
         MENUITEM "手柄轴模式(&J)",      ID_CFG_JOYAXIS
         MENUITEM "快捷键(&K)",            ID_CFG_SHORTCUT
-        MENUITEM "最近使用过的路径(&P)",                  ID_CFG_FOLDER
+        MENUITEM "目录设置(&P)",                  ID_CFG_FOLDER
         MENUITEM "语言(&L)",                ID_CFG_LANGUAGE
         MENUITEM "电影(&M",                   ID_CFG_MOVIE
         MENUITEM "游戏选项(&O)",             ID_CFG_GAMEOPTION

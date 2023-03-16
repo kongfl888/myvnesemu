@@ -113,6 +113,19 @@ LONG	FileSize;
 			::memcpy( &header, temp, sizeof(NESHEADER) );
 		}
 
+		// Cleanup iNES header
+		if( memcmp( &header.control2, "DiskDude!", 9 ) == 0 )
+			memset( &header.control2, 0, 9 );
+		if( memcmp( &header.control2, "demiforce", 9 ) == 0 )
+			memset( &header.control2, 0, 9 );
+		if( !memcmp( &header.reserved[2], "Ni03", 4 )) {
+			if( !memcmp( &header.control2, "Dis", 3 ))
+				memset( &header.control2, 0, 9 );
+			else
+				memset( &header.reserved[2], 0, 6 );
+		}
+		memcpy( temp, &header, sizeof(NESHEADER) );
+
 		// Since the zip/fds/nes is defrosted and raw, now apply the patch
 		if( Config.emulator.bAutoIPS ) {
 			LPBYTE	ipstemp = NULL;
@@ -423,7 +436,17 @@ NESHEADER	header;
 		return	IDS_ERROR_READ;
 	}
 	FCLOSE( fp );
-
+	// Cleanup iNES header
+	if( memcmp( &header.control2, "DiskDude!", 9 ) == 0 )
+		memset( &header.control2, 0, 9 );
+	if( memcmp( &header.control2, "demiforce", 9 ) == 0 )
+		memset( &header.control2, 0, 9 );
+	if( !memcmp( &header.reserved[2], "Ni03", 4 )) {
+		if( !memcmp( &header.control2, "Dis", 3 ))
+			memset( &header.control2, 0, 9 );
+		else
+			memset( &header.reserved[2], 0, 6 );
+	}
 	if( header.ID[0] == 'N' && header.ID[1] == 'E'
 	 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 		for( INT i = 0; i < 8; i++ ) {
@@ -445,6 +468,17 @@ NESHEADER	header;
 
 		memcpy( &header, temp, sizeof(NESHEADER) );
 		FREE( temp );
+		// Cleanup iNES header
+		if( memcmp( &header.control2, "DiskDude!", 9 ) == 0 )
+			memset( &header.control2, 0, 9 );
+		if( memcmp( &header.control2, "demiforce", 9 ) == 0 )
+			memset( &header.control2, 0, 9 );
+		if( !memcmp( &header.reserved[2], "Ni03", 4 )) {
+			if( !memcmp( &header.control2, "Dis", 3 ))
+				memset( &header.control2, 0, 9 );
+			else
+				memset( &header.reserved[2], 0, 6 );
+		}
 		if( header.ID[0] == 'N' && header.ID[1] == 'E'
 		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 			for( INT i = 0; i < 8; i++ ) {

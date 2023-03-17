@@ -14,3 +14,5 @@ http://virtuanes.s1.xrea.com:8080/
 
 # In the end
 Thanks to all the friends who contributed before!
+
+You can download the binary files from [this](https://www.ksite.cn/contents/virtuanes-kver.html).

@@ -151,7 +151,7 @@ public:
 	void	Default() {
 		bIllegalOp	= FALSE;
 		bAutoFrameSkip	= TRUE;
-		bThrottle	= FALSE;
+		bThrottle	= TRUE;
 		nThrottleFPS	= 120;		// 120FPS
 		bBackground	= FALSE;
 		nPriority	= 3;		// Normal

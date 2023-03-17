@@ -227,9 +227,19 @@ NES::NES( const char* fname )
 		if( !(rom = new ROM(fname)) )
 			throw	"Allocating ROM failed.";
 
-		if( !(mapper = CreateMapper(this, rom->GetMapperNo())) ) {
+		if(
+			!(mapper = CreateMapper(this,
+			rom->IsUnifMapper()?rom->GetUnifBoard():rom->GetMapperNo(),
+									rom->IsUnifMapper()
+									)
+				)
+			)
+		{
 			// 未サポートのマッパーです
 			LPCSTR	szErrStr = CApp::GetErrorString( IDS_ERROR_UNSUPPORTMAPPER );
+			if(rom->IsUnifMapper())
+			sprintf( szErrorString, "%s This UNIF is unsupported.", rom->GetBoardName() );
+			else
 			sprintf( szErrorString, szErrStr, rom->GetMapperNo() );
 			throw	szErrorString;
 		}
@@ -363,9 +373,13 @@ NES::~NES()
 	DEBUGOUT( "Ok.\n" );
 }
 
+extern INT	 g_UnfTVMode;
 void	NES::SetVideoMode( BOOL bMode )
 {	
-	bVideoMode = bMode;
+	if(g_UnfTVMode!=-1)
+		bVideoMode = g_UnfTVMode;
+	else
+		bVideoMode = bMode;
 	if( !bVideoMode ) {
 		nescfg = &NESCONFIG_NTSC;
 	} else {
@@ -468,6 +482,8 @@ void	NES::SoftReset()
 		mapper->Reset();
 	}
 
+	mapper->SoftReset();
+
 	m_bDiskThrottle = FALSE;
 
 	base_cycles = emul_cycles = 0;
@@ -552,6 +568,9 @@ INT	scanline = 0;
 	CheatCodeProcess();
 	//
 	NES_scanline = scanline;
+
+	//backup cpu men
+	memcpy(CPU_BACKUP, CPU_MEM_BANK[0], 256);
 
 	if( RenderMethod != TILE_RENDER ) {
 		bZapper = FALSE;
@@ -907,7 +926,7 @@ BYTE	NES::Read( WORD addr )
 		case	0x05:	// $A000-$BFFF
 		case	0x06:	// $C000-$DFFF
 		case	0x07:	// $E000-$FFFF
-			return	CPU_MEM_BANK[addr>>13][addr&0x1FFF];
+			return	mapper->Read( addr );
 	}
 
 	return	0x00;	// Warning予防
@@ -3349,7 +3368,8 @@ void	NES::DelCheatCode( INT no )
 	if( m_CheatCode.size()-1 < no )
 		return;
 
-    m_CheatCode.erase( m_CheatCode.begin() + no );
+	//m_CheatCode.erase(&m_CheatCode[no] );
+	m_CheatCode.erase(m_CheatCode.begin()+no);
 }
 
 DWORD	NES::CheatRead( INT length, WORD addr )

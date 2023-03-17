@@ -19,11 +19,14 @@ using namespace std;
 
 typedef	struct	tagNESHEADER {
 	BYTE	ID[4];
-	BYTE	PRG_PAGE_SIZE;
-	BYTE	CHR_PAGE_SIZE;
+	BYTE	dummy_PRG_PAGE_SIZE;
+	BYTE	dummy_CHR_PAGE_SIZE;
 	BYTE	control1;
 	BYTE	control2;
-	BYTE	reserved[8];
+	//BYTE	reserved[8];
+	BYTE	reserved[4];
+	WORD	PRG_PAGE_SIZE;
+	WORD	CHR_PAGE_SIZE;
 } NESHEADER;
 
 typedef	struct	tagNSFHEADER {
@@ -73,8 +76,8 @@ public:
 	LPBYTE	GetDISK()	{ return lpDisk; }
 
 	// Get ROM size
-	BYTE	GetPROM_SIZE()	{ return header.PRG_PAGE_SIZE; }
-	BYTE	GetVROM_SIZE()	{ return header.CHR_PAGE_SIZE; }
+	WORD	GetPROM_SIZE()	{ return header.PRG_PAGE_SIZE; }
+	WORD	GetVROM_SIZE()	{ return header.CHR_PAGE_SIZE; }
 
 	// Get PROM
 	DWORD	GetPROM_CRC()	{ return crc; }
@@ -95,6 +98,9 @@ public:
 
 	// Mapper
 	INT	GetMapperNo() { return mapper; }
+	BOOL IsUnifMapper(){ return bUnif;}
+	INT		GetUnifBoard(){return board;}
+	CHAR * GetBoardName(){return pboardname;}
 
 	// Disks
 	INT	GetDiskNo() { return diskno; }
@@ -130,6 +136,9 @@ protected:
 
 	INT		mapper;
 	INT		diskno;
+	INT		board;
+	BOOL	bUnif;
+	CHAR	pboardname[MAX_PATH];
 
 	// For PAL(Database)
 	BOOL		bPAL;

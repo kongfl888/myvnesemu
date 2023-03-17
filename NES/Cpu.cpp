@@ -601,7 +601,9 @@ CPU::~CPU()
 //#define	OP6502(A)	(CPU_MEM_BANK[(A)>>13][(A)&0x1FFF])
 //#define	OP6502W(A)	(*((WORD*)&CPU_MEM_BANK[(A)>>13][(A)&0x1FFF]))
 
-#if	0
+Mapper*	g_mapper=NULL;
+
+#if	1
 #define	OP6502(A)	RD6502((A))
 #define	OP6502W(A)	RD6502W((A))
 #else
@@ -633,11 +635,8 @@ inline	BYTE	CPU::RD6502( WORD addr )
 		return	nes->Read( addr );
 	} else {
 	// Dummy access
-		mapper->Read( addr, CPU_MEM_BANK[addr>>13][addr&0x1FFF] );
+		return mapper->Read( addr );
 	}
-
-	// Quick bank read
-	return	CPU_MEM_BANK[addr>>13][addr&0x1FFF];
 }
 
 inline	WORD	CPU::RD6502W( WORD addr )
@@ -645,7 +644,8 @@ inline	WORD	CPU::RD6502W( WORD addr )
 	if( addr < 0x2000 ) {
 	// RAM (Mirror $0800, $1000, $1800)
 		return	*((WORD*)&RAM[addr&0x07FF]);
-	} else if( addr < 0x8000 ) {
+	} else //if( addr < 0x8000 )
+	{
 	// Others
 		return	(WORD)nes->Read(addr)+(WORD)nes->Read(addr+1)*0x100;
 	}
@@ -680,6 +680,8 @@ void	CPU::Reset()
 {
 	apu = nes->apu;
 	mapper = nes->mapper;
+	g_mapper = mapper;
+
 
 	R.A  = 0x00;
 	R.X  = 0x00;
@@ -749,6 +751,162 @@ void	CPU::SetIRQ( BYTE mask )
 void	CPU::ClrIRQ( BYTE mask )
 {
 	R.INT_pending &= ~mask;
+}
+
+enum ADDRMODE { IMP, ACC, IMM, ADR, ABS, IND, REL, ABX, ABY, ZPG, ZPX, ZPY, INX, INY, ERR, NUM_ADDR_MODES };
+
+enum ADDRMODE TraceAddrMode[256] =
+{
+	IMM, INX, ERR, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, ACC, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX,
+	ADR, INX, ERR, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, ACC, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX,
+	IMP, INX, ERR, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, ACC, IMM, ADR, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX,
+	IMP, INX, ERR, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, ACC, IMM, IND, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX,
+	IMM, INX, IMM, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, IMP, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPY, ZPY, IMP, ABY, IMP, ABY, ABX, ABX, ABY, ABY,
+	IMM, INX, IMM, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, IMP, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPY, ZPY, IMP, ABY, IMP, ABY, ABX, ABX, ABY, ABY,
+	IMM, INX, IMM, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, IMP, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX,
+	IMM, INX, IMM, INX, ZPG, ZPG, ZPG, ZPG, IMP, IMM, IMP, IMM, ABS, ABS, ABS, ABS, REL, INY, ERR, INY, ZPX, ZPX, ZPX, ZPX, IMP, ABY, IMP, ABY, ABX, ABX, ABX, ABX
+};
+
+char TraceArr[256][5] =
+{
+	" BRK", " ORA", "*HLT", "*SLO", "*NOP", " ORA", " ASL", "*SLO", " PHP", " ORA", " ASL", "*AAC", "*NOP", " ORA", " ASL", "*SLO",
+	" BPL", " ORA", "*HLT", "*SLO", "*NOP", " ORA", " ASL", "*SLO", " CLC", " ORA", "*NOP", "*SLO", "*NOP", " ORA", " ASL", "*SLO",
+	" JSR", " AND", "*HLT", "*RLA", " BIT", " AND", " ROL", "*RLA", " PLP", " AND", " ROL", "*AAC", " BIT", " AND", " ROL", "*RLA",
+	" BMI", " AND", "*HLT", "*RLA", "*NOP", " AND", " ROL", "*RLA", " SEC", " AND", "*NOP", "*RLA", "*NOP", " AND", " ROL", "*RLA",
+	" RTI", " EOR", "*HLT", "*SRE", "*NOP", " EOR", " LSR", "*SRE", " PHA", " EOR", " LSR", "*ASR", " JMP", " EOR", " LSR", "*SRE",
+	" BVC", " EOR", "*HLT", "*SRE", "*NOP", " EOR", " LSR", "*SRE", " CLI", " EOR", "*NOP", "*SRE", "*NOP", " EOR", " LSR", "*SRE",
+	" RTS", " ADC", "*HLT", "*RRA", "*NOP", " ADC", " ROR", "*RRA", " PLA", " ADC", " ROR", "*ARR", " JMP", " ADC", " ROR", "*RRA",
+	" BVS", " ADC", "*HLT", "*RRA", "*NOP", " ADC", " ROR", "*RRA", " SEI", " ADC", "*NOP", "*RRA", "*NOP", " ADC", " ROR", "*RRA",
+	"*NOP", " STA", "*NOP", "*SAX", " STY", " STA", " STX", "*SAX", " DEY", "*NOP", " TXA", " ???", " STY", " STA", " STX", "*SAX",
+	" BCC", " STA", "*HLT", " ???", " STY", " STA", " STX", "*SAX", " TYA", " STA", " TXS", " ???", " ???", " STA", " ???", " ???",
+	" LDY", " LDA", " LDX", "*LAX", " LDY", " LDA", " LDX", "*LAX", " TAY", " LDA", " TAX", "*ATX", " LDY", " LDA", " LDX", "*LAX",
+	" BCS", " LDA", "*HLT", "*LAX", " LDY", " LDA", " LDX", "*LAX", " CLV", " LDA", " TSX", " ???", " LDY", " LDA", " LDX", "*LAX",
+	" CPY", " CMP", "*NOP", "*DCP", " CPY", " CMP", " DEC", "*DCP", " INY", " CMP", " DEX", "*AXS", " CPY", " CMP", " DEC", "*DCP",
+	" BNE", " CMP", "*HLT", "*DCP", "*NOP", " CMP", " DEC", "*DCP", " CLD", " CMP", "*NOP", "*DCP", "*NOP", " CMP", " DEC", "*DCP",
+	" CPX", " SBC", "*NOP", "*ISB", " CPX", " SBC", " INC", "*ISB", " INX", " SBC", " NOP", "*SBC", " CPX", " SBC", " INC", "*ISB",
+	" BEQ", " SBC", "*HLT", "*ISB", "*NOP", " SBC", " INC", "*ISB", " SED", " SBC", "*NOP", "*ISB", "*NOP", " SBC", " INC", "*ISB"
+};
+
+unsigned char CPU::DebugMemCPU (unsigned short Addr)
+{
+	return OP6502( Addr );
+}
+
+int	CPU::DecodeInstruction (unsigned short Addr, char *str1)
+{
+	unsigned char OpData[3] = {0, 0, 0};
+	unsigned short Operand = 0, MidAddr = 0;
+	int EffectiveAddr = -1;
+	//int EffectiveAddr = 0xffff;
+	int iInstructionLen = 1;
+
+	OpData[0] = DebugMemCPU(Addr);
+	switch (TraceAddrMode[OpData[0]])
+	{
+	case IND:
+		OpData[1] = DebugMemCPU(Addr+1);
+		OpData[2] = DebugMemCPU(Addr+2);
+		Operand = OpData[1] | (OpData[2] << 8);
+		EffectiveAddr = DebugMemCPU(Operand) | (DebugMemCPU(Operand+1) << 8);
+		iInstructionLen = 3;
+		break;
+	case ADR:
+		OpData[1] = DebugMemCPU(Addr+1);
+		OpData[2] = DebugMemCPU(Addr+2);Operand = OpData[1] | (OpData[2] << 8);
+		iInstructionLen = 3;
+		break;
+	case ABS:
+		OpData[1] = DebugMemCPU(Addr+1);
+		OpData[2] = DebugMemCPU(Addr+2);Operand = OpData[1] | (OpData[2] << 8);
+		iInstructionLen = 3;
+		EffectiveAddr = Operand;
+		break;
+	case ABX:
+		OpData[1] = DebugMemCPU(Addr+1);
+		OpData[2] = DebugMemCPU(Addr+2);Operand = OpData[1] | (OpData[2] << 8);
+		iInstructionLen = 3;
+		EffectiveAddr = Operand + R.X;
+		break;
+	case ABY:
+		OpData[1] = DebugMemCPU(Addr+1);
+		OpData[2] = DebugMemCPU(Addr+2);Operand = OpData[1] | (OpData[2] << 8);
+		iInstructionLen = 3;
+		EffectiveAddr = Operand + R.Y;
+		break;
+	case IMM:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		iInstructionLen = 2;
+		break;
+	case ZPG:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		EffectiveAddr = Operand;
+		iInstructionLen = 2;
+		break;
+	case ZPX:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		EffectiveAddr = (Operand + R.X) & 0xFF;
+		iInstructionLen = 2;
+		break;
+	case ZPY:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		EffectiveAddr = (Operand + R.Y) & 0xFF;
+		iInstructionLen = 2;
+		break;
+	case INX:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		MidAddr = (Operand + R.X) & 0xFF;
+		EffectiveAddr = DebugMemCPU(MidAddr) | (DebugMemCPU((MidAddr+1) & 0xFF) << 8);
+		iInstructionLen = 2;
+		break;
+	case INY:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = OpData[1];
+		MidAddr = DebugMemCPU(Operand) | (DebugMemCPU((Operand+1) & 0xFF) << 8);
+		EffectiveAddr = MidAddr + R.Y;
+		iInstructionLen = 2;
+		break;
+	case IMP:
+		break;
+	case ACC:
+		break;
+	case ERR:
+		break;
+	case REL:
+		OpData[1] = DebugMemCPU(Addr+1);
+		Operand = Addr+2+(signed char)OpData[1];
+		iInstructionLen = 2;
+		break;
+	}
+	// Use this for outputting to debug logfile
+	if (str1)
+	{
+		switch (TraceAddrMode[DebugMemCPU(Addr)])
+		{
+		case IMP:
+		case ERR:	sprintf(str1, "%04X  %02X       %s                           ",		Addr, OpData[0],			TraceArr[OpData[0]]);									break;
+		case ACC:	sprintf(str1, "%04X  %02X       %s A                         ",		Addr, OpData[0],			TraceArr[OpData[0]]);									break;
+		case IMM:	sprintf(str1, "%04X  %02X %02X    %s #$%02X                  ",		Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand);								break;
+		case REL:	sprintf(str1, "%04X  %02X %02X    %s $%04X                   ",		Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand);								break;
+		case ZPG:	sprintf(str1, "%04X  %02X %02X    %s $%02X = %02X            ",		Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand, DebugMemCPU(Operand));					break;
+		case ZPX:	sprintf(str1, "%04X  %02X %02X    %s $%02X,X @ %02X = %02X   ",		Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand, EffectiveAddr, DebugMemCPU(EffectiveAddr));		break;
+		case ZPY:	sprintf(str1, "%04X  %02X %02X    %s $%02X,Y @ %02X = %02X   ",		Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand, EffectiveAddr, DebugMemCPU(EffectiveAddr));		break;
+		case INX:	sprintf(str1, "%04X  %02X %02X    %s ($%02X,X) @ %02X = %04X = %02X",	Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand, MidAddr, EffectiveAddr, DebugMemCPU(EffectiveAddr));	break;
+		case INY:	sprintf(str1, "%04X  %02X %02X    %s ($%02X),Y = %04X @ %04X = %02X",	Addr, OpData[0], OpData[1],		TraceArr[OpData[0]], Operand, MidAddr, EffectiveAddr, DebugMemCPU(EffectiveAddr));	break;
+		case ADR:	sprintf(str1, "%04X  %02X %02X %02X %s $%04X                     ",		Addr, OpData[0], OpData[1], OpData[2],	TraceArr[OpData[0]], Operand);								break;
+		case ABS:	sprintf(str1, "%04X  %02X %02X %02X %s $%04X = %02X              ",		Addr, OpData[0], OpData[1], OpData[2],	TraceArr[OpData[0]], Operand, DebugMemCPU(Operand));					break;
+		case IND:	sprintf(str1, "%04X  %02X %02X %02X %s ($%04X) = %04X            ",		Addr, OpData[0], OpData[1], OpData[2],	TraceArr[OpData[0]], Operand, EffectiveAddr);						break;
+		case ABX:	sprintf(str1, "%04X  %02X %02X %02X %s $%04X,X @ %04X = %02X     ",		Addr, OpData[0], OpData[1], OpData[2],	TraceArr[OpData[0]], Operand, EffectiveAddr, DebugMemCPU(EffectiveAddr));		break;
+		case ABY:	sprintf(str1, "%04X  %02X %02X %02X %s $%04X,Y @ %04X = %02X     ",		Addr, OpData[0], OpData[1], OpData[2],	TraceArr[OpData[0]], Operand, EffectiveAddr, DebugMemCPU(EffectiveAddr));		break;
+		default:	strcpy(str1, "                                             ");																			break;
+		}
+	}
+
+	return iInstructionLen;
 }
 
 
@@ -1127,6 +1285,46 @@ register BYTE	DT;
 				}
 			}
 		}
+
+		//Add comand ignore
+
+		//opcode
+		BYTE iInstructionLen =1;
+		switch (TraceAddrMode[opcode])
+		{
+			case IND:
+			case ADR:
+			case ABS:
+			case ABX:
+			case ABY:
+				iInstructionLen = 3;
+				break;
+			case IMM:
+			case ZPG:
+			case ZPX:
+			case ZPY:
+			case INX:
+			case INY:
+				iInstructionLen = 2;
+				break;
+			case IMP:case ACC:case ERR:  break;
+			case REL:iInstructionLen = 2;break;
+			}
+
+		if( ((TraceArr[opcode][0]=='*') ||
+			 (TraceArr[opcode][1]=='?'))&&
+			(!Config.emulator.bIllegalOp) )
+		{
+			//improve output
+			//char str[111];
+			//DecodeInstruction (R.PC-1, str);
+			//DEBUGOUT( "Bad Instruction:%s\n",str);
+			R.PC=(R.PC-1)+iInstructionLen;
+			ADD_CYCLE(iInstructionLen*2);
+			goto end_is;
+		}
+		//
+
 
 		switch( opcode ) {
 			case	0x69: // ADC #$??
@@ -2107,10 +2305,13 @@ register BYTE	DT;
 			case	0xD2:  /* JAM */
 			case	0xF2:  /* JAM */
 			default:
-				if( !Config.emulator.bIllegalOp ) {
+				if( !Config.emulator.bIllegalOp )
+				{
 					throw	CApp::GetErrorString( IDS_ERROR_ILLEGALOPCODE );
 					goto	_execute_exit;
-				} else {
+				}
+				else
+				{
 					R.PC--;
 					ADD_CYCLE(4);
 				}
@@ -2118,6 +2319,8 @@ register BYTE	DT;
 //			default:
 //				__assume(0);
 		}
+
+		end_is: __asm nop;
 
 		if( nmi_request ) {
 			_NMI();

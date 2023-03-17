@@ -359,3 +359,103 @@ if( crc == 0xeb2dba63		// VS TKO Boxing
 if( mapper == 99 || mapper == 151 ) {
 	header.control2 |= ROM_VSUNISYSTEM;
 }
+
+if(  crc == 0x78fb3ed6 )//Jia A
+{
+	mapper = 74;
+}
+if(  crc == 0x02c41438 )
+{
+	mapper = 176;
+}
+
+if(  crc == 0x37ae04a8 )//DU SHEN
+{
+	mapper = 191;
+}
+
+if(  crc == 0x9767dc74
+   ||crc == 0xff93eff0
+   ||crc == 0x9fb1ee82
+   ||crc == 0x1ee6d43b )//JIN YONG
+{
+	mapper = 192;
+}
+
+if(  crc == 0xeae675ea
+   ||crc == 0x6bab54b7 
+   ||crc == 0x7c896b5e )//Dai-2-Ji Super Robot Taisen
+{
+	mapper = 194;
+}
+
+if(  crc == 0xb1b32c8b //DU SHEN
+   ||crc == 0xe2b43a70 
+   ||crc == 0x3f3036d7 
+   ||crc == 0x1a13ba25 
+   ||crc == 0xc69233dc
+   ||crc == 0xdf993993 //tian shi zhi yi 2
+   ||crc == 0xae185a13
+   ||crc == 0xf60beecb //zu qiu xiao jiang 2
+   ||crc == 0xc856f188 )//tian shen zhi jian
+{
+	mapper = 195;
+}
+
+if(  crc == 0x9993304c
+   ||crc == 0x50e9c2b5 )//hun dun shi ji
+{
+	//Mirroring should be set to "Horizontal".  
+	//PAL
+	mapper = 195;
+}
+
+if(  crc == 0xe80d8741 )//SAN GUO ZHI 2
+{
+	mapper = 199;
+}
+if(  crc == 0xb5e83c9a //SC
+   ||crc == 0xfb2b6b10) //CS
+{
+	mapper = 241;
+}
+
+//PATCH FOR WXN CODE
+//WAIXING_FS005
+if(  crc == 0xc768098b//SAN XIA WU YI
+   ||crc == 0x49f22159//SUPER DA FUWENG
+   ||crc == 0xf29c8186//DA FU WENG 2
+   ||crc == 0xf354d847//GE LAN DI YA
+   )
+{
+	bUnif = 1;
+	//mapper= WAIXING_FS005;
+	board = WAIXING_FS005;
+	pboardname[0] = 0;
+}
+
+if(  crc == 0x8eb4bb51//POKEMON RED
+   )
+{
+	mapper= 164;
+}
+
+if( crc==0xeb08bfe9)
+{
+	bUnif = 1;
+	board = FK23CA;
+}
+
+
+if( crc==0x58BCACF6)
+{
+	mapper= 45;
+}
+
+if( crc==0x4884293a )
+{//Fighting Hero
+	header.control1 = ROM_VMIRROR;
+}
+
+	crcall;
+	crcvrom;

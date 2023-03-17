@@ -644,16 +644,25 @@ void	CLauncherDlg::UpdateListView()
 	m_bUpdating = FALSE;
 }
 
+#define MKID(a) ((unsigned long) \
+		(((a) >> 24) & 0x000000FF) | \
+		(((a) >>  8) & 0x0000FF00) | \
+		(((a) <<  8) & 0x00FF0000) | \
+		(((a) << 24) & 0xFF000000))
+		
 void CLauncherDlg::CheckFile( FILELIST& fl )
 {
 FILE*	fp = NULL;
 LPBYTE	temp = NULL;
+LPBYTE  pUnif =  NULL;
 LONG	FileSize;
+LONG	filesize;
 string	path;
 
 	path = CPathlib::MakePath( fl.path.c_str(), fl.fname.c_str() );
 
-	if( (fp = ::fopen( path.c_str(), "rb" )) ) {
+	if( (fp = ::fopen( path.c_str(), "rb" )) ) 
+	{
 		NESHEADER	header;
 
 		// ファイルサイズ取得
@@ -668,40 +677,164 @@ string	path;
 		if( !(temp = (LPBYTE)::malloc( FileSize )) )
 			goto	_error_return;
 
+		pUnif = (LPBYTE)::malloc( FileSize );
+		filesize = FileSize;
 		// サイズ分読み込み
 		if( ::fread( temp, FileSize, 1, fp ) != 1 )
 			goto	_error_return;
-
+		memcpy(pUnif,temp,FileSize);
 		FCLOSE( fp );
 
-		// ヘッダコピー
+		// Header copy
 		memcpy( &header, temp, sizeof(NESHEADER) );
 
-		if( header.ID[0] == 'N' && header.ID[1] == 'E'
-		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-			// ヘッダコピー
+		if( header.ID[0] == 'N' && header.ID[1] == 'E' && header.ID[2] == 'S' && header.ID[3] == 0x1A ) 
+		{
+			//Header copy
 //			memcpy( &header, temp, sizeof(NESHEADER) );
-		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
-			&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-			// ヘッダコピー
+		}
+		else if( header.ID[0] == 'F' && header.ID[1] == 'D'	&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) 
+		{
+			// Header copy
 //			memcpy( &header, temp, sizeof(NESHEADER) );
-		} else if( header.ID[0] == 'N' && header.ID[1] == 'E'
-			&& header.ID[2] == 'S' && header.ID[3] == 'M') {
-			// ヘッダコピー
+		}
+		else if( header.ID[0] == 'N' && header.ID[1] == 'E' && header.ID[2] == 'S' && header.ID[3] == 'M') 
+		{
+			// Header copy
 //			memcpy( &header, temp, sizeof(NESHEADER) );
-		} else {
+		} 
+		else if( header.ID[0] == 'U' && header.ID[1] == 'N'	&& header.ID[2] == 'I' && header.ID[3] == 'F' ) 
+		{
+			// Header copy
+//			memcpy( &header, temp, sizeof(NESHEADER) );
+		}
+		else{
 			FREE( temp );
+			FREE( pUnif );
 			temp = NULL;
 			if( !UnCompress( path.c_str(), &temp, (LPDWORD)&FileSize ) )
 				goto	_error_return;
 			memcpy( &header, temp, sizeof(NESHEADER) );
-		}
 
-		if( header.ID[0] == 'N' && header.ID[1] == 'E'
-		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
+			filesize = FileSize;
+			pUnif = (LPBYTE)::malloc( FileSize );
+			memcpy(pUnif,temp,FileSize);
+		}
+		if( header.ID[0] == 'U' && header.ID[1] == 'N'&& header.ID[2] == 'I' && header.ID[3] == 'F' )
+		{
+		
+			DWORD Signature, BlockLen;
+			DWORD ipos =0x20;//Skip UNIF Header
+			BYTE id,i;
+			BYTE *tPRG[0x10], *tCHR[0x10];
+			DWORD sizePRG[0x10],sizeCHR[0x10];
+			char info[100];
+			char name[100];
+			
+			
+			for (i = 0; i < 0x10; i++)
+			{
+				tPRG[i] = tCHR[i] = 0;
+			}
+
+			//filesize
+			while(ipos<filesize)
+			{
+				id = 0;
+				memcpy(&Signature,&pUnif[ipos],4);ipos+=4;
+				memcpy(&BlockLen,&pUnif[ipos],4);ipos+=4;
+				
+				switch(Signature)
+				{
+					case MKID('MAPR')://board name
+						memcpy( info, &pUnif[ipos], BlockLen);
+						fl.info = info;
+						ipos+=BlockLen;	break;
+
+					case MKID('NAME'):
+						memcpy( name, &pUnif[ipos], BlockLen);
+						fl.title = name;
+						ipos+=BlockLen;	break;
+					
+					case MKID('PRGF'):	id++;
+					case MKID('PRGE'):	id++;
+					case MKID('PRGD'):	id++;
+					case MKID('PRGC'):	id++;
+					case MKID('PRGB'):	id++;
+					case MKID('PRGA'):	id++;
+					case MKID('PRG9'):	id++;
+					case MKID('PRG8'):	id++;
+					case MKID('PRG7'):	id++;
+					case MKID('PRG6'):	id++;
+					case MKID('PRG5'):	id++;
+					case MKID('PRG4'):	id++;
+					case MKID('PRG3'):	id++;
+					case MKID('PRG2'):	id++;
+					case MKID('PRG1'):	id++;
+					case MKID('PRG0'):
+						sizePRG[id] = BlockLen;
+						tPRG[id] = (uint8*)malloc(BlockLen);
+						memcpy( tPRG[id], &pUnif[ipos], BlockLen);
+						ipos+=BlockLen;
+						break;
+
+					case MKID('CHRF'):	id++;
+					case MKID('CHRE'):	id++;
+					case MKID('CHRD'):	id++;
+					case MKID('CHRC'):	id++;
+					case MKID('CHRB'):	id++;
+					case MKID('CHRA'):	id++;
+					case MKID('CHR9'):	id++;
+					case MKID('CHR8'):	id++;
+					case MKID('CHR7'):	id++;
+					case MKID('CHR6'):	id++;
+					case MKID('CHR5'):	id++;
+					case MKID('CHR4'):	id++;
+					case MKID('CHR3'):	id++;
+					case MKID('CHR2'):	id++;
+					case MKID('CHR1'):	id++;
+					case MKID('CHR0'):
+						sizeCHR[id] = BlockLen;
+						tCHR[id] = (uint8*)malloc(BlockLen);
+						memcpy( tCHR[id], &pUnif[ipos], BlockLen);
+						ipos+=BlockLen;
+						break;
+						
+					default:
+						ipos+=BlockLen;	break;
+				}
+			}
+
+			fl.mapper = 0;
+			fl.prg_size = 0;
+			fl.chr_size = 0;
+			uint32 LenPRG=0,LenCHR=0;
+			for (i = 0; i < 16/*0x10*/; i++)
+			{
+				if (tPRG[i])
+				{
+					//memcpy(&g_ROM.ROM_banks[LenPRG], tPRG[i], sizePRG[i]);
+					LenPRG += sizePRG[i];
+					fl.prg_size  += sizePRG[i]>>14;
+					free(tPRG[i]);
+				}
+				if (tCHR[i])
+				{
+					//memcpy(&g_ROM.VROM_banks[LenCHR], tCHR[i], sizeCHR[i]);
+					LenCHR += sizeCHR[i];
+					fl.chr_size = (fl.chr_size)+(sizeCHR[i]>>13);
+					free(tCHR[i]);
+				}
+			}
+			
+					
+			FREE( pUnif );
+		}   
+		else if( header.ID[0] == 'N' && header.ID[1] == 'E'
+		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {//?理NES ROM
 			fl.mapper = ((header.control1&0xF0)>>4)|(header.control2&0xF0);
-			fl.prg_size = header.PRG_PAGE_SIZE;
-			fl.chr_size = header.CHR_PAGE_SIZE;
+			fl.prg_size = header.dummy_PRG_PAGE_SIZE;
+			fl.chr_size = header.dummy_CHR_PAGE_SIZE;
 			CHAR	szTemp[64];
 			::wsprintf( szTemp, "%s%s%s%s %s",
 				(header.control1&0x01)?"V":"H",
@@ -759,7 +892,7 @@ string	path;
 				}
 			} else {
 				fl.mapper |= 0x1000;
-			}
+			}//End NES proc
 		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
 			&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 			fl.mapper = 20;
@@ -800,6 +933,7 @@ string	path;
 		}
 
 		FREE(temp);
+		FREE(pUnif);
 	}
 	return;
 
@@ -813,6 +947,7 @@ void CLauncherDlg::ResetFileList()
 INT	i;
 LPSTR	pszExt[] = {
 	"*.nes",
+	"*.unf",
 	"*.fds",
 	"*.nsf",
 	"*.lzh",
@@ -1269,8 +1404,8 @@ DEBUGOUT( "Path:%s\n", Path.c_str() );
 					header.control1 = control1;
 					header.control2 = control2;
 
-					for( INT i = 0; i < 8; i++ )
-						header.reserved[i] = 0;
+					//for( INT i = 0; i < 8; i++ )
+					//	header.reserved[i] = 0;
 
 					LPBYTE	temp = NULL;
 					LONG	size;

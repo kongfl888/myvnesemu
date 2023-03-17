@@ -8,26 +8,17 @@ void	Mapper062::Reset()
 }
 
 void	Mapper062::Write( WORD addr, BYTE data )
-{
-	switch( addr & 0xFF00 ) {
-		case	0x8100:
-			SetPROM_8K_Bank( 4, data );
-			SetPROM_8K_Bank( 5, data+1 );
-			break;
-		case	0x8500:
-			SetPROM_8K_Bank( 4, data );
-			break;
-		case	0x8700:
-			SetPROM_8K_Bank( 5, data );
-			break;
-	SetVROM_1K_Bank( 0, data+0 );
-	SetVROM_1K_Bank( 1, data+1 );
-	SetVROM_1K_Bank( 2, data+2 );
-	SetVROM_1K_Bank( 3, data+3 );
-	SetVROM_1K_Bank( 4, data+4 );
-	SetVROM_1K_Bank( 5, data+5 );
-	SetVROM_1K_Bank( 6, data+6 );
-	SetVROM_1K_Bank( 7, data+7 );
+{	
+
+	//fceu
+	SetVROM_8K_Bank(((addr&0x1F)<<2)|(data&0x03));
+
+	if(addr&0x20) {
+		SetPROM_16K_Bank(0x8000>>13,(addr&0x40)|((addr>>8)&0x3F));
+		SetPROM_16K_Bank(0xc000>>13,(addr&0x40)|((addr>>8)&0x3F));
 	}
+	else
+		SetPROM_32K_Bank(((addr&0x40)|((addr>>8)&0x3F))>>1);
+	SetVRAM_Mirror( ((addr&0x80)>>7)^1 );
 }
 

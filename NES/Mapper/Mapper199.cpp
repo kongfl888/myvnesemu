@@ -70,8 +70,8 @@ void	Mapper199::Write( WORD addr, BYTE data )
 				case	0x07:
 				case	0x08:
 				case	0x09:	prg[(reg[0] & 0x0f)-6] = data;	SetBank_CPU();		break;
-				case	0x0A:	chr[1] = data;			SetBank_PPU();			break;
-				case	0x0B:	chr[3] = data;			SetBank_PPU();			break;
+				case	0xA:	chr[1] = data;			SetBank_PPU();				break;
+				case	0xB:	chr[3] = data;			SetBank_PPU();				break;
 			}
 			break;
 		case	0xA000:

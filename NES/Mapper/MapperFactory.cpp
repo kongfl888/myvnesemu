@@ -138,6 +138,7 @@
 #include "Mapper115.h"
 #include "Mapper116.h"
 #include "Mapper117.h"
+#include "Mapper132.h"
 #include "Mapper133.h"
 #include "Mapper134.h"
 #include "Mapper135.h"
@@ -208,6 +209,8 @@
 #include "Subor.h"	//168
 #include "SmartGenius.h"
 #include "MapperUNL.h"
+#include "bs5.h"
+#include "coolboy.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -321,6 +324,7 @@
 #include "Mapper115.cpp"
 #include "Mapper116.cpp"
 #include "Mapper117.cpp"
+#include "Mapper132.cpp"
 #include "Mapper133.cpp"
 #include "Mapper134.cpp"
 #include "Mapper135.cpp"
@@ -392,6 +396,8 @@
 #include "Subor.cpp"	//168
 #include "SmartGenius.cpp"
 #include "MapperUNL.cpp"
+#include "bs5.cpp"
+#include "coolboy.cpp"
 
 extern BOOL g_bSan2;
 //////////////////////////////////////////////////////////////////////////
@@ -470,9 +476,11 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			case UNL_KS7017:
 				return new MapperUNL_KS7037(parent);
 
-
-
-
+			case BENSHENG_BS5:
+				return new Bs_5(parent);
+			case COOLBOY:
+			case 268:
+				return new BoardCoolBoy(parent);				
 			case UNL_AC08:
 				return new MapperUNL_AC08(parent);
 
@@ -481,8 +489,6 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 
 			case UNL_FS304:
 				return new MapperUNL_FS304(parent);
-			
-			
 
 			case UNL_SA_9602B:
 				return new fceuMMC3(parent,UNL_SA_9602B);
@@ -491,12 +497,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			case WAIXING_FW01:
 				return new WaiXing_FW01(parent);
 
-
-
-
 			case DREAMTECH_01:
 				return new Dream(parent);
-
 
 		}
 		return	new Mapper000(parent);
@@ -733,6 +735,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper116B(parent);
 		case	117:
 			return new Mapper117(parent);
+		case	132:
+			return new Mapper132(parent);
 		case	133:
 			return new Mapper133(parent);
 		case	134:

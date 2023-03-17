@@ -469,6 +469,9 @@
     <ClCompile Include="NES\Mapper\Mapper122.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper132.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper133.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
@@ -674,6 +677,12 @@
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\MMC3.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\bs5.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\coolboy.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\fceuMmc3.cpp">
@@ -1316,6 +1325,9 @@
     <ClInclude Include="NES\Mapper\Mapper122.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper132.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper133.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
@@ -1518,6 +1530,12 @@
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\MMC3.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\bs5.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\coolboy.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\fceuMmc3.h">

@@ -395,6 +395,7 @@ const BOARDINFO BoardInfo[]=
 	{ "BMC-K-3088",					BMC_K_3088},
 	{ "BMC-JC-016-2",				BMC_JC_016_2},
 	{ "BMC-830425C-4391T",			BMC_830425C_4391T},
+	{ "COOLBOY",					COOLBOY},
 };
                                     
                                 

@@ -12,6 +12,8 @@
 #include "typedef.h"
 #include "macro.h"
 
+extern	BYTE	nnn;
+
 // CPU メモリバンク
 extern  BYTE	CPU_BACKUP[256];
 extern	LPBYTE	CPU_MEM_BANK[8];	// 8K単位
@@ -23,6 +25,7 @@ extern	LPBYTE	PPU_MEM_BANK[12];	// 1K単位
 extern	BYTE	PPU_MEM_TYPE[12];
 extern	INT	PPU_MEM_PAGE[12];	// ステートセーブ用
 extern	BYTE	CRAM_USED[16];		// ステートセーブ用
+extern	PBYTE	VROM_WRITED;		// for mapper 74
 
 // NESメモリ
 extern	BYTE	RAM [  8*1024];		// NES内臓RAM
@@ -34,6 +37,23 @@ extern  BYTE	MRAM[128*1024];		//byemu
 
 extern	BYTE	CRAM[ 32*1024];		// キャラクタパターンRAM
 extern	BYTE	VRAM[  4*1024];		// ネームテーブル/アトリビュートRAM
+
+extern	BYTE	YWRAM[1024*1024];	// for YuXing 98/F 1024K PRam
+extern	BYTE	YSRAM[  32*1024];	// for YuXing 98/F 32K SRam
+extern	BYTE	YCRAM[ 128*1024];	// for YuXing 98/F 128K CRam
+
+extern	BYTE	BDRAM[ 512*1024];	// for BBK 512K PRam
+extern	BYTE	BSRAM[  32*1024];	// for BBK 32K SRam
+extern	BYTE	BCRAM[ 512*1024];	// for BBK 512K CRam
+
+extern	BYTE	JDRAM[ 512*1024];	// for DrPCJr 512K PRam
+extern	BYTE	JSRAM[   8*1024];	// for DrPCJr 8K SRam
+extern	BYTE	JCRAM[ 512*1024];	// for DrPCJr 512K CRam
+
+extern	BYTE	tempRAM[ 4*1024];
+
+extern	BYTE	WAVRAM[256];
+
 
 extern	BYTE	SPRAM[0x100];		// スプライトRAM
 extern	BYTE	BGPAL[0x10];		// BGパレット
@@ -122,6 +142,34 @@ extern	void	SetVRAM_Bank( INT bank0, INT bank1, INT bank2, INT bank3 );
 extern	void	SetVRAM_Mirror( INT type );
 extern	void	SetVRAM_Mirror( INT bank0, INT bank1, INT bank2, INT bank3 );
 
+// for YuXing 98/F 1024K PRam
+extern	void	SetYWRAM_8K_Bank ( BYTE page, INT bank );
+extern	void	SetYWRAM_16K_Bank( BYTE page, INT bank );
+extern	void	SetYWRAM_32K_Bank( INT bank );
+extern	void	SetYWRAM_32K_Bank( INT bank0, INT bank1, INT bank2, INT bank3 );
+// for YuXing 98/F 128K CRam
+extern	void	SetYCRAM_1K_Bank( BYTE page, INT bank );
+extern	void	SetYCRAM_2K_Bank( BYTE page, INT bank );
+extern	void	SetYCRAM_4K_Bank( BYTE page, INT bank );
+extern	void	SetYCRAM_8K_Bank( INT bank );
+
+extern	void	SetBDRAM_8K_Bank( BYTE page, INT bank );
+extern	void	SetBDRAM_16K_Bank( BYTE page, INT bank );
+extern	void	SetBDRAM_32K_Bank( INT bank );
+
+extern	void	SetPROM_4K_Bank( WORD addr, INT bank );
+
+extern	void	SetJCRAM_1K_Bank( BYTE page, INT bank );
+extern	void	SetJCRAM_2K_Bank( BYTE page, INT bank );
+extern	void	SetJCRAM_4K_Bank( BYTE page, INT bank );
+extern	void	SetJCRAM_8K_Bank( INT bank );
+extern	void	SetJCRAM_8K_Bank( INT bank0, INT bank1, INT bank2, INT bank3,
+				 INT bank4, INT bank5, INT bank6, INT bank7 );
+extern	void	SetJDRAM_8K_Bank ( BYTE page, INT bank );
+extern	void	SetJDRAM_32K_Bank( INT bank );
+
+extern	void	SetOBCRAM_1K_Bank( BYTE page, INT bank );
+
 
 // メモリタイプ
 // For PROM (CPU)
@@ -132,6 +180,8 @@ extern	void	SetVRAM_Mirror( INT bank0, INT bank1, INT bank2, INT bank3 );
 // For VROM/VRAM/CRAM (PPU)
 #define	BANKTYPE_VROM	0x00
 #define	BANKTYPE_CRAM	0x01
+#define	BANKTYPE_YCRAM	0x02
+#define	BANKTYPE_JCRAM	0x03
 #define	BANKTYPE_VRAM	0x80
 
 // ミラータイプ
@@ -140,6 +190,7 @@ extern	void	SetVRAM_Mirror( INT bank0, INT bank1, INT bank2, INT bank3 );
 #define	VRAM_MIRROR4	0x02	// All screen
 #define	VRAM_MIRROR4L	0x03	// PA10 L固定 $2000-$23FFのミラー
 #define	VRAM_MIRROR4H	0x04	// PA10 H固定 $2400-$27FFのミラー
+#define	VRAM_MIRROR3H	0x05
 
 #endif	// !__MMU_INCLUDED__
 

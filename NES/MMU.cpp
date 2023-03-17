@@ -13,6 +13,8 @@
 
 #include "mmu.h"
 
+BYTE	nnn;
+
 // CPU メモリバンク
 BYTE	CPU_BACKUP[256];
 LPBYTE	CPU_MEM_BANK[8];	// 8K単位
@@ -24,6 +26,7 @@ LPBYTE	PPU_MEM_BANK[12];	// 1K単位
 BYTE	PPU_MEM_TYPE[12];
 INT	PPU_MEM_PAGE[12];	// ステートセーブ用
 BYTE	CRAM_USED[16];		// ステートセーブ用
+PBYTE	VROM_WRITED;		// for mapper 74
 
 // NESメモリ
 BYTE	RAM [  8*1024];		// NES内臓RAM
@@ -35,6 +38,22 @@ BYTE	MRAM[128*1024];		//byemu
 
 BYTE	CRAM[ 32*1024];		// キャラクタパターンRAM
 BYTE	VRAM[  4*1024];		// ネームテーブル/アトリビュートRAM
+
+BYTE	YWRAM[1024*1024];	// for YuXing 98/F 1024K PRam
+BYTE	YSRAM[  32*1024];	// for YuXing 98/F 32K SRam
+BYTE	YCRAM[ 128*1024];	// for YuXing 98/F 128K CRam
+
+BYTE	BDRAM[ 512*1024];	// for BBK 512K PRam
+BYTE	BSRAM[  32*1024];	// for BBK 32K SRam
+BYTE	BCRAM[ 512*1024];	// for BBK 512K CRam
+
+BYTE	JDRAM[ 512*1024];	// for DrPCJr 512K PRam
+BYTE	JSRAM[   8*1024];	// for DrPCJr 8K SRam
+BYTE	JCRAM[ 512*1024];	// for DrPCJr 512K CRam
+
+BYTE	tempRAM[ 4*1024];
+
+BYTE	WAVRAM[256];
 
 BYTE	SPRAM[0x100];		// スプライトRAM
 BYTE	BGPAL[0x10];		// BGパレット
@@ -87,6 +106,18 @@ INT	i;
 	ZEROMEMORY( CRAM, sizeof(CRAM) );
 	ZEROMEMORY( VRAM, sizeof(VRAM) );
 
+	ZEROMEMORY( YWRAM, sizeof(YWRAM) );
+	ZEROMEMORY( YSRAM, sizeof(YSRAM) );
+	ZEROMEMORY( YCRAM, sizeof(YCRAM) );
+
+	ZEROMEMORY( BDRAM, sizeof(BDRAM) );
+	ZEROMEMORY( BSRAM, sizeof(BSRAM) );
+	ZEROMEMORY( BCRAM, sizeof(BCRAM) );
+
+	ZEROMEMORY( JDRAM, sizeof(JDRAM) );
+	ZEROMEMORY( JSRAM, sizeof(JSRAM) );
+	ZEROMEMORY( JCRAM, sizeof(JCRAM) );
+
 	ZEROMEMORY( SPRAM, sizeof(SPRAM) );
 	ZEROMEMORY( BGPAL, sizeof(BGPAL) );
 	ZEROMEMORY( SPPAL, sizeof(SPPAL) );
@@ -120,6 +151,7 @@ INT	i;
 	for( i = 0; i < 8; i++ ) {
 		CRAM_USED[i] = 0;
 	}
+	VROM_WRITED = CRAM+28*1024;
 
 	// PPU VROMバンク設定
 //	SetVRAM_Mirror( VRAM_MIRROR4 );
@@ -465,6 +497,9 @@ void	SetVRAM_Mirror( INT type )
 		case	VRAM_MIRROR4L:
 			SetVRAM_Bank( 0, 0, 0, 0 );
 			break;
+		case	VRAM_MIRROR3H:
+			SetVRAM_Bank( 0, 1, 1, 1 );
+			break;
 		case	VRAM_MIRROR4H:
 			SetVRAM_Bank( 1, 1, 1, 1 );
 			break;
@@ -482,3 +517,152 @@ void	SetVRAM_Mirror( INT bank0, INT bank1, INT bank2, INT bank3 )
 	SetVRAM_1K_Bank( 11, bank3 );
 }
 
+// for YuXing 98/F 1024K PRam
+void	SetYWRAM_8K_Bank( BYTE page, INT bank )
+{
+	bank %= 0x80;
+	CPU_MEM_BANK[page] = YWRAM+0x2000*bank;
+	CPU_MEM_TYPE[page] = BANKTYPE_RAM;
+	CPU_MEM_PAGE[page] = bank;
+}
+void	SetYWRAM_16K_Bank( BYTE page, INT bank )
+{
+	SetYWRAM_8K_Bank( page+0, bank*2+0 );
+	SetYWRAM_8K_Bank( page+1, bank*2+1 );
+}
+void	SetYWRAM_32K_Bank( INT bank )
+{
+	SetYWRAM_8K_Bank( 4, bank*4+0 );
+	SetYWRAM_8K_Bank( 5, bank*4+1 );
+	SetYWRAM_8K_Bank( 6, bank*4+2 );
+	SetYWRAM_8K_Bank( 7, bank*4+3 );
+}
+void	SetYWRAM_32K_Bank( INT bank0, INT bank1, INT bank2, INT bank3 )
+{
+	SetYWRAM_8K_Bank( 4, bank0 );
+	SetYWRAM_8K_Bank( 5, bank1 );
+	SetYWRAM_8K_Bank( 6, bank2 );
+	SetYWRAM_8K_Bank( 7, bank3 );
+}
+
+// for YuXing 98/F 128K CRam
+// Up for CoolBoy 256K
+void	SetYCRAM_1K_Bank( BYTE page, INT bank )
+{
+//	bank &= 0x7F;
+	bank &= 0xFF;
+	PPU_MEM_BANK[page] = YCRAM+0x0400*bank;
+	PPU_MEM_TYPE[page] = BANKTYPE_YCRAM;
+	PPU_MEM_PAGE[page] = bank;
+}
+void	SetYCRAM_2K_Bank( BYTE page, INT bank )
+{
+	SetYCRAM_1K_Bank( page+0, bank*2+0 );
+	SetYCRAM_1K_Bank( page+1, bank*2+1 );
+}
+void	SetYCRAM_4K_Bank( BYTE page, INT bank )
+{
+	SetYCRAM_1K_Bank( page+0, bank*4+0 );
+	SetYCRAM_1K_Bank( page+1, bank*4+1 );
+	SetYCRAM_1K_Bank( page+2, bank*4+2 );
+	SetYCRAM_1K_Bank( page+3, bank*4+3 );
+}
+void	SetYCRAM_8K_Bank( INT bank )
+{
+	for( INT i = 0; i < 8; i++ ) {
+		SetYCRAM_1K_Bank( i, bank*8+i );
+	}
+}
+
+//
+void	SetBDRAM_8K_Bank( BYTE page, INT bank )
+{
+	bank %= 0x40;
+	CPU_MEM_BANK[page] = BDRAM+0x2000*bank;
+	CPU_MEM_TYPE[page] = BANKTYPE_RAM;
+	CPU_MEM_PAGE[page] = bank;
+}
+void	SetBDRAM_16K_Bank( BYTE page, INT bank )
+{
+	SetBDRAM_8K_Bank( page+0, bank*2+0 );
+	SetBDRAM_8K_Bank( page+1, bank*2+1 );
+}
+void	SetBDRAM_32K_Bank( INT bank )
+{
+	SetBDRAM_8K_Bank( 4, bank*4+0 );
+	SetBDRAM_8K_Bank( 5, bank*4+1 );
+	SetBDRAM_8K_Bank( 6, bank*4+2 );
+	SetBDRAM_8K_Bank( 7, bank*4+3 );
+}
+
+//------------------------------------------------------------
+
+void	SetJDRAM_8K_Bank( BYTE page, INT bank )
+{
+	bank %= 0x40;
+	CPU_MEM_BANK[page] = JDRAM+0x2000*bank;
+	CPU_MEM_TYPE[page] = BANKTYPE_RAM;
+	CPU_MEM_PAGE[page] = bank;
+}
+void	SetJDRAM_32K_Bank( INT bank )
+{
+	SetJDRAM_8K_Bank( 3, bank*4+0 );
+	SetJDRAM_8K_Bank( 4, bank*4+1 );
+	SetJDRAM_8K_Bank( 5, bank*4+2 );
+	SetJDRAM_8K_Bank( 6, bank*4+3 );
+}
+
+void	SetJCRAM_1K_Bank( BYTE page, INT bank )
+{
+	bank %= 0x200;
+	PPU_MEM_BANK[page] = JCRAM+0x0400*bank;
+	PPU_MEM_TYPE[page] = BANKTYPE_JCRAM;
+	PPU_MEM_PAGE[page] = bank;
+}
+void	SetJCRAM_2K_Bank( BYTE page, INT bank )
+{
+	SetJCRAM_1K_Bank( page+0, bank*2+0 );
+	SetJCRAM_1K_Bank( page+1, bank*2+1 );
+}
+void	SetJCRAM_4K_Bank( BYTE page, INT bank )
+{
+	SetJCRAM_1K_Bank( page+0, bank*4+0 );
+	SetJCRAM_1K_Bank( page+1, bank*4+1 );
+	SetJCRAM_1K_Bank( page+2, bank*4+2 );
+	SetJCRAM_1K_Bank( page+3, bank*4+3 );
+}
+void	SetJCRAM_8K_Bank( INT bank )
+{
+	for( INT i = 0; i < 8; i++ ) {
+		SetJCRAM_1K_Bank( i, bank*8+i );
+	}
+}
+void	SetJCRAM_8K_Bank( INT bank0, INT bank1, INT bank2, INT bank3,
+			 INT bank4, INT bank5, INT bank6, INT bank7 )
+{
+	SetJCRAM_1K_Bank( 0, bank0 );
+	SetJCRAM_1K_Bank( 1, bank1 );
+	SetJCRAM_1K_Bank( 2, bank2 );
+	SetJCRAM_1K_Bank( 3, bank3 );
+	SetJCRAM_1K_Bank( 4, bank4 );
+	SetJCRAM_1K_Bank( 5, bank5 );
+	SetJCRAM_1K_Bank( 6, bank6 );
+	SetJCRAM_1K_Bank( 7, bank7 );
+}
+
+void	SetOBCRAM_1K_Bank( BYTE page, INT bank )
+{
+	bank %= (PROM_8K_SIZE*8);
+	PPU_MEM_BANK[page] = PROM+0x0400*bank;
+	PPU_MEM_TYPE[page] = BANKTYPE_ROM;
+	PPU_MEM_PAGE[page] = bank;
+}
+
+void	SetPROM_4K_Bank( WORD addr, INT bank )
+{
+	bank %= (PROM_8K_SIZE*2);
+	memcpy( &CPU_MEM_BANK[addr>>13][addr&0x1FFF], PROM+0x1000*bank, 0x1000);
+//	memcpy( &CPU_MEM_BANK[addr>>13][addr&0x1FFF], YSRAM+0x1000*bank, 0x1000);
+	CPU_MEM_TYPE[addr>>13] = BANKTYPE_ROM;
+	CPU_MEM_PAGE[addr>>13] = 0;
+}

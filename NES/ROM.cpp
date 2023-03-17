@@ -681,7 +681,7 @@ NESHEADER	header;
 	 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 		for( INT i = 0; i < 8; i++ ) {
 			if( header.reserved[i] )
-				return	IDS_ERROR_ILLEGALHEADER;
+				;//return	IDS_ERROR_ILLEGALHEADER;
 		}
 		return	0;
 	} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
@@ -715,7 +715,7 @@ NESHEADER	header;
 		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 			for( INT i = 0; i < 8; i++ ) {
 				if( header.reserved[i] )
-					return	IDS_ERROR_ILLEGALHEADER;
+					;//return	IDS_ERROR_ILLEGALHEADER;
 			}
 			return	0;
 		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'

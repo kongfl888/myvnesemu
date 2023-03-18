@@ -278,6 +278,7 @@ static	euI64	final2b;
 #include "nx_SuperEagle.h"
 #include "nx_Scale2x.h"
 #include "nx_hq2x.h"	// include lq2x
+#include "xbrzfilter.h"
 
 void	CDirectDraw::nx_2xSaI_16bpp( LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite )
 {
@@ -710,4 +711,70 @@ void	CDirectDraw::nx_lq2x_32bpp( LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& dds
 	dst0 += dstPitch/2;
 	dst1 += dstPitch/2;
 	lq2x_32_def( dst0, dst1, src0, src1, src1, width );
+}
+
+void	CDirectDraw::nx_xbrz2x_32bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite) 
+{
+	// Pre-Rendering
+	Render32bpp(lpRdr, lpDlt);
+
+	euI8* srcPtr = (euI8*)lpDlt;
+	euI32	srcPitch = SCREEN_WIDTH * sizeof(euI32);
+	euI8* dstPtr = (euI8*)ddsd.lpSurface;
+	euI32	dstPitch = ddsd.lPitch;
+	int	width = SCREEN_WIDTH;
+	int	height = SCREEN_HEIGHT;
+
+	euI32* src0 = (euI32*)lpDlt;
+	euI32* dst0 = (euI32*)dstPtr;
+	euI32 src1 = srcPitch;
+	euI32 dst1 = dstPitch;
+
+	interp_set(32);
+
+	xbrz2x32(src0, src1, dst0, dst1, width, height);
+}
+
+void	CDirectDraw::nx_xbrz3x_32bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite) 
+{
+	// Pre-Rendering
+	Render32bpp(lpRdr, lpDlt);
+
+	euI8* srcPtr = (euI8*)lpDlt;
+	euI32	srcPitch = SCREEN_WIDTH * sizeof(euI32);
+	euI8* dstPtr = (euI8*)ddsd.lpSurface;
+	euI32	dstPitch = ddsd.lPitch;
+	int	width = SCREEN_WIDTH;
+	int	height = SCREEN_HEIGHT;
+
+	euI32* src0 = (euI32*)lpDlt;
+	euI32* dst0 = (euI32*)dstPtr;
+	euI32 src1 = srcPitch;
+	euI32 dst1 = dstPitch;
+
+	interp_set(32);
+
+	xbrz3x32(src0, src1, dst0, dst1, width, height);
+}
+
+void	CDirectDraw::nx_xbrz4x_32bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite) 
+{
+	// Pre-Rendering
+	Render32bpp(lpRdr, lpDlt);
+
+	euI8* srcPtr = (euI8*)lpDlt;
+	euI32	srcPitch = SCREEN_WIDTH * sizeof(euI32);
+	euI8* dstPtr = (euI8*)ddsd.lpSurface;
+	euI32	dstPitch = ddsd.lPitch;
+	int	width = SCREEN_WIDTH;
+	int	height = SCREEN_HEIGHT;
+
+	euI32* src0 = (euI32*)lpDlt;
+	euI32* dst0 = (euI32*)dstPtr;
+	euI32 src1 = srcPitch;
+	euI32 dst1 = dstPitch;
+
+	interp_set(32);
+
+	xbrz4x32(src0, src1, dst0, dst1, width, height);
 }

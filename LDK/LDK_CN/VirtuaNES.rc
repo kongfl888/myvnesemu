@@ -1430,6 +1430,9 @@ BEGIN
             MENUITEM "Scale2x",                     ID_FILTER_SCALE2X
             MENUITEM "hq2x",                        ID_FILTER_HQ2X
             MENUITEM "lq2x",                        ID_FILTER_LQ2X
+            MENUITEM "xBRZ2x",                      ID_FILTER_XBRZ2X
+            MENUITEM "xBRZ3x",                      ID_FILTER_XBRZ3X
+            MENUITEM "xBRZ4x",                      ID_FILTER_XBRZ4X
         END
         MENUITEM SEPARATOR
         MENUITEM "TVģʽ",            ID_TVFRAME

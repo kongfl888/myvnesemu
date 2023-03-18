@@ -967,6 +967,7 @@
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Wnd.cpp" />
     <ClCompile Include="WndHook.cpp" />
+    <ClCompile Include="xBRZ\xbrz.cpp" />
     <ClCompile Include="zlib\minizip\unzip.c" />
   </ItemGroup>
   <ItemGroup>
@@ -1839,6 +1840,11 @@
     <ClInclude Include="WaveRec.h" />
     <ClInclude Include="Wnd.h" />
     <ClInclude Include="WndHook.h" />
+    <ClInclude Include="xbrzfilter.h" />
+    <ClInclude Include="xBRZ\config.h" />
+    <ClInclude Include="xBRZ\xbrz.h" />
+    <ClInclude Include="xBRZ\xbrz_config.h" />
+    <ClInclude Include="xBRZ\xbrz_tools.h" />
     <ClInclude Include="zlib\minizip\unzip.h" />
     <ClInclude Include="zlib\zconf.h" />
     <ClInclude Include="zlib\zlib.h" />

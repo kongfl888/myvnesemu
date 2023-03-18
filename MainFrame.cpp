@@ -2393,6 +2393,15 @@ WNDCMD	CMainFrame::OnEmuCommand( WNDCMDPARAM )
 			goto	_gohell;
 		case	ID_FILTER_LQ2X:
 			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: lq2x" );
+			goto	_gohell;
+		case	ID_FILTER_XBRZ2X:
+			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: xBRZ2x" );
+			goto	_gohell;
+		case	ID_FILTER_XBRZ3X:
+			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: xBRZ3x" );
+			goto	_gohell;
+		case	ID_FILTER_XBRZ4X:
+			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: xBRZ4x" );
 //			goto	_gohell;
 _gohell:
 			Config.graphics.nGraphicsFilter = (INT)(uID-ID_FILTER_NONE);
@@ -3010,6 +3019,9 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 		case	ID_FILTER_SCALE2X:
 		case	ID_FILTER_HQ2X:
 		case	ID_FILTER_LQ2X:
+		case	ID_FILTER_XBRZ2X:
+		case	ID_FILTER_XBRZ3X:
+		case	ID_FILTER_XBRZ4X:
 			::CheckMenuItem( hMenu, uID, MF_BYCOMMAND|(Config.graphics.nGraphicsFilter==(uID-ID_FILTER_NONE)?MF_CHECKED:MF_UNCHECKED) );
 			break;
 

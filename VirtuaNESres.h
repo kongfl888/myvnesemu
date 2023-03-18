@@ -952,7 +952,10 @@
 #define	ID_FILTER_SCALE2X		0x9104
 #define	ID_FILTER_HQ2X			0x9105
 #define	ID_FILTER_LQ2X			0x9106
-#define	ID_FILTER_END			0x9106
+#define	ID_FILTER_XBRZ2X		0x9107
+#define	ID_FILTER_XBRZ3X		0x9108
+#define	ID_FILTER_XBRZ4X		0x9109
+#define	ID_FILTER_END			0x9109
 
 // cheat menu
 #define	ID_SCH_APPEND			0x9800

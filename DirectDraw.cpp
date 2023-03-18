@@ -139,7 +139,24 @@ CDirectDraw::BLTFUNC	CDirectDraw::nxLq2xBltTable[] = {
 	&CDirectDraw::Render24bpp_Double,
 	&CDirectDraw::nx_lq2x_32bpp,
 };
-
+CDirectDraw::BLTFUNC	CDirectDraw::nxxBRZ2xBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::Render16bpp_Double,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_xbrz2x_32bpp,
+};
+CDirectDraw::BLTFUNC	CDirectDraw::nxxBRZ3xBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::Render16bpp_Double,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_xbrz3x_32bpp,
+};
+CDirectDraw::BLTFUNC	CDirectDraw::nxxBRZ4xBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::Render16bpp_Double,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_xbrz4x_32bpp,
+};
 
 //////////////////////////////////////////////////////////////////////
 // デフォルトパレット
@@ -1519,6 +1536,15 @@ DDSURFACEDESC2	ddsd;
 				break;
 			case	BLTFILTER_LQ2X:
 				bltfunc = nxLq2xBltTable;
+				break;
+			case	BLTFILTER_XBRZ2X:
+				bltfunc = nxxBRZ2xBltTable;
+				break;
+			case	BLTFILTER_XBRZ3X:
+				bltfunc = nxxBRZ3xBltTable;
+				break;
+			case	BLTFILTER_XBRZ4X:
+				bltfunc = nxxBRZ4xBltTable;
 				break;
 			default:
 				break;

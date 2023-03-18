@@ -817,6 +817,9 @@
     <ClCompile Include="unif.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="xBRZ\xbrz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VirtuaNES.rc">
@@ -1692,6 +1695,21 @@
       <Filter>Zlib</Filter>
     </ClInclude>
     <ClInclude Include="unif.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xBRZ\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xBRZ\xbrz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xBRZ\xbrz_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xBRZ\xbrz_tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xbrzfilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

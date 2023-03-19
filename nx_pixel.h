@@ -1,3 +1,7 @@
+ /*
+ * [K] 2023-03-19 Checked
+ *
+ */
 
 void Pixelate16(uint8_t* srcPtr, uint32_t srcPitch, uint8_t* dstPtr, uint32_t dstPitch, int width, int height)
 {

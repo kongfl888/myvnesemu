@@ -1812,9 +1812,12 @@
     <ClInclude Include="NetPlay.h" />
     <ClInclude Include="NetPlayDlg.h" />
     <ClInclude Include="nx_2xSaI.h" />
+    <ClInclude Include="nx_admame.h" />
     <ClInclude Include="nx_hq2x.h" />
+    <ClInclude Include="nx_pixel.h" />
     <ClInclude Include="nx_Scale2x.h" />
     <ClInclude Include="nx_scanline.h" />
+    <ClInclude Include="nx_simple.h" />
     <ClInclude Include="nx_Super2xSaI.h" />
     <ClInclude Include="nx_SuperEagle.h" />
     <ClInclude Include="PaletteEdit.h" />

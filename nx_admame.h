@@ -35,6 +35,11 @@
  * - the whole source code of the program is released with the binary.
  */
 
+ /*
+ * [K] 2023-03-19 Checked
+ *
+ */
+
 #ifdef MMX
 extern "C" bool cpu_mmx;
 #endif

@@ -1430,10 +1430,10 @@ BEGIN
             MENUITEM "Scale2x",                     ID_FILTER_SCALE2X
             MENUITEM "hq2x",                        ID_FILTER_HQ2X
             MENUITEM "lq2x",                        ID_FILTER_LQ2X
-            MENUITEM "xBRZ2x",                      ID_FILTER_XBRZ2X
+            MENUITEM "xBRZ 2x",                      ID_FILTER_XBRZ2X
             MENUITEM "Scanlines",                   ID_FILTER_SCANLINES
-            MENUITEM "TV",                          ID_FILTER_TVLINES
-            MENUITEM "Pixelate",                    ID_FILTER_PIXELATE
+            MENUITEM "TV Mode",                          ID_FILTER_TVLINES
+            MENUITEM "Pixel Dot",                    ID_FILTER_PIXELATE
             MENUITEM "AdvanceMAME 2X",              ID_FILTER_ADMAME2X
             MENUITEM "Simple 2X",                   ID_FILTER_SIMPLE2X
         END

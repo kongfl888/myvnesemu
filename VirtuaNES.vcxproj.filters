@@ -1715,6 +1715,15 @@
     <ClInclude Include="nx_scanline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="nx_admame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nx_pixel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nx_simple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\header_down.ico">

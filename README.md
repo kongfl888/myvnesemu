@@ -1,5 +1,6 @@
 # About
 My personal simulator from virtuanes.
+It can open more games and support more filters.
 You can download it and use it for free.
 But not ready for everyone.
 

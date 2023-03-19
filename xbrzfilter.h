@@ -4,7 +4,7 @@
 /* xBRZ C implementation */
 
 /*
- * [K] 2023
+ * [K] 2023-03-19 Checked
  */
 
 

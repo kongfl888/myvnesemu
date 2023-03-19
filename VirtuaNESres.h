@@ -28,7 +28,7 @@
 
 // VirtuaNES window class
 #define	VIRTUANES_WNDCLASS		"VirtuaNESwndclass"
-#define	VIRTUANES_CAPTION		"VirtuaNES kVer"
+#define	VIRTUANES_CAPTION		"VirtuaNES kver"
 #define	VIRTUANES_MUTEX			"VirtuaNESmutex"
 
 // VirtuaNES Website

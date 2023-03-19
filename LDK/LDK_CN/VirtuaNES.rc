@@ -1431,6 +1431,8 @@ BEGIN
             MENUITEM "hq2x",                        ID_FILTER_HQ2X
             MENUITEM "lq2x",                        ID_FILTER_LQ2X
             MENUITEM "xBRZ2x",                      ID_FILTER_XBRZ2X
+            MENUITEM "Scanlines",                   ID_FILTER_SCANLINES
+            MENUITEM "TV",                          ID_FILTER_TVLINES
         END
         MENUITEM SEPARATOR
         MENUITEM "TVģʽ",            ID_TVFRAME

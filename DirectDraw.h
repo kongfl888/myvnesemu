@@ -63,8 +63,8 @@ public:
 		BLTFILTER_HQ2X,
 		BLTFILTER_LQ2X,
 		BLTFILTER_XBRZ2X,
-		BLTFILTER_XBRZ3X,
-		BLTFILTER_XBRZ4X,
+		BLTFILTER_SCANLINES,
+		BLTFILTER_TVLINES,		
 	};
 
 	// パブリックメンバ関数
@@ -337,8 +337,8 @@ protected:
 	static	BLTFUNC	nxHq2xBltTable[];
 	static	BLTFUNC	nxLq2xBltTable[];
 	static	BLTFUNC	nxxBRZ2xBltTable[];
-	static	BLTFUNC	nxxBRZ3xBltTable[];
-	static	BLTFUNC	nxxBRZ4xBltTable[];
+	static	BLTFUNC	nxScanlinesBltTable[];
+	static	BLTFUNC	nxTVlinesBltTable[];
 
 	// 大量…
 	void	Render8bpp_Normal(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
@@ -380,8 +380,10 @@ protected:
 	void	nx_lq2x_16bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 	void	nx_lq2x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 	void	nx_xbrz2x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
-	void	nx_xbrz3x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
-	void	nx_xbrz4x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_scanlines_16bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_scanlines_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_tvlines_16bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_tvlines_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 
 private:
 	// プライベートメンバ変数

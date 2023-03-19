@@ -1,0 +1,6 @@
+
+xbrz(GPLv3):
+https://sourceforge.net/projects/xbrz
+
+scanlines:
+copy from vba-m

@@ -2,5 +2,5 @@
 xbrz(GPLv3):
 https://sourceforge.net/projects/xbrz
 
-scanlines:
+scanlines, pixel,admame2x:
 copy from vba-m

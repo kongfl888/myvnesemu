@@ -1433,6 +1433,8 @@ BEGIN
             MENUITEM "xBRZ2x",                      ID_FILTER_XBRZ2X
             MENUITEM "Scanlines",                   ID_FILTER_SCANLINES
             MENUITEM "TV",                          ID_FILTER_TVLINES
+            MENUITEM "Pixelate",                    ID_FILTER_PIXELATE
+            MENUITEM "AdvanceMAME 2X",              ID_FILTER_ADMAME2X
         END
         MENUITEM SEPARATOR
         MENUITEM "TVģʽ",            ID_TVFRAME

@@ -157,6 +157,18 @@ CDirectDraw::BLTFUNC	CDirectDraw::nxTVlinesBltTable[] = {
 	&CDirectDraw::Render24bpp_Double,
 	&CDirectDraw::nx_tvlines_32bpp,
 };
+CDirectDraw::BLTFUNC	CDirectDraw::nxPixelateBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::nx_pixelate_16bpp,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_pixelate_32bpp,
+};
+CDirectDraw::BLTFUNC	CDirectDraw::nxAdmame2xBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::nx_admame2x_16bpp,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_admame2x_32bpp,
+};
 
 //////////////////////////////////////////////////////////////////////
 // デフォルトパレット
@@ -1545,6 +1557,12 @@ DDSURFACEDESC2	ddsd;
 				break;
 			case	BLTFILTER_TVLINES:
 				bltfunc = nxTVlinesBltTable;
+				break;
+			case	BLTFILTER_PIXELATE:
+				bltfunc = nxPixelateBltTable;
+				break;
+			case	BLTFILTER_ADMAME2X:
+				bltfunc = nxAdmame2xBltTable;
 				break;
 			default:
 				break;

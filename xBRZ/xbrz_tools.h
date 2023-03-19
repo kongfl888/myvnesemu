@@ -56,7 +56,7 @@ Pix* byteAdvance(Pix* ptr, int bytes)
 
 //fill block  with the given color
 template <class Pix> inline
-void fillBlock(Pix* trg, int pitch, Pix col, int blockWidth, int blockHeight)
+void fillBlock(Pix* trg, int pitch /*[bytes]*/, Pix col, int blockWidth, int blockHeight)
 {
     //for (int y = 0; y < blockHeight; ++y, trg = byteAdvance(trg, pitch))
     //    std::fill(trg, trg + blockWidth, col);
@@ -69,8 +69,8 @@ void fillBlock(Pix* trg, int pitch, Pix col, int blockWidth, int blockHeight)
 
 //nearest-neighbor (going over target image - slow for upscaling, since source is read multiple times missing out on cache! Fast for similar image sizes!)
 template <class PixSrc, class PixTrg, class PixConverter>
-void nearestNeighborScale(const PixSrc* src, int srcWidth, int srcHeight, int srcPitch,
-                          /**/  PixTrg* trg, int trgWidth, int trgHeight, int trgPitch,
+void nearestNeighborScale(const PixSrc* src, int srcWidth, int srcHeight, int srcPitch /*[bytes]*/,
+                          /**/  PixTrg* trg, int trgWidth, int trgHeight, int trgPitch /*[bytes]*/,
                           int yFirst, int yLast, PixConverter pixCvrt /*convert PixSrc to PixTrg*/)
 {
     static_assert(std::is_integral<PixSrc>::value, "PixSrc* is expected to be cast-able to char*");
@@ -106,8 +106,8 @@ void nearestNeighborScale(const PixSrc* src, int srcWidth, int srcHeight, int sr
 
 //nearest-neighbor (going over source image - fast for upscaling, since source is read only once
 template <class PixSrc, class PixTrg, class PixConverter>
-void nearestNeighborScaleOverSource(const PixSrc* src, int srcWidth, int srcHeight, int srcPitch,
-                                    /**/  PixTrg* trg, int trgWidth, int trgHeight, int trgPitch,
+void nearestNeighborScaleOverSource(const PixSrc* src, int srcWidth, int srcHeight, int srcPitch /*[bytes]*/,
+                                    /**/  PixTrg* trg, int trgWidth, int trgHeight, int trgPitch /*[bytes]*/,
                                     int yFirst, int yLast, PixConverter pixCvrt /*convert PixSrc to PixTrg*/)
 {
     static_assert(std::is_integral<PixSrc>::value, "PixSrc* is expected to be cast-able to char*");
@@ -202,13 +202,7 @@ void bilinearScale(const uint32_t* src, int srcWidth, int srcHeight, int srcPitc
         const double xx1 = x / scaleX - x1;
         const double x2x = 1 - xx1;
 
-        //buf[x] = { x1, x2, xx1, x2x };
-        struct CoeffsX coeffsX;
-        coeffsX.x1 = x1;
-        coeffsX.x2 = x2;
-        coeffsX.xx1 = xx1;
-        coeffsX.x2x = x2x;
-        buf[x] = coeffsX;
+        buf[x] = { x1, x2, xx1, x2x };
     }
 
     for (int y = yFirst; y < yLast; ++y)

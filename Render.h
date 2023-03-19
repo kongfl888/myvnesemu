@@ -285,6 +285,7 @@ static	euI64	final2b;
 #include "nx_scanline.h"
 #include "nx_pixel.h"
 #include "nx_admame.h"
+#include "nx_simple.h"
 
 void	CDirectDraw::nx_2xSaI_16bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite)
 {
@@ -941,4 +942,53 @@ void	CDirectDraw::nx_admame2x_32bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& 
 	interp_set(32);
 
 	AdMame2x32(srcPtr, src1, dstPtr, dst1, width, height);
+}
+
+void	CDirectDraw::nx_simple2x_16bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite)
+{
+	// Pre-Rendering
+	Render16bpp(lpRdr, lpDlt);
+
+	euI8* srcPtr = (euI8*)lpDlt;
+	euI32	srcPitch = SCREEN_WIDTH * sizeof(euI16);
+	euI8* dstPtr = (euI8*)ddsd.lpSurface;
+	euI32	dstPitch = ddsd.lPitch;
+	int	width = SCREEN_WIDTH;
+	int	height = SCREEN_HEIGHT;
+
+	euI16* dst0 = (euI16*)dstPtr;
+	euI16* src0 = (euI16*)lpDlt;
+	euI16	dst1 = dstPitch;
+	euI16	src1 = srcPitch;
+
+	if (ddsd.ddpfPixelFormat.dwGBitMask == 0x01E0) {
+		interp_set(15);
+	}
+	else {
+		interp_set(16);
+	}
+
+	Simple2x16(srcPtr, srcPitch, dstPtr, dstPitch, width, height);
+}
+
+void	CDirectDraw::nx_simple2x_32bpp(LPBYTE lpRdr, LPBYTE lpDlt, DDSURFACEDESC2& ddsd, BOOL bForceWrite)
+{
+	// Pre-Rendering
+	Render32bpp(lpRdr, lpDlt);
+
+	euI8* srcPtr = (euI8*)lpDlt;
+	euI32	srcPitch = SCREEN_WIDTH * sizeof(euI32);
+	euI8* dstPtr = (euI8*)ddsd.lpSurface;
+	euI32	dstPitch = ddsd.lPitch;
+	int	width = SCREEN_WIDTH;
+	int	height = SCREEN_HEIGHT;
+
+	euI32* src0 = (euI32*)lpDlt;
+	euI32* dst0 = (euI32*)dstPtr;
+	euI32 src1 = srcPitch;
+	euI32 dst1 = dstPitch;
+
+	interp_set(32);
+
+	Simple2x32(srcPtr, src1, dstPtr, dst1, width, height);
 }

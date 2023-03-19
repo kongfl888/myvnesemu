@@ -957,7 +957,8 @@
 #define	ID_FILTER_TVLINES 		0x9109
 #define	ID_FILTER_PIXELATE 		0x910A
 #define	ID_FILTER_ADMAME2X 		0x910B
-#define	ID_FILTER_END			0x910B
+#define	ID_FILTER_SIMPLE2X 		0x910C
+#define	ID_FILTER_END			0x910C
 
 // cheat menu
 #define	ID_SCH_APPEND			0x9800

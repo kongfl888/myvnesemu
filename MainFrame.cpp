@@ -2408,6 +2408,9 @@ WNDCMD	CMainFrame::OnEmuCommand( WNDCMDPARAM )
 			goto	_gohell;
 		case	ID_FILTER_ADMAME2X:
 			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: Admame2X" );
+			goto	_gohell;
+		case	ID_FILTER_SIMPLE2X:
+			Emu.EventParam( CEmuThread::EV_MESSAGE_OUT, (LONG)"Filter: Simple2X" );
 //			goto	_gohell;
 _gohell:
 			Config.graphics.nGraphicsFilter = (INT)(uID-ID_FILTER_NONE);
@@ -3030,6 +3033,7 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 		case	ID_FILTER_TVLINES:
 		case	ID_FILTER_PIXELATE:
 		case	ID_FILTER_ADMAME2X:
+		case	ID_FILTER_SIMPLE2X:
 			::CheckMenuItem( hMenu, uID, MF_BYCOMMAND|(Config.graphics.nGraphicsFilter==(uID-ID_FILTER_NONE)?MF_CHECKED:MF_UNCHECKED) );
 			break;
 

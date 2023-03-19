@@ -169,6 +169,12 @@ CDirectDraw::BLTFUNC	CDirectDraw::nxAdmame2xBltTable[] = {
 	&CDirectDraw::Render24bpp_Double,
 	&CDirectDraw::nx_admame2x_32bpp,
 };
+CDirectDraw::BLTFUNC	CDirectDraw::nxSimple2xBltTable[] = {
+	&CDirectDraw::Render8bpp_Double,
+	&CDirectDraw::nx_simple2x_16bpp,
+	&CDirectDraw::Render24bpp_Double,
+	&CDirectDraw::nx_simple2x_32bpp,
+};
 
 //////////////////////////////////////////////////////////////////////
 // デフォルトパレット
@@ -1563,6 +1569,9 @@ DDSURFACEDESC2	ddsd;
 				break;
 			case	BLTFILTER_ADMAME2X:
 				bltfunc = nxAdmame2xBltTable;
+				break;
+			case	BLTFILTER_SIMPLE2X:
+				bltfunc = nxSimple2xBltTable;
 				break;
 			default:
 				break;

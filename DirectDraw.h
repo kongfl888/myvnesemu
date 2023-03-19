@@ -67,6 +67,7 @@ public:
 		BLTFILTER_TVLINES,
 		BLTFILTER_PIXELATE,
 		BLTFILTER_ADMAME2X,
+		BLTFILTER_SIMPLE2X
 	};
 
 	// パブリックメンバ関数
@@ -343,6 +344,7 @@ protected:
 	static	BLTFUNC	nxTVlinesBltTable[];
 	static	BLTFUNC	nxPixelateBltTable[];
 	static	BLTFUNC	nxAdmame2xBltTable[];
+	static	BLTFUNC	nxSimple2xBltTable[];
 
 	// 大量…
 	void	Render8bpp_Normal(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
@@ -392,6 +394,8 @@ protected:
 	void	nx_pixelate_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 	void	nx_admame2x_16bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 	void	nx_admame2x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_simple2x_16bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
+	void	nx_simple2x_32bpp(LPBYTE,LPBYTE,DDSURFACEDESC2&,BOOL);
 
 private:
 	// プライベートメンバ変数

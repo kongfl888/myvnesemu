@@ -1435,6 +1435,7 @@ BEGIN
             MENUITEM "TV",                          ID_FILTER_TVLINES
             MENUITEM "Pixelate",                    ID_FILTER_PIXELATE
             MENUITEM "AdvanceMAME 2X",              ID_FILTER_ADMAME2X
+            MENUITEM "Simple 2X",                   ID_FILTER_SIMPLE2X
         END
         MENUITEM SEPARATOR
         MENUITEM "Display TV frame",            ID_TVFRAME

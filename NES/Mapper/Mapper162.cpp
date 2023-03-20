@@ -5,7 +5,7 @@
 
 void	Mapper162::Reset()
 {
-	reg5000 = 0;
+	reg5000 = 3;
 	reg5100 = 0;
 	reg5200 = 0;
 	reg5300 = 7;
@@ -43,10 +43,11 @@ void	Mapper162::SetBank_CPU()
 	switch (reg5300)
 	{
 		case 4:
-			bank = (( (reg5000 & 0xF) + ((reg5100 & 3) >> 1) ) | ((reg5200 & 1) << 4));
+			bank = (((reg5000 & 0xF) + ((reg5100 & 3) >> 1) ) | ((reg5200 & 3) << 4));
 			break;
 		case 7:
-			bank = ((reg5000 & 0xF) | ((reg5200 & 1) << 4));
+			bank = (((reg5000 & 0xF) + ((reg5100 & 1) << 4) ) | ((reg5200 & 3) << 4));
+//			bank = ((reg5000 & 0xF) | ((reg5200 & 1) << 4));
 			break;
 	}
 	SetPROM_32K_Bank(bank);

@@ -5,13 +5,8 @@ public:
 
 	
 	void	Reset();
-	void	Read( WORD addr, BYTE data);
 	void	Write( WORD addr, BYTE data );
-
-	// For state save
-	BOOL	IsStateSave() { return TRUE; }
-	void	SaveState( LPBYTE p ){}
-	void	LoadState( LPBYTE p ){}
+	BYTE	Read( WORD addr );
 
 protected:
 	BYTE	reg_dat;

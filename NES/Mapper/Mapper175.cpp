@@ -12,12 +12,13 @@ void	Mapper175::Reset()
 	}
 }
 
-void	Mapper175::Read( WORD addr, BYTE data)
+BYTE	Mapper175::Read( WORD addr)
 {
 	if( addr == 0xFFFC ) {
 		SetPROM_16K_Bank( 4, reg_dat & 0x0F );
 		SetPROM_8K_Bank( 6, (reg_dat & 0x0F)*2 );
 	}
+	return CPU_MEM_BANK[addr>>13][addr&0x1FFF];
 }
 
 void	Mapper175::Write( WORD addr, BYTE data )

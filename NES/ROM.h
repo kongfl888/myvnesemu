@@ -17,6 +17,7 @@ using namespace std;
 
 #pragma pack( push, 1 )
 
+extern const char* img_fname;	//for bbk
 typedef	struct	tagNESHEADER {
 	BYTE	ID[4];
 	BYTE	dummy_PRG_PAGE_SIZE;

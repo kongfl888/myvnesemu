@@ -33,15 +33,17 @@
 
 #include "unif.h"
 
+const char* img_fname;	//for bbk
+
 BOOL g_bSan2;
 INT	 g_UnfTVMode = -1;
-unsigned char pSan2Font[64*1024]; // 64K font
+unsigned char pSan2Font[256*1024]; // 256K font
 
 #define MKID(a) ((unsigned long) \
 	(((a) >> 24) & 0x000000FF) | \
 	(((a) >>  8) & 0x0000FF00) | \
 	(((a) <<  8) & 0x00FF0000) | \
-		(((a) << 24) & 0xFF000000))
+	(((a) << 24) & 0xFF000000))
 
 
 #ifdef EMU_DEBUG
@@ -83,6 +85,35 @@ LONG	FileSize;
 	return ;
 	#endif
 	try {
+
+		//for bbk
+		if( !(fp = ::fopen( fname, "rb" )) ) {
+			LPCSTR	szErrStr = CApp::GetErrorString( IDS_ERROR_OPEN );
+			::wsprintf( szErrorString, szErrStr, fname );
+			throw	szErrorString;
+		}
+		::fseek( fp, 0, SEEK_END );
+		FileSize = ::ftell( fp );
+		::fseek( fp, 0, SEEK_SET );
+		if( !(temp = (LPBYTE)::malloc( FileSize )) ) {
+			throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
+		}
+		if( ::fread( temp, FileSize, 1, fp ) != 1 ) {
+			throw	CApp::GetErrorString( IDS_ERROR_READ );
+		}
+		FCLOSE( fp );
+		::memcpy( &header, temp, sizeof(NESHEADER) );
+
+		if( header.ID[0] == 0xEB && header.ID[1] == 0x3C
+		 && header.ID[2] == 0x90 && header.ID[3] == 0x53 ) {
+			img_fname = fname;
+			//DEBUGOUT( "img_fname: %s\n", img_fname );
+			fname = "bbk_bios10.rom";
+		} else {
+			FREE( temp );
+		}
+		//bbk end
+
 		if( !(fp = ::fopen( fname, "rb" )) ) {
 			// xxx ファイルを開けません
 			LPCSTR	szErrStr = CApp::GetErrorString( IDS_ERROR_OPEN );
@@ -199,7 +230,67 @@ LONG	FileSize;
 		BYTE *pUnif = temp;
 		DWORD filesize = FileSize;
 
-		if ( header.ID[0] == 'U' && header.ID[1] == 'N'
+		if( header.ID[0] == 'N' && header.ID[1] == 'E'
+		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
+		// 普通のNESファイル
+			PRGsize = (LONG)header.PRG_PAGE_SIZE*0x4000;
+			CHRsize = (LONG)header.CHR_PAGE_SIZE*0x2000;
+			PRGoffset = sizeof(NESHEADER);
+			CHRoffset = PRGoffset + PRGsize;
+
+			//for Game Star - Smart Genius (Unl)
+			if(header.PRG_PAGE_SIZE==0xff)
+				PRGsize = (LONG)(header.PRG_PAGE_SIZE+1)*0x4000;
+
+			if( IsTRAINER() ) {
+				PRGoffset += 512;
+				CHRoffset += 512;
+			}
+
+			if( PRGsize <= 0 || (PRGsize+CHRsize) > FileSize ) {
+				// NESヘッダが異常です
+				throw	CApp::GetErrorString( IDS_ERROR_INVALIDNESHEADER );
+			}
+
+			// PRG BANK
+			if( !(lpPRG = (LPBYTE)malloc( PRGsize )) ) {
+				// メモリを確保出来ません
+				throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
+			}
+
+			::memcpy( lpPRG, temp+PRGoffset, PRGsize );
+
+			// CHR BANK
+			if( CHRsize > 0 ) {
+				if( !(lpCHR = (LPBYTE)malloc( CHRsize )) ) {
+					// メモリを確保出来ません
+					throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
+				}
+
+				if( FileSize >= CHRoffset+CHRsize ) {
+					memcpy( lpCHR, temp+CHRoffset, CHRsize );
+				} else {
+					// CHRバンク少ない…
+					CHRsize -= (CHRoffset+CHRsize - FileSize);
+					memcpy( lpCHR, temp+CHRoffset, CHRsize );
+				}
+			} else {
+				lpCHR = NULL;
+			}
+
+			// Trainer
+			if( IsTRAINER() ) {
+				if( !(lpTrainer = (LPBYTE)malloc( 512 )) ) {
+					// メモリを確保出来ません
+					throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
+				}
+
+				memcpy( lpTrainer, temp+sizeof(NESHEADER), 512 );
+			} else {
+				lpTrainer = NULL;
+			}
+		}
+		else if ( header.ID[0] == 'U' && header.ID[1] == 'N'
 		 && header.ID[2] == 'I' && header.ID[3] == 'F' )
 		{//UNIF
 
@@ -210,7 +301,8 @@ LONG	FileSize;
 			DWORD sizePRG[0x10],sizeCHR[0x10];
 			//char info[100];
 			//char name[100];
-
+			PRGsize = 0x00;
+			CHRsize = 0x00;
 			header.ID[0] = 'N';
 			header.ID[1] = 'E';
 			header.ID[2] = 'S';
@@ -262,7 +354,7 @@ LONG	FileSize;
 						ipos+=BlockLen;	break;
 
 					case MKID('FONT')://FONT
-						memcpy( pSan2Font, &pUnif[ipos], BlockLen>65536?65536:BlockLen);
+						memcpy( pSan2Font, &pUnif[ipos], BlockLen>262144?262144:BlockLen);
 						ipos+=BlockLen;	break;
 
 					case MKID('MIRR'):
@@ -727,6 +819,40 @@ NESHEADER	header;
 		} else if( header.ID[0] == 'N' && header.ID[1] == 'E'
 			&& header.ID[2] == 'S' && header.ID[3] == 'M') {
 			return	0;
+		}
+		else if( header.ID[0] == 0xEB && header.ID[1] == 0x3C	//BBK
+			&& header.ID[2] == 0x90 && header.ID[3] == 0x53 ) {
+			return	0;
+		}
+		else
+		{
+			LPBYTE	temp = NULL;
+			LONG	size;
+			if( !UnCompress( fname, &temp, (LPDWORD)&size ) )
+				return	IDS_ERROR_UNSUPPORTFORMAT;
+
+			memcpy( &header, temp, sizeof(NESHEADER) );
+			FREE( temp );
+			if( header.ID[0] == 'N' && header.ID[1] == 'E'
+			 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
+				for( INT i = 0; i < 4; i++ ) {
+					if( header.reserved[i] )
+						return	IDS_ERROR_ILLEGALHEADER;
+				}
+				return	0;
+			} else if( header.ID[0] == 'U' && header.ID[1] == 'N'
+				&& header.ID[2] == 'I' && header.ID[3] == 'F' ) {
+				return	0;
+			} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
+				&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
+				return	0;
+			} else if( header.ID[0] == 'N' && header.ID[1] == 'E'
+				&& header.ID[2] == 'S' && header.ID[3] == 'M') {
+				return	0;
+			} else if( header.ID[0] == 0xEB && header.ID[1] == 0x3C	//BBK
+				&& header.ID[2] == 0x90 && header.ID[3] == 0x53 ) {
+				return	0;
+			}
 		}
 	}
 

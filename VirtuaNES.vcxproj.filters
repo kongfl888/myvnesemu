@@ -466,6 +466,9 @@
     <ClCompile Include="NES\Mapper\Mapper119.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper120.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper122.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
@@ -482,6 +485,9 @@
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper140.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper141.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper142.cpp">
@@ -508,7 +514,28 @@
     <ClCompile Include="NES\Mapper\Mapper165.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper166.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper167.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper169.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper170.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper171.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper172.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper173.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper174.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper175.cpp">
@@ -521,6 +548,9 @@
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper178.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper179.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper180.cpp">
@@ -580,6 +610,9 @@
     <ClCompile Include="NES\Mapper\Mapper202.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper212.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper216.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
@@ -623,6 +656,9 @@
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper236.cpp">
+      <Filter>NES\Mapper</Filter>
+    </ClCompile>
+    <ClCompile Include="NES\Mapper\Mapper237.cpp">
       <Filter>NES\Mapper</Filter>
     </ClCompile>
     <ClCompile Include="NES\Mapper\Mapper240.cpp">
@@ -1325,6 +1361,9 @@
     <ClInclude Include="NES\Mapper\Mapper119.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper120.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper122.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
@@ -1341,6 +1380,9 @@
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper140.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper141.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper142.h">
@@ -1367,7 +1409,28 @@
     <ClInclude Include="NES\Mapper\Mapper165.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper166.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper167.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper169.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper170.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper171.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper172.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper173.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper174.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper175.h">
@@ -1380,6 +1443,9 @@
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper178.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper179.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper180.h">
@@ -1439,6 +1505,9 @@
     <ClInclude Include="NES\Mapper\Mapper202.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper212.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper216.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
@@ -1482,6 +1551,9 @@
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper236.h">
+      <Filter>NES\Mapper</Filter>
+    </ClInclude>
+    <ClInclude Include="NES\Mapper\Mapper237.h">
       <Filter>NES\Mapper</Filter>
     </ClInclude>
     <ClInclude Include="NES\Mapper\Mapper240.h">

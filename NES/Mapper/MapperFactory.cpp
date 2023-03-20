@@ -102,6 +102,7 @@
 #include "Mapper113.h"
 #include "Mapper118.h"
 #include "Mapper119.h"
+#include "Mapper120.h"
 #include "Mapper122.h"
 #include "Mapper175.h"
 #include "Mapper176.h"
@@ -143,6 +144,7 @@
 #include "Mapper134.h"
 #include "Mapper135.h"
 #include "Mapper140.h"
+#include "Mapper141.h"
 #include "Mapper142.h"
 #include "Mapper160.h"
 #include "Mapper162.h"
@@ -157,6 +159,7 @@
 #include "Mapper195.h"
 #include "Mapper198.h"
 #include "Mapper199.h"
+#include "Mapper212.h"
 #include "Mapper216.h"
 #include "Mapper220.h"
 #include "Mapper222.h"
@@ -172,6 +175,7 @@
 #include "Mapper234.h"
 #include "Mapper235.h"
 #include "Mapper236.h"
+#include "Mapper237.h"
 #include "Mapper240.h"
 #include "Mapper241.h"
 #include "Mapper242.h"
@@ -202,7 +206,15 @@
 
 #include "Mapper164.h"
 #include "Mapper165.h"
+#include "Mapper166.h"
 #include "Mapper167.h"
+#include "Mapper169.h"
+#include "Mapper170.h"
+#include "Mapper171.h"
+#include "Mapper172.h"
+#include "Mapper173.h"
+#include "Mapper174.h"
+#include "Mapper179.h"
 
 #include "Sachen.h"	//146,147,148,150
 #include "fk23c.h"
@@ -288,6 +300,7 @@
 #include "Mapper113.cpp"
 #include "Mapper118.cpp"
 #include "Mapper119.cpp"
+#include "Mapper120.cpp"
 #include "Mapper122.cpp"
 #include "Mapper175.cpp"
 #include "Mapper176.cpp"
@@ -329,6 +342,7 @@
 #include "Mapper134.cpp"
 #include "Mapper135.cpp"
 #include "Mapper140.cpp"
+#include "Mapper141.cpp"
 #include "Mapper142.cpp"
 #include "Mapper160.cpp"
 #include "Mapper162.cpp"
@@ -343,6 +357,7 @@
 #include "Mapper195.cpp"
 #include "Mapper198.cpp"
 #include "Mapper199.cpp"
+#include "Mapper212.cpp"
 #include "Mapper216.cpp"
 #include "Mapper220.cpp"
 #include "Mapper222.cpp"
@@ -358,6 +373,7 @@
 #include "Mapper234.cpp"
 #include "Mapper235.cpp"
 #include "Mapper236.cpp"
+#include "Mapper237.cpp"
 #include "Mapper240.cpp"
 #include "Mapper241.cpp"
 #include "Mapper242.cpp"
@@ -388,7 +404,15 @@
 
 #include "Mapper164.cpp"
 #include "Mapper165.cpp"
+#include "Mapper166.cpp"
 #include "Mapper167.cpp"
+#include "Mapper169.cpp"
+#include "Mapper170.cpp"
+#include "Mapper171.cpp"
+#include "Mapper172.cpp"
+#include "Mapper173.cpp"
+#include "Mapper174.cpp"
+#include "Mapper179.cpp"
 
 #include "Sachen.cpp"	//146,147,148,150
 #include "UnifMapper.cpp"
@@ -655,6 +679,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper118(parent);
 		case	119:
 			return new Mapper119(parent);
+		case	120:
+			return new Mapper120(parent);
 		case	121:
 			return new fceuMMC3(parent,121);
 		case	122:
@@ -746,6 +772,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper135(parent);
 		case	140:
 			return new Mapper140(parent);
+		case	141:
+			return new Mapper141(parent);
 		case	142:
 			return new Mapper142(parent);
 		case	146:
@@ -784,6 +812,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper198(parent);
 		case	199:
 			return new Mapper199(parent);
+		case	212:
+			return new Mapper212(parent);
 		case	216:
 			return new Mapper216(parent);
 		case	220:
@@ -814,6 +844,8 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper235(parent);
 		case	236:
 			return new Mapper236(parent);
+		case	237:
+			return new Mapper237(parent);
 		case	240:
 			return new Mapper240(parent);
 		case	241:
@@ -868,10 +900,26 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 			return new Mapper164(parent);
 		case	165:
 			return new Mapper165(parent);
+		case	166:
+			return new Mapper166(parent);
 		case	167:
 			return new Mapper167(parent);
 		case	168:
 			return new MapperSubor999(parent);
+		case	169:
+			return new Mapper169(parent);
+		case	170:
+			return new Mapper170(parent);
+		case	171:
+			return new Mapper171(parent);
+		case	172:
+			return new Mapper172(parent);
+		case	173:
+			return new Mapper173(parent);
+		case	174:
+			return new Mapper174(parent);
+		case	179:
+			return new Mapper179(parent);
 		case	632:	//SUBOR_999:
 			return new MapperSubor999(parent);
 

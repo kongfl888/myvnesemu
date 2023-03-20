@@ -1,5 +1,5 @@
 //
-// ÉAÅ[ÉJÉCÉuÉtÉ@ÉCÉãëÄçÏ
+// „Ç¢„Éº„Ç´„Ç§„Éñ„Éï„Ç°„Ç§„É´Êìç‰Ωú
 //
 // Original:NesterJ arc.cpp arc.h by Mikami Kana
 // Original:NNNesterJ ulunzip.cpp
@@ -35,7 +35,7 @@
 
 typedef struct {
 	DWORD 	dwOriginalSize;
- 	DWORD 	dwCompressedSize;
+	DWORD 	dwCompressedSize;
 	DWORD	dwCRC;
 	UINT	uFlag;
 	UINT	uOSType;
@@ -46,16 +46,16 @@ typedef struct {
 	char	dummy1[3];
 	char	szAttribute[8];
 	char	szMode[8];
-} INDIVIDUALINFO, *LPINDIVIDUALINFO;
+} INDIVIDUALINFO, * LPINDIVIDUALINFO;
 #pragma pack()
 
 // Un??? use function
-typedef	int(WINAPI *EXECUTECOMMAND)(HWND,LPCSTR,LPSTR,const DWORD);
-typedef	BOOL(WINAPI *CHECKARCHIVE)(LPCSTR,const int);
-typedef	int(WINAPI *EXTRACTMEM)(HWND,LPCSTR,LPBYTE,const DWORD,time_t,LPWORD,LPDWORD);
-typedef	HGLOBAL(WINAPI *OPENARCHIVE)(HWND,LPCSTR,const DWORD);
-typedef	int(WINAPI *CLOSEARCHIVE)(HGLOBAL);
-typedef	int(WINAPI *FINDFIRST)(HGLOBAL,LPCSTR,INDIVIDUALINFO*);
+typedef	int(WINAPI* EXECUTECOMMAND)(HWND, LPCSTR, LPSTR, const DWORD);
+typedef	BOOL(WINAPI* CHECKARCHIVE)(LPCSTR, const int);
+typedef	int(WINAPI* EXTRACTMEM)(HWND, LPCSTR, LPBYTE, const DWORD, time_t, LPWORD, LPDWORD);
+typedef	HGLOBAL(WINAPI* OPENARCHIVE)(HWND, LPCSTR, const DWORD);
+typedef	int(WINAPI* CLOSEARCHIVE)(HGLOBAL);
+typedef	int(WINAPI* FINDFIRST)(HGLOBAL, LPCSTR, INDIVIDUALINFO*);
 
 static	LPCSTR	pszArchiver[] = {
 	"UNLHA32",
@@ -99,8 +99,8 @@ static	BOOL	bFileMatching[] = {
 
 #define M_ERROR_MESSAGE_OFF		0x00800000L
 
-// zlibÇégópÇµÇΩZIPâìÄÉãÅ[É`Éì
-BOOL	ZlibUnZip( LPCSTR fname, LPBYTE* ppBuf, LPDWORD lpdwSize )
+// zlib„Çí‰ΩøÁî®„Åó„ÅüZIPËß£Âáç„É´„Éº„ÉÅ„É≥
+BOOL	ZlibUnZip(LPCSTR fname, LPBYTE* ppBuf, LPDWORD lpdwSize)
 {
 	unzFile		unzipFile = NULL;
 	unz_global_info	unzipGlobalInfo;
@@ -110,213 +110,218 @@ BOOL	ZlibUnZip( LPCSTR fname, LPBYTE* ppBuf, LPDWORD lpdwSize )
 	*ppBuf = NULL;
 	*lpdwSize = 0;
 
-	if( !(unzipFile = unzOpen( (const char*)fname )) )
+	if (!(unzipFile = unzOpen((const char*)fname)))
 		return	FALSE;
 
-	if( unzGetGlobalInfo( unzipFile, &unzipGlobalInfo ) != UNZ_OK ) {
-		unzClose( unzipFile );
+	if (unzGetGlobalInfo(unzipFile, &unzipGlobalInfo) != UNZ_OK) {
+		unzClose(unzipFile);
 		return	FALSE;
 	}
 
-	for( uLong i = 0; i < unzipGlobalInfo.number_entry; i++ ) {
-		if( unzGetCurrentFileInfo( unzipFile, &unzipFileInfo, fname_buf, sizeof(fname_buf), NULL, 0, NULL, 0 ) != UNZ_OK )
+	for (uLong i = 0; i < unzipGlobalInfo.number_entry; i++) {
+		if (unzGetCurrentFileInfo(unzipFile, &unzipFileInfo, fname_buf, sizeof(fname_buf), NULL, 0, NULL, 0) != UNZ_OK)
 			break;
 
-		char*	pExt = ::PathFindExtension( fname_buf );
-		if( _stricmp( pExt, ".nes" ) == 0||_stricmp( pExt, ".unf" ) == 0 || _stricmp( pExt, ".fds" ) == 0 || _stricmp( pExt, ".nsf" ) == 0 ) 
+		char* pExt = ::PathFindExtension(fname_buf);
+		if (_stricmp(pExt, ".nes") == 0 || _stricmp(pExt, ".unf") == 0 || _stricmp(pExt, ".fds") == 0 || _stricmp(pExt, ".nsf") == 0)
 		{
-			if( unzipFileInfo.uncompressed_size ) {
-				if( unzOpenCurrentFile( unzipFile ) != UNZ_OK )
+			if (unzipFileInfo.uncompressed_size) {
+				if (unzOpenCurrentFile(unzipFile) != UNZ_OK)
 					break;
 
-				if( unzipFileInfo.uncompressed_size > 0 ) {
-					if( !(*ppBuf = (LPBYTE)::malloc( unzipFileInfo.uncompressed_size )) )
+				if (unzipFileInfo.uncompressed_size > 0) {
+					if (!(*ppBuf = (LPBYTE)::malloc(unzipFileInfo.uncompressed_size)))
 						break;
 
-					uInt	size = unzReadCurrentFile( unzipFile, *ppBuf, unzipFileInfo.uncompressed_size );
-					if( size != unzipFileInfo.uncompressed_size )
+					uInt	size = unzReadCurrentFile(unzipFile, *ppBuf, unzipFileInfo.uncompressed_size);
+					if (size != unzipFileInfo.uncompressed_size)
 						break;
 				}
 				*lpdwSize = unzipFileInfo.uncompressed_size;
 
-				if( unzCloseCurrentFile( unzipFile ) != UNZ_OK )
+				if (unzCloseCurrentFile(unzipFile) != UNZ_OK)
 					break;
-				unzClose( unzipFile );
+				unzClose(unzipFile);
 				return	TRUE;
 			}
 		}
 
 		// Next file
-		if( (i+1) < unzipGlobalInfo.number_entry ) {
-			if( unzGoToNextFile( unzipFile ) != UNZ_OK ) {
+		if ((i + 1) < unzipGlobalInfo.number_entry) {
+			if (unzGoToNextFile(unzipFile) != UNZ_OK) {
 				break;
 			}
 		}
 	}
 
-	FREE( *ppBuf );
+	FREE(*ppBuf);
 
-	if( unzipFile ) {
-		unzCloseCurrentFile( unzipFile );
-		unzClose( unzipFile );
+	if (unzipFile) {
+		unzCloseCurrentFile(unzipFile);
+		unzClose(unzipFile);
 	}
 	return	FALSE;
 }
 
-BOOL	UnCompress( LPCSTR fname, LPBYTE* ppBuf, LPDWORD lpdwSize )
+BOOL	UnCompress(LPCSTR fname, LPBYTE* ppBuf, LPDWORD lpdwSize)
 {
-HMODULE		hDLL;
-INDIVIDUALINFO	idvinfo;
+	HMODULE		hDLL;
+	INDIVIDUALINFO	idvinfo;
 
-//	char*	pExt = ::PathFindExtension( fname );
-//	if( _stricmp( pExt, ".zip" ) == 0 ) {
-		// ZIPÇ»ÇÁÇ‹Ç∏zlibÉâÉCÉuÉâÉäÇÃâìÄÇégÇ¡ÇƒÇ›ÇÈ
-		if( ZlibUnZip( fname, ppBuf, lpdwSize ) ) {
-//DEBUGOUT( "zlib unzip ok! [%s]\n", fname );
-			return	TRUE;
-		}
-//	}
+	//	char*	pExt = ::PathFindExtension( fname );
+	//	if( _stricmp( pExt, ".zip" ) == 0 ) {
+			// ZIP„Å™„Çâ„Åæ„Åözlib„É©„Ç§„Éñ„É©„É™„ÅÆËß£Âáç„Çí‰Ωø„Å£„Å¶„Åø„Çã
+	if (ZlibUnZip(fname, ppBuf, lpdwSize)) {
+		//DEBUGOUT( "zlib unzip ok! [%s]\n", fname );
+		return	TRUE;
+	}
+	//	}
 
 	hDLL = NULL;
-	for( INT i = 0; pszArchiver[i]; i++ ) {
-		// DLLÉAÉìÉçÅ[Éh
-		FREEDLL( hDLL );
+	for (INT i = 0; pszArchiver[i]; i++) {
+		// DLL„Ç¢„É≥„É≠„Éº„Éâ
+		FREEDLL(hDLL);
 
-		// DLLÉçÅ[Éh
-		if( !(hDLL = LoadLibrary( pszArchiver[i] )) )
+		// DLL„É≠„Éº„Éâ
+		if (!(hDLL = LoadLibrary(pszArchiver[i])))
 			continue;
 
 		CHAR	szTemp[256];
-		sprintf( szTemp, "%sCheckArchive", pszFuncPrefix[i] );
+		sprintf(szTemp, "%sCheckArchive", pszFuncPrefix[i]);
 		CHECKARCHIVE	CheckArchive;
-		if( !(CheckArchive = (CHECKARCHIVE)GetProcAddress( hDLL, szTemp )) )
+		if (!(CheckArchive = (CHECKARCHIVE)GetProcAddress(hDLL, szTemp)))
 			continue;
-		// ëŒâûÇ∑ÇÈÉAÅ[ÉJÉCÉuÇ©É`ÉFÉbÉNÇ∑ÇÈ
-		if( !CheckArchive( fname, 1 ) )
+		// ÂØæÂøú„Åô„Çã„Ç¢„Éº„Ç´„Ç§„Éñ„Åã„ÉÅ„Çß„ÉÉ„ÇØ„Åô„Çã
+		if (!CheckArchive(fname, 1))
 			continue;
 
-		// ÉAÅ[ÉJÉCÉuì‡Ç…ëŒâûÇ∑ÇÈÉtÉ@ÉCÉãÇ™Ç†ÇÈÇ©ÇÃÉ`ÉFÉbÉN
+		// „Ç¢„Éº„Ç´„Ç§„ÉñÂÜÖ„Å´ÂØæÂøú„Åô„Çã„Éï„Ç°„Ç§„É´„Åå„ÅÇ„Çã„Åã„ÅÆ„ÉÅ„Çß„ÉÉ„ÇØ
 		OPENARCHIVE	OpenArchive;
 		CLOSEARCHIVE	CloseArchive;
 		FINDFIRST	FindFirst;
 
-		sprintf( szTemp, "%sOpenArchive", pszFuncPrefix[i] );
-		OpenArchive = (OPENARCHIVE)GetProcAddress( hDLL, szTemp );
-		sprintf( szTemp, "%sFindFirst", pszFuncPrefix[i] );
-		FindFirst = (FINDFIRST)GetProcAddress( hDLL, szTemp );
-		sprintf( szTemp, "%sCloseArchive", pszFuncPrefix[i] );
-		CloseArchive = (CLOSEARCHIVE)GetProcAddress( hDLL, szTemp );
+		sprintf(szTemp, "%sOpenArchive", pszFuncPrefix[i]);
+		OpenArchive = (OPENARCHIVE)GetProcAddress(hDLL, szTemp);
+		sprintf(szTemp, "%sFindFirst", pszFuncPrefix[i]);
+		FindFirst = (FINDFIRST)GetProcAddress(hDLL, szTemp);
+		sprintf(szTemp, "%sCloseArchive", pszFuncPrefix[i]);
+		CloseArchive = (CLOSEARCHIVE)GetProcAddress(hDLL, szTemp);
 
 		HGLOBAL		hARC;
 		BOOL	bFound = FALSE;
-		for( INT j = 0; pszExtension[j]; j++ ) {
-			if( !(hARC = OpenArchive( NULL, fname, M_ERROR_MESSAGE_OFF ) ) ) {
-				CloseArchive( hARC );
+		for (INT j = 0; pszExtension[j]; j++) {
+			if (!(hARC = OpenArchive(NULL, fname, M_ERROR_MESSAGE_OFF))) {
+				CloseArchive(hARC);
 				break;
 			}
-			INT	ret = FindFirst( hARC, pszExtension[j], &idvinfo );
-			CloseArchive( hARC );
-			if( ret == 0 ) {		// Found!!
+			INT	ret = FindFirst(hARC, pszExtension[j], &idvinfo);
+			CloseArchive(hARC);
+			if (ret == 0) {		// Found!!
 				bFound = TRUE;
 				break;
-			} else if( ret == -1 ) {	// Not found.
-			} else {			// àŸèÌèIóπ
+			}
+			else if (ret == -1) {	// Not found.
+			}
+			else {			// Áï∞Â∏∏ÁµÇ‰∫Ü
 				break;
 			}
 		}
-		if( !bFound )
+		if (!bFound)
 			continue;
 
-		if( !pszCommand[i] ) {
-		// ÉÅÉÇÉäâìÄÇ†ÇË(UNLHA32,UNZIP32)
+		if (!pszCommand[i]) {
+			// „É°„É¢„É™Ëß£Âáç„ÅÇ„Çä(UNLHA32,UNZIP32)
 			*lpdwSize = idvinfo.dwOriginalSize;
-			*ppBuf = (LPBYTE)malloc( *lpdwSize );
+			*ppBuf = (LPBYTE)malloc(*lpdwSize);
 
-			CHAR	szCmd [256];
+			CHAR	szCmd[256];
 			CHAR	szFunc[256];
 
-			if( !bFileMatching[i] ) {
-				sprintf( szCmd, "\"%s\" \"%s\"", fname, idvinfo.szFileName );
-			} else {
-			// UNZIP32 only
-				BYTE	szFile[FNAME_MAX32+1];
+			if (!bFileMatching[i]) {
+				sprintf(szCmd, "\"%s\" \"%s\"", fname, idvinfo.szFileName);
+			}
+			else {
+				// UNZIP32 only
+				BYTE	szFile[FNAME_MAX32 + 1];
 				LPBYTE	lpF0, lpF1;
 
-				// ê≥ãKï\åªÇêÿÇÈÉIÉvÉVÉáÉìÇ™ó~ÇµÇ©Ç¡ÇΩ....
+				// Ê≠£Ë¶èË°®Áèæ„ÇíÂàá„Çã„Ç™„Éó„Ç∑„Éß„É≥„ÅåÊ¨≤„Åó„Åã„Å£„Åü....
 				lpF0 = (LPBYTE)idvinfo.szFileName;
 				lpF1 = szFile;
-				while( *lpF0 ) {
-					if( *lpF0 == '[' || *lpF0 == ']' ) {
+				while (*lpF0) {
+					if (*lpF0 == '[' || *lpF0 == ']') {
 						*lpF1++ = '\\';
 					}
-					_mbsncpy( lpF1, lpF0, 1 );
-					lpF0 = _mbsinc( lpF0 );
-					lpF1 = _mbsinc( lpF1 );
+					_mbsncpy_s(lpF1, sizeof(lpF1), lpF0, 1);
+					lpF0 = _mbsinc(lpF0);
+					lpF1 = _mbsinc(lpF1);
 				}
 				*lpF1 = '\0';
 
-				sprintf( szCmd, "\"%s\" \"%s\"", fname, szFile );
+				sprintf(szCmd, "\"%s\" \"%s\"", fname, szFile);
 			}
-			sprintf( szFunc, "%sExtractMem", pszFuncPrefix[i] );
+			sprintf(szFunc, "%sExtractMem", pszFuncPrefix[i]);
 
 			EXTRACTMEM	ExtractMem;
-			ExtractMem = (EXTRACTMEM)GetProcAddress( hDLL, szFunc );
-			INT ret = ExtractMem( NULL, szCmd, (LPBYTE)(*ppBuf), *lpdwSize, NULL, NULL, NULL );
-			FREEDLL( hDLL );
-			if( ret == 0 )
+			ExtractMem = (EXTRACTMEM)GetProcAddress(hDLL, szFunc);
+			INT ret = ExtractMem(NULL, szCmd, (LPBYTE)(*ppBuf), *lpdwSize, NULL, NULL, NULL);
+			FREEDLL(hDLL);
+			if (ret == 0)
 				return TRUE;
-		} else {
-		// ÉÅÉÇÉäâìÄÇ™ñ≥Ç¢èÍçá
-			CHAR	szCmd [256];
+		}
+		else {
+			// „É°„É¢„É™Ëß£Âáç„ÅåÁÑ°„ÅÑÂ†¥Âêà
+			CHAR	szCmd[256];
 			CHAR	szTempPath[_MAX_PATH];
 			EXECUTECOMMAND	ExecuteCommand;
 
-			GetTempPath( _MAX_PATH, szTempPath );
-//DEBUGOUT( "TempPath:%s\n", szTempPath );
+			GetTempPath(_MAX_PATH, szTempPath);
+			//DEBUGOUT( "TempPath:%s\n", szTempPath );
 
-			sprintf( szCmd, pszCommand[i], fname, szTempPath, idvinfo.szFileName );
-			ExecuteCommand = (EXECUTECOMMAND)GetProcAddress( hDLL, pszFuncPrefix[i] );
-			ExecuteCommand( NULL, szCmd, NULL, 0 );
-			FREEDLL( hDLL );
+			sprintf(szCmd, pszCommand[i], fname, szTempPath, idvinfo.szFileName);
+			ExecuteCommand = (EXECUTECOMMAND)GetProcAddress(hDLL, pszFuncPrefix[i]);
+			ExecuteCommand(NULL, szCmd, NULL, 0);
+			FREEDLL(hDLL);
 
-			string	FileName = CPathlib::MakePath( szTempPath, idvinfo.szFileName );
+			string	FileName = CPathlib::MakePath(szTempPath, idvinfo.szFileName);
 
-			FILE *fp = NULL;
-			if( (fp = fopen( FileName.c_str(), "rb" )) ) {
-				// ÉtÉ@ÉCÉãÉTÉCÉYéÊìæ
-				fseek( fp, 0, SEEK_END );
-				*lpdwSize = ftell( fp );
-				fseek( fp, 0, SEEK_SET );
-				if( *lpdwSize < 17 ) {
-					// ÉtÉ@ÉCÉãÉTÉCÉYÇ™è¨Ç≥Ç∑Ç¨Ç‹Ç∑
-					throw	CApp::GetErrorString( IDS_ERROR_SMALLFILE );
+			FILE* fp = NULL;
+			if ((fp = fopen(FileName.c_str(), "rb"))) {
+				// „Éï„Ç°„Ç§„É´„Çµ„Ç§„Ç∫ÂèñÂæó
+				fseek(fp, 0, SEEK_END);
+				*lpdwSize = ftell(fp);
+				fseek(fp, 0, SEEK_SET);
+				if (*lpdwSize < 17) {
+					// „Éï„Ç°„Ç§„É´„Çµ„Ç§„Ç∫„ÅåÂ∞è„Åï„Åô„Åé„Åæ„Åô
+					throw	CApp::GetErrorString(IDS_ERROR_SMALLFILE);
 				}
 
-				// ÉeÉìÉ|ÉâÉäÉÅÉÇÉäämï€
-				if( !(*ppBuf = (LPBYTE)malloc( *lpdwSize )) ) {
-					FCLOSE( fp );
-					// ÉÅÉÇÉäÇämï€èoóàÇ‹ÇπÇÒ
-					throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
+				// „ÉÜ„É≥„Éù„É©„É™„É°„É¢„É™Á¢∫‰øù
+				if (!(*ppBuf = (LPBYTE)malloc(*lpdwSize))) {
+					FCLOSE(fp);
+					// „É°„É¢„É™„ÇíÁ¢∫‰øùÂá∫Êù•„Åæ„Åõ„Çì
+					throw	CApp::GetErrorString(IDS_ERROR_OUTOFMEMORY);
 				}
-				// ÉTÉCÉYï™ì«Ç›çûÇ›
-				if( fread( *ppBuf, *lpdwSize, 1, fp ) != 1 ) {
-					FCLOSE( fp );
-					FREE( *ppBuf );
-					// ÉtÉ@ÉCÉãÇÃì«Ç›çûÇ›Ç…é∏îsÇµÇ‹ÇµÇΩ
-					throw	CApp::GetErrorString( IDS_ERROR_READ );
+				// „Çµ„Ç§„Ç∫ÂàÜË™≠„ÅøËæº„Åø
+				if (fread(*ppBuf, *lpdwSize, 1, fp) != 1) {
+					FCLOSE(fp);
+					FREE(*ppBuf);
+					// „Éï„Ç°„Ç§„É´„ÅÆË™≠„ÅøËæº„Åø„Å´Â§±Êïó„Åó„Åæ„Åó„Åü
+					throw	CApp::GetErrorString(IDS_ERROR_READ);
 				}
-				FCLOSE( fp );
-				DeleteFile( FileName.c_str() );
-			} else {
-				// xxx ÉtÉ@ÉCÉãÇäJÇØÇ‹ÇπÇÒ
-				LPCSTR	szErrStr = CApp::GetErrorString( IDS_ERROR_OPEN );
-				sprintf( szErrorString, szErrStr, fname );
+				FCLOSE(fp);
+				DeleteFile(FileName.c_str());
+			}
+			else {
+				// xxx „Éï„Ç°„Ç§„É´„ÇíÈñã„Åë„Åæ„Åõ„Çì
+				LPCSTR	szErrStr = CApp::GetErrorString(IDS_ERROR_OPEN);
+				sprintf(szErrorString, szErrStr, fname);
 				throw	szErrorString;
 			}
 			return	TRUE;
 		}
 	}
-	FREEDLL( hDLL );
+	FREEDLL(hDLL);
 
 	return	FALSE;
 }

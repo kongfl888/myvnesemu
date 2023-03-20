@@ -777,8 +777,7 @@ Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
 		case	193:
 			return new Mapper193(parent);
 		case	194:
-			//return new Mapper194(parent);
-			return new fceuMMC3(parent,194);
+			return new Mapper194(parent);
 		case	195:
 			return new Mapper195(parent);
 		case	198:

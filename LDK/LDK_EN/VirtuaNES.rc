@@ -1360,6 +1360,7 @@ BEGIN
             MENUITEM "Hyper Shot",                  ID_EXCTR_HYPERSHOT
             MENUITEM "Zapper",                      ID_EXCTR_ZAPPER
             MENUITEM "FamilyBasic Keyboard",        ID_EXCTR_KEYBOARD
+            MENUITEM "Subor Keyboard", 			    ID_EXCTR_SUBOR_KEYBOARD
             MENUITEM "Crazy Climber",               ID_EXCTR_CRAZYCLIMBER
             MENUITEM "Top Rider",                   ID_EXCTR_TOPRIDER
             MENUITEM "SpaceShadow Gun",             ID_EXCTR_SPACESHADOWGUN
@@ -1369,6 +1370,7 @@ BEGIN
             MENUITEM "Mahjang",                     ID_EXCTR_MAHJANG
             MENUITEM "Oekakids Tablet",             ID_EXCTR_OEKAKIDS_TABLET
             MENUITEM "TurboFile",                   ID_EXCTR_TURBOFILE
+            MENUITEM "China Educational mouse",     ID_EXCTR_CHINA_EDUCATIONAL_MOUSE
             MENUITEM "VS-Unisystem",                ID_EXCTR_VSUNISYSTEM
             MENUITEM "VS-Unisystem Zapper",         ID_EXCTR_VSUNISYSTEM_ZAPPER
 

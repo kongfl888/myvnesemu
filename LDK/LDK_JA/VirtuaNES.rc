@@ -1354,6 +1354,7 @@ BEGIN
             MENUITEM " ≤ ﬂ∞ºÆØƒ",                   ID_EXCTR_HYPERSHOT
             MENUITEM "åıê¸èe",                      ID_EXCTR_ZAPPER
             MENUITEM "FamilyBasic∑∞Œﬁ∞ƒﬁ",          ID_EXCTR_KEYBOARD
+            MENUITEM "Subor∑∞Œﬁ∞ƒﬁ",		ID_EXCTR_SUBOR_KEYBOARD
             MENUITEM "∏⁄≤ºﬁ∞∏◊≤œ∞",                 ID_EXCTR_CRAZYCLIMBER
             MENUITEM "ƒØÃﬂ◊≤¿ﬁ∞",                   ID_EXCTR_TOPRIDER
             MENUITEM "ΩÕﬂ∞Ωº¨ƒﬁ≥∂ﬁ›",               ID_EXCTR_SPACESHADOWGUN
@@ -1363,6 +1364,7 @@ BEGIN
             MENUITEM "œ∞ºﬁ¨›",                      ID_EXCTR_MAHJANG
             MENUITEM "µ¥∂∑ØΩﬁ¿Ãﬁ⁄Øƒ",               ID_EXCTR_OEKAKIDS_TABLET
             MENUITEM "¿∞ŒﬁÃß≤Ÿ",                    ID_EXCTR_TURBOFILE
+            MENUITEM "China Educational mouse",		ID_EXCTR_CHINA_EDUCATIONAL_MOUSE
             MENUITEM "VS-Unisystem",                ID_EXCTR_VSUNISYSTEM
             MENUITEM "VS-Unisystem Zapper",         ID_EXCTR_VSUNISYSTEM_ZAPPER
 

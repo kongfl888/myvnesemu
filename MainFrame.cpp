@@ -1382,6 +1382,10 @@ WNDCMD	CMainFrame::OnRomInfo( WNDCMDPARAM )
 		dlg.m_dwCRCALL = Nes->rom->GetROM_CRC();
 		dlg.m_dwCRCCHR = Nes->rom->GetVROM_CRC();
 	}
+	if(Nes->rom->IsUnifMapper()){
+		dlg.m_dwCRC    = Nes->rom->GetPROM_CRC();
+		dlg.m_dwCRCCHR = Nes->rom->GetVROM_CRC();
+	}
 
 	if( !m_bMenu )
 		OnFullScreenGDI( TRUE );
@@ -2297,6 +2301,7 @@ WNDCMD	CMainFrame::OnEmuCommand( WNDCMDPARAM )
 		case	ID_EXCTR_HYPERSHOT:
 		case	ID_EXCTR_ZAPPER:
 		case	ID_EXCTR_KEYBOARD:
+		case	ID_EXCTR_SUBOR_KEYBOARD:
 		case	ID_EXCTR_CRAZYCLIMBER:
 		case	ID_EXCTR_SPACESHADOWGUN:
 		case	ID_EXCTR_FAMILYTRAINER_A:
@@ -2305,8 +2310,14 @@ WNDCMD	CMainFrame::OnEmuCommand( WNDCMDPARAM )
 		case	ID_EXCTR_EXCITINGBOXING:
 		case	ID_EXCTR_OEKAKIDS_TABLET:
 		case	ID_EXCTR_TURBOFILE:
+		case	ID_EXCTR_CHINA_EDUCATIONAL_MOUSE:
 		case	ID_EXCTR_VSUNISYSTEM:
 		case	ID_EXCTR_VSUNISYSTEM_ZAPPER:
+			if(uID>=ID_EXCTR_CRAZYCLIMBER){
+				uID++;
+			}else if(uID==ID_EXCTR_SUBOR_KEYBOARD){
+				uID=ID_EXCTR_CRAZYCLIMBER;
+			}
 			Emu.EventParam( CEmuThread::EV_EXCONTROLLER, uID-ID_EXCTR_NONE );
 			break;
 
@@ -3104,6 +3115,7 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 		case	ID_EXCTR_HYPERSHOT:
 		case	ID_EXCTR_ZAPPER:
 		case	ID_EXCTR_KEYBOARD:
+		case	ID_EXCTR_SUBOR_KEYBOARD:
 		case	ID_EXCTR_CRAZYCLIMBER:
 		case	ID_EXCTR_TOPRIDER:
 		case	ID_EXCTR_SPACESHADOWGUN:
@@ -3113,8 +3125,16 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 		case	ID_EXCTR_MAHJANG:
 		case	ID_EXCTR_OEKAKIDS_TABLET:
 		case	ID_EXCTR_TURBOFILE:
+		case	ID_EXCTR_CHINA_EDUCATIONAL_MOUSE:
 		case	ID_EXCTR_VSUNISYSTEM:
 		case	ID_EXCTR_VSUNISYSTEM_ZAPPER:
+		{
+			UINT tuID = uID;
+			if(uID>=ID_EXCTR_CRAZYCLIMBER){
+				uID++;
+			}else if(uID==ID_EXCTR_SUBOR_KEYBOARD){
+				uID=ID_EXCTR_CRAZYCLIMBER;
+			}
 			if( Nes ) {
 				if( Nes->pad->GetExController() == (uID-ID_EXCTR_NONE) )
 					bCheck = TRUE;
@@ -3126,10 +3146,11 @@ void	CMainFrame::OnUpdateMenu( HMENU hMenu, UINT uID )
 				else
 					bCheck = FALSE;
 			}
-			::EnableMenuItem( hMenu, uID, MF_BYCOMMAND|(bEmu?MF_ENABLED:MF_GRAYED) );
-			::CheckMenuItem( hMenu, uID, MF_BYCOMMAND|(bCheck?MF_CHECKED:MF_UNCHECKED) );
+			::EnableMenuItem( hMenu, tuID, MF_BYCOMMAND|(bEmu?MF_ENABLED:MF_GRAYED) );
+			::CheckMenuItem( hMenu, tuID, MF_BYCOMMAND|(bCheck?MF_CHECKED:MF_UNCHECKED) );
 			break;
 
+		}
 		case	ID_TURBOFILE_BANK0:
 		case	ID_TURBOFILE_BANK1:
 		case	ID_TURBOFILE_BANK2:
@@ -3246,7 +3267,13 @@ BYTE	KeyInp[256+64*8];
 	if( Emu.IsRunning() ) {
 		// ファミリーベーシックキーボードの時
 		if( Emu.GetExController() == PAD::EXCONTROLLER_KEYBOARD ||
-			Emu.GetExController() == PAD::EXCONTROLLER_SUPOR_KEYBOARD )
+			Emu.GetExController() == PAD::EXCONTROLLER_SUPOR_KEYBOARD ||
+			Emu.GetExController() == PAD::EXCONTROLLER_Subor_KEYBOARD ||
+			Emu.GetExController() == PAD::EXCONTROLLER_PEC_KEYBOARD ||
+			Emu.GetExController() == PAD::EXCONTROLLER_Kingwon_KEYBOARD ||
+			Emu.GetExController() == PAD::EXCONTROLLER_ZeCheng_KEYBOARD ||
+			Emu.GetExController() == PAD::EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE ||
+			Emu.GetNES()->rom->GetMapperNo() == 169 )	//YuXing
 			bAltOnly = TRUE;
 		if( Emu.IsPausing() )
 			bAltOnly = FALSE;

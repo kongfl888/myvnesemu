@@ -1360,6 +1360,7 @@ BEGIN
             MENUITEM "终极射击",		ID_EXCTR_HYPERSHOT
             MENUITEM "遥控器",			ID_EXCTR_ZAPPER
             MENUITEM "FamilyBasic 键盘",	ID_EXCTR_KEYBOARD
+            MENUITEM "小霸王键盘",		ID_EXCTR_SUBOR_KEYBOARD
             MENUITEM "疯狂攀爬者",		ID_EXCTR_CRAZYCLIMBER
             MENUITEM "顶级骑手",		ID_EXCTR_TOPRIDER
             MENUITEM "SpaceShadow 光线枪",	ID_EXCTR_SPACESHADOWGUN
@@ -1369,6 +1370,7 @@ BEGIN
             MENUITEM "麻将",			ID_EXCTR_MAHJANG
             MENUITEM "Oekakids 写字板",		ID_EXCTR_OEKAKIDS_TABLET
             MENUITEM "连射",			ID_EXCTR_TURBOFILE
+            MENUITEM "学习机鼠标",			ID_EXCTR_CHINA_EDUCATIONAL_MOUSE
             MENUITEM "VS-Unisystem",                ID_EXCTR_VSUNISYSTEM
             MENUITEM "VS-Unisystem Zapper",         ID_EXCTR_VSUNISYSTEM_ZAPPER
 

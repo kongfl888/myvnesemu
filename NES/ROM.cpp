@@ -247,7 +247,8 @@ LONG	FileSize;
 				CHRoffset += 512;
 			}
 
-			if( PRGsize <= 0 || (PRGsize+CHRsize) > FileSize ) {
+			//if( PRGsize <= 0 || (PRGsize+CHRsize) > FileSize ) {
+			if( PRGsize <= 0 ) {
 				// NESヘッダが異常です
 				throw	CApp::GetErrorString( IDS_ERROR_INVALIDNESHEADER );
 			}
@@ -258,6 +259,8 @@ LONG	FileSize;
 				throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 			}
 
+			if(PRGsize>(FileSize-PRGoffset))
+				PRGsize = FileSize-PRGoffset;
 			::memcpy( lpPRG, temp+PRGoffset, PRGsize );
 
 			// CHR BANK
@@ -459,64 +462,6 @@ LONG	FileSize;
 				}
 			}
 
-		}else	if( header.ID[0] == 'N' && header.ID[1] == 'E'
-		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-		// 普通のNESファイル
-			PRGsize = (LONG)header.PRG_PAGE_SIZE*0x4000;
-			CHRsize = (LONG)header.CHR_PAGE_SIZE*0x2000;
-			PRGoffset = sizeof(NESHEADER);
-			CHRoffset = PRGoffset + PRGsize;
-
-			if( IsTRAINER() ) {
-				PRGoffset += 512;
-				CHRoffset += 512;
-			}
-
-			//if( PRGsize <= 0 || (PRGsize+CHRsize) > FileSize ) {
-			if( PRGsize <= 0 ) {
-				// NESヘッダが異常です
-				throw	CApp::GetErrorString( IDS_ERROR_INVALIDNESHEADER );
-			}
-
-			// PRG BANK
-			if( !(lpPRG = (LPBYTE)malloc( PRGsize )) ) {
-				// メモリを確保出来ません
-				throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
-			}
-
-			if(PRGsize>(FileSize-PRGoffset))
-				PRGsize = FileSize-PRGoffset;
-			::memcpy( lpPRG, temp+PRGoffset, PRGsize );
-
-			// CHR BANK
-			if( CHRsize > 0 ) {
-				if( !(lpCHR = (LPBYTE)malloc( CHRsize )) ) {
-					// メモリを確保出来ません
-					throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
-				}
-
-				if( FileSize >= CHRoffset+CHRsize ) {
-					memcpy( lpCHR, temp+CHRoffset, CHRsize );
-				} else {
-					// CHRバンク少ない…
-					CHRsize -= (CHRoffset+CHRsize - FileSize);
-					memcpy( lpCHR, temp+CHRoffset, CHRsize );
-				}
-			} else {
-				lpCHR = NULL;
-			}
-
-			// Trainer
-			if( IsTRAINER() ) {
-				if( !(lpTrainer = (LPBYTE)malloc( 512 )) ) {
-					// メモリを確保出来ません
-					throw	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
-				}
-
-				memcpy( lpTrainer, temp+sizeof(NESHEADER), 512 );
-			} else {
-				lpTrainer = NULL;
-			}
 		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
 			&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 		// FDS(Nintendo Disk System)
@@ -679,6 +624,14 @@ DEBUGOUT( "PAGESIZE:%d\n", NSF_PAGE_SIZE );
 				fdsmakerID = lpPRG[0x1F];
 				fdsgameID  = (lpPRG[0x20]<<24)|(lpPRG[0x21]<<16)|(lpPRG[0x22]<<8)|(lpPRG[0x23]<<0);
 			}
+
+			if(bUnif){
+				mapper = board;
+				crc = CRC::CrcRev( PRGsize, lpPRG );
+				if( CHRsize )
+				crcvrom = CRC::CrcRev( CHRsize, lpCHR );
+			}
+
 		} else {
 		// NSF
 			mapper = 0x0100;	// Private mapper
@@ -832,6 +785,8 @@ NESHEADER	header;
 				return	IDS_ERROR_UNSUPPORTFORMAT;
 
 			memcpy( &header, temp, sizeof(NESHEADER) );
+			header.CHR_PAGE_SIZE = header.dummy_CHR_PAGE_SIZE;
+			header.PRG_PAGE_SIZE = header.dummy_PRG_PAGE_SIZE;
 			FREE( temp );
 			if( header.ID[0] == 'N' && header.ID[1] == 'E'
 			 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {

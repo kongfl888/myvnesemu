@@ -8,7 +8,7 @@
 #include "MMU.h"
 
 extern BOOL g_bSan2;
-extern unsigned char pSan2Font[64*1024];//64K font space
+extern unsigned char pSan2Font[256*1024];//256K font space
 
 #define MIN_GROUP 0x6 
 #define MIN_INDEX 0x40 

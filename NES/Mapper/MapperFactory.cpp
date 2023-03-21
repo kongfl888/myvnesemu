@@ -14,6 +14,7 @@
 #include "typedef.h"
 #include "macro.h"
 
+#include "unif.h"
 #include "nes.h"
 #include "mmu.h"
 #include "cpu.h"
@@ -21,11 +22,10 @@
 #include "apu.h"
 #include "pad.h"
 #include "rom.h"
-
 #include "mapper.h"
 
 #include "Config.h"
-#include "unif.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 #include "Mapper000.h"
@@ -427,504 +427,504 @@ extern BOOL g_bSan2;
 //////////////////////////////////////////////////////////////////////////
 // Mapper Factory
 //////////////////////////////////////////////////////////////////////////
-Mapper*	CreateMapper( NES* parent, INT no,BOOL bUnif)
+Mapper* CreateMapper(NES* parent, INT no, BOOL bUnif)
 {
-	#ifdef EMU_DUMP
-		return new Mapper0(parent);
-	#endif
-	
-	if( bUnif )
+#ifdef EMU_DUMP
+	return new Mapper0(parent);
+#endif
+
+	if (bUnif)
 	{
-		switch(no)
+		switch (no)
 		{
-			case NROM_256_CN:
-				return new map0_3208cn(parent);
-			
-			case BTL_GENIUSMERIOBROS:
-				return new GeniusMerioBros(parent);
+		case NROM_256_CN:
+			return new map0_3208cn(parent);
 
-			case BTL_SMB2_C:
-				return new smb2j(parent);
+		case BTL_GENIUSMERIOBROS:
+			return new GeniusMerioBros(parent);
 
-			case SUBOR_999:
-				return new MapperSubor999(parent);
+		case BTL_SMB2_C:
+			return new smb2j(parent);
 
-			case BMC_FKC23C:
-			case FK23C:
-				return new MapperFk23c(parent);
-				//return new fceuMMC3(parent,FK23C);
-			case FK23CA:
-				return new MapperFk23ca(parent);
-			case BMC_FK23CA:
-				//return new MapperFk23ca(parent);
-				return new fceuMMC3(parent,FK23CA);
+		case SUBOR_999:
+			return new MapperSubor999(parent);
 
-			case SMART_GENIUS:
-				return new MapperSmartGenius(parent);
-				//return new MapperFk23c(parent);
+		case BMC_FKC23C:
+		case FK23C:
+			return new MapperFk23c(parent);
+			//return new fceuMMC3(parent,FK23C);
+		case FK23CA:
+			return new MapperFk23ca(parent);
+		case BMC_FK23CA:
+			//return new MapperFk23ca(parent);
+			return new fceuMMC3(parent, FK23CA);
 
-			case  BMC_8157:
-				return new Mapper8157(parent);
+		case SMART_GENIUS:
+			return new MapperSmartGenius(parent);
+			//return new MapperFk23c(parent);
 
-			case CHINA_ER_SAN2://SAN GUO ZHI II HA
-				g_bSan2 = TRUE;
-				return new Mapper019(parent);
+		case  BMC_8157:
+			return new Mapper8157(parent);
 
-			case SACHEN_STREETHEROES:
-				return new fceuMMC3(parent,SACHEN_STREETHEROES);
-			case BMC_SUPER_24IN1:
-				return new fceuMMC3(parent,BMC_SUPER_24IN1);
-				
-			case BMC_T262:
-				return new MapperT262(parent);
+		case CHINA_ER_SAN2://SAN GUO ZHI II HA
+			g_bSan2 = TRUE;
+			return new Mapper019(parent);
 
-			case S74LS374N:
-				return new Sachen(parent,150);
+		case SACHEN_STREETHEROES:
+			return new fceuMMC3(parent, SACHEN_STREETHEROES);
+		case BMC_SUPER_24IN1:
+			return new fceuMMC3(parent, BMC_SUPER_24IN1);
+
+		case BMC_T262:
+			return new MapperT262(parent);
+
+		case S74LS374N:
+			return new Sachen(parent, 150);
 
 			//new dump
-			case UNL_LH09:
-			case UNL_LH10:
-			case UNL_LH32:
-			case UNL_LH52:
-			case UNL_LH53:
-			case UNL_LH764:
-				return new MapperUNL_LH09(parent);
+		case UNL_LH09:
+		case UNL_LH10:
+		case UNL_LH32:
+		case UNL_LH52:
+		case UNL_LH53:
+		case UNL_LH764:
+			return new MapperUNL_LH09(parent);
 
-			case UNL_LE05:
-				return new MapperUNL_LE05(parent);
-			case UNL_BB:
-				return new MapperUNL_BB(parent);
+		case UNL_LE05:
+			return new MapperUNL_LE05(parent);
+		case UNL_BB:
+			return new MapperUNL_BB(parent);
 
-			case UNL_KS7037:
-			case UNL_KS7016:
-			case UNL_KS7017:
-				return new MapperUNL_KS7037(parent);
+		case UNL_KS7037:
+		case UNL_KS7016:
+		case UNL_KS7017:
+			return new MapperUNL_KS7037(parent);
 
-			case BENSHENG_BS5:
-				return new Bs_5(parent);
-			case COOLBOY:
-			case 268:
-				return new BoardCoolBoy(parent);				
-			case UNL_AC08:
-				return new MapperUNL_AC08(parent);
+		case BENSHENG_BS5:
+			return new Bs_5(parent);
+		case COOLBOY:
+		case 268:
+			return new BoardCoolBoy(parent);
+		case UNL_AC08:
+			return new MapperUNL_AC08(parent);
 
-			case UNL_YOKO:
-				return new MapperUNL_YOKO(parent);
+		case UNL_YOKO:
+			return new MapperUNL_YOKO(parent);
 
-			case UNL_FS304:
-				return new MapperUNL_FS304(parent);
+		case UNL_FS304:
+			return new MapperUNL_FS304(parent);
 
-			case UNL_SA_9602B:
-				return new fceuMMC3(parent,UNL_SA_9602B);
-			case WAIXING_FS005:
-				return new WaiXing_FS005(parent);
-			case WAIXING_FW01:
-				return new WaiXing_FW01(parent);
+		case UNL_SA_9602B:
+			return new fceuMMC3(parent, UNL_SA_9602B);
+		case WAIXING_FS005:
+			return new WaiXing_FS005(parent);
+		case WAIXING_FW01:
+			return new WaiXing_FW01(parent);
 
-			case DREAMTECH_01:
-				return new Dream(parent);
+		case DREAMTECH_01:
+			return new Dream(parent);
 
 		}
 		return	new Mapper000(parent);
 		//return NULL;
 	}
-	switch( no ) {
-		case	0:
-			return new Mapper000(parent);
-		case	1:
-			return new Mapper001(parent);
-		case	2:
-			return new Mapper002(parent);
-		case	3:
-			return new Mapper003(parent);
-		case	4:
-			return new Mapper004(parent);
-		case	5:
-			return new Mapper005(parent);
-		case	6:
-			return new Mapper006(parent);
-		case	7:
-			return new Mapper007(parent);
-		case	8:
-			return new Mapper008(parent);
-		case	9:
-			return new Mapper009(parent);
-		case	10:
-			return new Mapper010(parent);
-		case	11:
-			return new Mapper011(parent);
-		case	13:
-			return new Mapper013(parent);
-		case	15:
-			return new Mapper015(parent);
-		case	16:
-			return new Mapper016(parent);
-		case	17:
-			return new Mapper017(parent);
-		case	18:
-			return new Mapper018(parent);
-		case	19:
-			return new Mapper019(parent);
-		case	20:
-			return new Mapper020(parent);
-		case	21:
-			return new Mapper021(parent);
-		case	22:
-			return new Mapper022(parent);
-		case	23:
-			return new Mapper023(parent);
-		case	24:
-			return new Mapper024(parent);
-		case	25:
-			return new Mapper025(parent);
-		case	26:
-			return new Mapper026(parent);
-		case    30:
-			return new WaiXing_FS005(parent);
-		case	32:
-			return new Mapper032(parent);
-		case	33:
-			return new Mapper033(parent);
-		case	34:
-			return new Mapper034(parent);
-		case	35:
-			return new Mapper035(parent);
-		case	40:
-			return new Mapper040(parent);
-		case	41:
-			return new Mapper041(parent);
-		case	42:
-			return new Mapper042(parent);
-		case	43:
-			return new Mapper043(parent);
+	switch (no) {
+	case	0:
+		return new Mapper000(parent);
+	case	1:
+		return new Mapper001(parent);
+	case	2:
+		return new Mapper002(parent);
+	case	3:
+		return new Mapper003(parent);
+	case	4:
+		return new Mapper004(parent);
+	case	5:
+		return new Mapper005(parent);
+	case	6:
+		return new Mapper006(parent);
+	case	7:
+		return new Mapper007(parent);
+	case	8:
+		return new Mapper008(parent);
+	case	9:
+		return new Mapper009(parent);
+	case	10:
+		return new Mapper010(parent);
+	case	11:
+		return new Mapper011(parent);
+	case	13:
+		return new Mapper013(parent);
+	case	15:
+		return new Mapper015(parent);
+	case	16:
+		return new Mapper016(parent);
+	case	17:
+		return new Mapper017(parent);
+	case	18:
+		return new Mapper018(parent);
+	case	19:
+		return new Mapper019(parent);
+	case	20:
+		return new Mapper020(parent);
+	case	21:
+		return new Mapper021(parent);
+	case	22:
+		return new Mapper022(parent);
+	case	23:
+		return new Mapper023(parent);
+	case	24:
+		return new Mapper024(parent);
+	case	25:
+		return new Mapper025(parent);
+	case	26:
+		return new Mapper026(parent);
+	case    30:
+		return new WaiXing_FS005(parent);
+	case	32:
+		return new Mapper032(parent);
+	case	33:
+		return new Mapper033(parent);
+	case	34:
+		return new Mapper034(parent);
+	case	35:
+		return new Mapper035(parent);
+	case	40:
+		return new Mapper040(parent);
+	case	41:
+		return new Mapper041(parent);
+	case	42:
+		return new Mapper042(parent);
+	case	43:
+		return new Mapper043(parent);
 		//case	47:
 		//	return new fceuMMC3(parent,47);
-		case	48:
-			return new Mapper048(parent);
-		case	49:
-			return new fceuMMC3(parent,49);
-		case	52:
-			return new fceuMMC3(parent,52);
-		case	64:
-			return new Mapper064(parent);
-		case	65:
-			return new Mapper065(parent);
-		case	66:
-			return new Mapper066(parent);
-		case	67:
-			return new Mapper067(parent);
-		case	68:
-			return new Mapper068(parent);
-		case	69:
-			return new Mapper069(parent);
-		case	70:
-			return new Mapper070(parent);
-		case	71:
-			return new Mapper071(parent);
-		case	72:
-			return new Mapper072(parent);
-		case	73:
-			return new Mapper073(parent);
-		case	75:
-			return new Mapper075(parent);
-		case	76:
-			return new Mapper076(parent);
-		case	77:
-			return new Mapper077(parent);
-		case	78:
-			return new Mapper078(parent);
-		case	79:
-			return new Mapper079(parent);
-		case	80:
-			return new Mapper080(parent);
-		case	82:
-			return new Mapper082(parent);
-		case	83:
-			return new Mapper083(parent);
-		case	85:
-			return new Mapper085(parent);
-		case	86:
-			return new Mapper086(parent);
-		case	87:
-			return new Mapper087(parent);
-		case	88:
-			return new Mapper088(parent);
-		case	89:
-			return new Mapper089(parent);
-		case	90:
-			return new Mapper090(parent);
-		case	91:
-			return new Mapper091(parent);
-		case	92:
-			return new Mapper092(parent);
-		case	93:
-			return new Mapper093(parent);
-		case	94:
-			return new Mapper094(parent);
-		case	95:
-			return new Mapper095(parent);
-		case	96:
-			return new Mapper096(parent);
-		case	97:
-			return new Mapper097(parent);
-		case	100:
-			return new Mapper100(parent);
-		case	101:
-			return new Mapper101(parent);
-		case	107:
-			return new Mapper107(parent);
-		case	113:
-			return new Mapper113(parent);
-		case	118:
-			return new Mapper118(parent);
-		case	119:
-			return new Mapper119(parent);
-		case	120:
-			return new Mapper120(parent);
-		case	121:
-			return new fceuMMC3(parent,121);
-		case	122:
-		case	184:
-			return new Mapper122(parent);
-		case	175:
-			return new Mapper175(parent);
-		case	176:
-			return new Mapper176(parent);
-		case	177:
-			return new Mapper177(parent);
-		case	178:
-			return new Mapper178(parent);
-		case	180:
-			return new Mapper180(parent);
-		case	181:
-			return new Mapper181(parent);
-		case	185:
-			return new Mapper185(parent);
-		case	187:
-			return new Mapper187(parent);
-		case	188:
-			return new Mapper188(parent);
-		case	189:
-			return new Mapper189(parent);
-		case 205:
-			return new fceuMMC3(parent,205);
-		case	217:
-			return new fceuMMC3(parent,217);
-		case	243:
-			return new Mapper243(parent);
-		case	0x100:
-			return new MapperNSF(parent);
+	case	48:
+		return new Mapper048(parent);
+	case	49:
+		return new fceuMMC3(parent, 49);
+	case	52:
+		return new fceuMMC3(parent, 52);
+	case	64:
+		return new Mapper064(parent);
+	case	65:
+		return new Mapper065(parent);
+	case	66:
+		return new Mapper066(parent);
+	case	67:
+		return new Mapper067(parent);
+	case	68:
+		return new Mapper068(parent);
+	case	69:
+		return new Mapper069(parent);
+	case	70:
+		return new Mapper070(parent);
+	case	71:
+		return new Mapper071(parent);
+	case	72:
+		return new Mapper072(parent);
+	case	73:
+		return new Mapper073(parent);
+	case	75:
+		return new Mapper075(parent);
+	case	76:
+		return new Mapper076(parent);
+	case	77:
+		return new Mapper077(parent);
+	case	78:
+		return new Mapper078(parent);
+	case	79:
+		return new Mapper079(parent);
+	case	80:
+		return new Mapper080(parent);
+	case	82:
+		return new Mapper082(parent);
+	case	83:
+		return new Mapper083(parent);
+	case	85:
+		return new Mapper085(parent);
+	case	86:
+		return new Mapper086(parent);
+	case	87:
+		return new Mapper087(parent);
+	case	88:
+		return new Mapper088(parent);
+	case	89:
+		return new Mapper089(parent);
+	case	90:
+		return new Mapper090(parent);
+	case	91:
+		return new Mapper091(parent);
+	case	92:
+		return new Mapper092(parent);
+	case	93:
+		return new Mapper093(parent);
+	case	94:
+		return new Mapper094(parent);
+	case	95:
+		return new Mapper095(parent);
+	case	96:
+		return new Mapper096(parent);
+	case	97:
+		return new Mapper097(parent);
+	case	100:
+		return new Mapper100(parent);
+	case	101:
+		return new Mapper101(parent);
+	case	107:
+		return new Mapper107(parent);
+	case	113:
+		return new Mapper113(parent);
+	case	118:
+		return new Mapper118(parent);
+	case	119:
+		return new Mapper119(parent);
+	case	120:
+		return new Mapper120(parent);
+	case	121:
+		return new fceuMMC3(parent, 121);
+	case	122:
+	case	184:
+		return new Mapper122(parent);
+	case	175:
+		return new Mapper175(parent);
+	case	176:
+		return new Mapper176(parent);
+	case	177:
+		return new Mapper177(parent);
+	case	178:
+		return new Mapper178(parent);
+	case	180:
+		return new Mapper180(parent);
+	case	181:
+		return new Mapper181(parent);
+	case	185:
+		return new Mapper185(parent);
+	case	187:
+		return new Mapper187(parent);
+	case	188:
+		return new Mapper188(parent);
+	case	189:
+		return new Mapper189(parent);
+	case 205:
+		return new fceuMMC3(parent, 205);
+	case	217:
+		return new fceuMMC3(parent, 217);
+	case	243:
+		return new Mapper243(parent);
+	case	0x100:
+		return new MapperNSF(parent);
 
-		case	44:
-			return new Mapper044(parent);
-		case	45:
-			return new Mapper045(parent);
-		case	46:
-			return new Mapper046(parent);
-		case	47:
-			return new Mapper047(parent);
-		case	50:
-			return new Mapper050(parent);
-		case	51:
-			return new Mapper051(parent);
-		case	57:
-			return new Mapper057(parent);
-		case	58:
-			return new Mapper058(parent);
-		case	60:
-			return new Mapper060(parent);
-		case	62:
-			return new Mapper062(parent);
-		case	74:
-			return new Mapper074(parent);
-		case	105:
-			return new Mapper105(parent);
-		case	108:
-			return new Mapper108(parent);
-		case	109:
-			return new Mapper109(parent);
-		case	110:
-			return new Mapper110(parent);
-		case	111:
-			return new Mapper111(parent);
-		case	112:
-			return new Mapper112(parent);
-		case	114:
-			return new Mapper114(parent);
-		case	115:
-			return new Mapper115(parent);
-		case	116:
-			if( (PROM_16K_SIZE==8) &&(VROM_8K_SIZE==64) )
-			{
-				return new Mapper116(parent);
-			}
-			return new Mapper116B(parent);
-		case	117:
-			return new Mapper117(parent);
-		case	132:
-			return new Mapper132(parent);
-		case	133:
-			return new Mapper133(parent);
-		case	134:
-			//return new Mapper134(parent);
-			return new fceuMMC3(parent,134);
-		case	135:
-			return new Mapper135(parent);
-		case	140:
-			return new Mapper140(parent);
-		case	141:
-			return new Mapper141(parent);
-		case	142:
-			return new Mapper142(parent);
-		case	146:
-			return new Sachen(parent,146);
-		case	147:
-			return new Sachen(parent,147);
-		case	148:
-			return new Sachen(parent,148);
-		case	149:
-			return new Sachen(parent,149);
-		case	150:
-			return new Sachen(parent,150);
-		case	160:
-			return new Mapper160(parent);
-		case	162:
-			return new Mapper162(parent);
-		case	163:
-			return new Mapper163(parent);
-		case	182:
-			return new Mapper182(parent);
-		case	183:
-			return new Mapper183(parent);
-		case	190:
-			return new Mapper190(parent);
-		case	191:
-			return new Mapper191(parent);
-		case	192:
-			return new Mapper192(parent);
-		case	193:
-			return new Mapper193(parent);
-		case	194:
-			return new Mapper194(parent);
-		case	195:
-			return new Mapper195(parent);
-		case	198:
-			return new Mapper198(parent);
-		case	199:
-			return new Mapper199(parent);
-		case	212:
-			return new Mapper212(parent);
-		case	216:
-			return new Mapper216(parent);
-		case	220:
-			return new Mapper220(parent);
-		case	222:
-			return new Mapper222(parent);
-		case	225:
-			return new Mapper225(parent);
-		case	226:
-			return new Mapper226(parent);
-		case	227:
-			return new Mapper227(parent);
-		case	228:
-			return new Mapper228(parent);
-		case	229:
-			return new Mapper229(parent);
-		case	230:
-			return new Mapper230(parent);
-		case	231:
-			return new Mapper231(parent);
-		case	232:
-			return new Mapper232(parent);
-		case	233:
-			return new Mapper233(parent);
-		case	234:
-			return new Mapper234(parent);
-		case	235:
-			return new Mapper235(parent);
-		case	236:
-			return new Mapper236(parent);
-		case	237:
-			return new Mapper237(parent);
-		case	240:
-			return new Mapper240(parent);
-		case	241:
-			return new Mapper241(parent);
-		case	242:
-			return new Mapper242(parent);
-		case	244:
-			return new Mapper244(parent);
-		case	245:
-			return new Mapper245(parent);
-		case	246:
-			return new Mapper246(parent);
-		case	248:
-			return new Mapper248(parent);
-		case	249:
-			return new Mapper249(parent);
-		case	251:
-			return new Mapper251(parent);
-		case	252:
-			return new Mapper252(parent);
-		case	253:
-			return new Mapper253(parent);
-		case	254:
-			return new Mapper254(parent);
-		case	255:
-			return new Mapper255(parent);
+	case	44:
+		return new Mapper044(parent);
+	case	45:
+		return new Mapper045(parent);
+	case	46:
+		return new Mapper046(parent);
+	case	47:
+		return new Mapper047(parent);
+	case	50:
+		return new Mapper050(parent);
+	case	51:
+		return new Mapper051(parent);
+	case	57:
+		return new Mapper057(parent);
+	case	58:
+		return new Mapper058(parent);
+	case	60:
+		return new Mapper060(parent);
+	case	62:
+		return new Mapper062(parent);
+	case	74:
+		return new Mapper074(parent);
+	case	105:
+		return new Mapper105(parent);
+	case	108:
+		return new Mapper108(parent);
+	case	109:
+		return new Mapper109(parent);
+	case	110:
+		return new Mapper110(parent);
+	case	111:
+		return new Mapper111(parent);
+	case	112:
+		return new Mapper112(parent);
+	case	114:
+		return new Mapper114(parent);
+	case	115:
+		return new Mapper115(parent);
+	case	116:
+		if ((PROM_16K_SIZE == 8) && (VROM_8K_SIZE == 64))
+		{
+			return new Mapper116(parent);
+		}
+		return new Mapper116B(parent);
+	case	117:
+		return new Mapper117(parent);
+	case	132:
+		return new Mapper132(parent);
+	case	133:
+		return new Mapper133(parent);
+	case	134:
+		//return new Mapper134(parent);
+		return new fceuMMC3(parent, 134);
+	case	135:
+		return new Mapper135(parent);
+	case	140:
+		return new Mapper140(parent);
+	case	141:
+		return new Mapper141(parent);
+	case	142:
+		return new Mapper142(parent);
+	case	146:
+		return new Sachen(parent, 146);
+	case	147:
+		return new Sachen(parent, 147);
+	case	148:
+		return new Sachen(parent, 148);
+	case	149:
+		return new Sachen(parent, 149);
+	case	150:
+		return new Sachen(parent, 150);
+	case	160:
+		return new Mapper160(parent);
+	case	162:
+		return new Mapper162(parent);
+	case	163:
+		return new Mapper163(parent);
+	case	182:
+		return new Mapper182(parent);
+	case	183:
+		return new Mapper183(parent);
+	case	190:
+		return new Mapper190(parent);
+	case	191:
+		return new Mapper191(parent);
+	case	192:
+		return new Mapper192(parent);
+	case	193:
+		return new Mapper193(parent);
+	case	194:
+		return new Mapper194(parent);
+	case	195:
+		return new Mapper195(parent);
+	case	198:
+		return new Mapper198(parent);
+	case	199:
+		return new Mapper199(parent);
+	case	212:
+		return new Mapper212(parent);
+	case	216:
+		return new Mapper216(parent);
+	case	220:
+		return new Mapper220(parent);
+	case	222:
+		return new Mapper222(parent);
+	case	225:
+		return new Mapper225(parent);
+	case	226:
+		return new Mapper226(parent);
+	case	227:
+		return new Mapper227(parent);
+	case	228:
+		return new Mapper228(parent);
+	case	229:
+		return new Mapper229(parent);
+	case	230:
+		return new Mapper230(parent);
+	case	231:
+		return new Mapper231(parent);
+	case	232:
+		return new Mapper232(parent);
+	case	233:
+		return new Mapper233(parent);
+	case	234:
+		return new Mapper234(parent);
+	case	235:
+		return new Mapper235(parent);
+	case	236:
+		return new Mapper236(parent);
+	case	237:
+		return new Mapper237(parent);
+	case	240:
+		return new Mapper240(parent);
+	case	241:
+		return new Mapper241(parent);
+	case	242:
+		return new Mapper242(parent);
+	case	244:
+		return new Mapper244(parent);
+	case	245:
+		return new Mapper245(parent);
+	case	246:
+		return new Mapper246(parent);
+	case	248:
+		return new Mapper248(parent);
+	case	249:
+		return new Mapper249(parent);
+	case	251:
+		return new Mapper251(parent);
+	case	252:
+		return new Mapper252(parent);
+	case	253:
+		return new Mapper253(parent);
+	case	254:
+		return new Mapper254(parent);
+	case	255:
+		return new Mapper255(parent);
 
-		case	99:
-			return new Mapper099(parent);
-		case	151:
-			return new Mapper151(parent);
-		case	156:
-			return new Mapper156(parent);
+	case	99:
+		return new Mapper099(parent);
+	case	151:
+		return new Mapper151(parent);
+	case	156:
+		return new Mapper156(parent);
 
-		case	12:
-			return new Mapper012(parent);
+	case	12:
+		return new Mapper012(parent);
 
-		case	200:
-			return new Mapper200(parent);
-		case	201:
-			return new Mapper201(parent);
-		case	202:
-			return new Mapper202(parent);
+	case	200:
+		return new Mapper200(parent);
+	case	201:
+		return new Mapper201(parent);
+	case	202:
+		return new Mapper202(parent);
 
-		case	61:
-			return new Mapper061(parent);
+	case	61:
+		return new Mapper061(parent);
 
-		case	27:
-			return new Mapper027(parent);
+	case	27:
+		return new Mapper027(parent);
 
-		case	164:
-			return new Mapper164(parent);
-		case	165:
-			return new Mapper165(parent);
-		case	166:
-			return new Mapper166(parent);
-		case	167:
-			return new Mapper167(parent);
-		case	168:
-			return new MapperSubor999(parent);
-		case	169:
-			return new Mapper169(parent);
-		case	170:
-			return new Mapper170(parent);
-		case	171:
-			return new Mapper171(parent);
-		case	172:
-			return new Mapper172(parent);
-		case	173:
-			return new Mapper173(parent);
-		case	174:
-			return new Mapper174(parent);
-		case	179:
-			return new Mapper179(parent);
-		case	632:	//SUBOR_999:
-			return new MapperSubor999(parent);
+	case	164:
+		return new Mapper164(parent);
+	case	165:
+		return new Mapper165(parent);
+	case	166:
+		return new Mapper166(parent);
+	case	167:
+		return new Mapper167(parent);
+	case	168:
+		return new MapperSubor999(parent);
+	case	169:
+		return new Mapper169(parent);
+	case	170:
+		return new Mapper170(parent);
+	case	171:
+		return new Mapper171(parent);
+	case	172:
+		return new Mapper172(parent);
+	case	173:
+		return new Mapper173(parent);
+	case	174:
+		return new Mapper174(parent);
+	case	179:
+		return new Mapper179(parent);
+	case	632:	//SUBOR_999:
+		return new MapperSubor999(parent);
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	return	new Mapper000(parent);

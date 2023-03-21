@@ -31,6 +31,7 @@
 #include "apu.h"
 #include "pad.h"
 #include "rom.h"
+#include "unif.h"
 #include "mapper.h"
 
 #include "DirectDraw.h"

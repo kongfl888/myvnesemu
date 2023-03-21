@@ -439,7 +439,7 @@ INT	i;
 	nes->SetFrameIRQmode( FALSE );
 
 	// NTSC/PAL tune
-	nes->SetVideoMode( (nsfheader.NTSC_PALbits&0x01)?TRUE:FALSE );
+	nes->SetVideoMode( (nsfheader.NTSC_PALbits&0x01)?0:1 );
 
 	// Žü”g”->Keyƒe[ƒuƒ‹‚Ìì¬
 	for( i = 0; i < 12*8+1; i++ ) {

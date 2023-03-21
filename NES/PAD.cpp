@@ -111,7 +111,7 @@ void	PAD::Reset()
 	 || crc == 0x82F1Fb96		// Supor Computer(Russia) V1.0
 	 || crc == 0xd5d6eac4 ) {	// EDU(C) Computer
 		SetExController( EXCONTROLLER_SUPOR_KEYBOARD );
-		nes->SetVideoMode( TRUE );
+		nes->SetVideoMode( 1 );
 	}
 	if( crc == 0xc68363f6		// Crazy Climber(J)
 	 || crc == 0x2989ead6		// Smash TV(U) [!]

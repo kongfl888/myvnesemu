@@ -759,13 +759,13 @@ public:
 	INT	defRenderMethod;
 	INT	defIRQtype;
 	BOOL	defFrameIRQ;
-	BOOL	defVideoMode;
+	INT	defVideoMode;
 
 	// ÉfÅ[É^
 	INT	nRenderMethod;
 	INT	nIRQtype;
 	BOOL	bFrameIRQ;
-	BOOL	bVideoMode;
+	INT	nVideoMode;
 protected:
 private:
 };

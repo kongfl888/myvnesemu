@@ -61,6 +61,33 @@ NESCONFIG NESCONFIG_NTSC = {
 };
 
 NESCONFIG NESCONFIG_PAL = {
+	21281364.0f,		// Base clock
+//	26601714.0f,		// Base clock
+	1773447.0f,		// Cpu clock
+//	1662607.125f,		// Cpu clock
+
+	312,			// Total scanlines
+	241,			// VBlank start line
+
+	1362,			// Scanline total cycles(15.625KHz)
+//	1278,			// Scanline total cycles(15.625KHz)
+
+	1024,			// H-Draw cycles
+//	960,			// H-Draw cycles
+	338,			// H-Blank cycles
+//	318,			// H-Blank cycles
+	2,			// End cycles
+
+	1362*312,		// Frame cycles
+//	1278*312,		// Frame cycles
+	35469,			// FrameIRQ cycles
+//	33252,			// FrameIRQ cycles
+
+	50,			// Frame rate(Hz)
+	1000.0f/50.0f		// Frame period(ms)
+};
+
+NESCONFIG NESCONFIG_PAL2 = {
 //	21281364.0f,		// Base clock
 	26601714.0f,		// Base clock
 //	1773447.0f,		// Cpu clock
@@ -82,6 +109,26 @@ NESCONFIG NESCONFIG_PAL = {
 	1278*312,		// Frame cycles
 //	35469,			// FrameIRQ cycles
 	33252,			// FrameIRQ cycles
+
+	50,			// Frame rate(Hz)
+	1000.0f/50.0f		// Frame period(ms)
+};
+
+NESCONFIG NESCONFIG_PAL3 = {
+	21281364.0f,		// Base clock
+	1773447.0f,		// Cpu clock
+
+	313,			// Total scanlines
+	291,			// VBlank start line
+
+	1362,			// Scanline total cycles(15.625KHz)
+
+	1024,			// H-Draw cycles
+	338,			// H-Blank cycles
+	2,			// End cycles
+
+	1362*313,		// Frame cycles
+	35469,			// FrameIRQ cycles
 
 	50,			// Frame rate(Hz)
 	1000.0f/50.0f		// Frame period(ms)
@@ -179,7 +226,7 @@ NES::NES( const char* fname )
 	bFrameIRQ = TRUE;
 
 	// NTSC/PAL VideoMode
-	bVideoMode = FALSE;
+	nVideoMode = 0;
 
 	// Default config
 	nescfg = &NESCONFIG_NTSC;
@@ -331,7 +378,7 @@ NES::NES( const char* fname )
 		SetRenderMethod( (RENDERMETHOD)GameOption.nRenderMethod );
 		SetIrqType     ( GameOption.nIRQtype );
 		SetFrameIRQmode( GameOption.bFrameIRQ );
-		SetVideoMode   ( GameOption.bVideoMode );
+		SetVideoMode   ( GameOption.nVideoMode );
 	} catch( CHAR* str ) {
 		DELETEPTR( cpu );
 		DELETEPTR( ppu );
@@ -378,16 +425,20 @@ NES::~NES()
 }
 
 extern INT	 g_UnfTVMode;
-void	NES::SetVideoMode( BOOL bMode )
+void	NES::SetVideoMode( INT nMode )
 {	
 	if(g_UnfTVMode!=-1)
-		bVideoMode = g_UnfTVMode;
+		nVideoMode = g_UnfTVMode;
 	else
-		bVideoMode = bMode;
-	if( !bVideoMode ) {
+		nVideoMode = nMode;
+	if( nVideoMode==0 ) {
 		nescfg = &NESCONFIG_NTSC;
-	} else {
+	}else if(nVideoMode==1){
 		nescfg = &NESCONFIG_PAL;
+	}else if(nVideoMode==2){
+		nescfg = &NESCONFIG_PAL2;
+	}else if(nVideoMode==3){
+		nescfg = &NESCONFIG_PAL3;
 	}
 	apu->SoundSetup();
 }
@@ -425,7 +476,7 @@ void	NES::Reset()
 	SetRenderMethod( PRE_RENDER );
 
 	if( rom->IsPAL() ) {
-		SetVideoMode( TRUE );
+		SetVideoMode( 1 );
 	}
 
 	PROM = rom->GetPROM();
@@ -2800,7 +2851,7 @@ DEBUGOUT( "NES::MoviePlay\n" );
 		SetRenderMethod( (RENDERMETHOD)m_hedMovie.RenderMethod );
 		SetIrqType( (INT)m_hedMovie.IRQtype );
 		SetFrameIRQmode( (m_hedMovie.FrameIRQ!=0)?TRUE:FALSE );
-		SetVideoMode( (m_hedMovie.VideoMode!=0)?TRUE:FALSE );
+		SetVideoMode( m_hedMovie.VideoMode );
 
 		LONG	MovieOffset;
 		m_MovieControl   = m_hedMovie.Control;

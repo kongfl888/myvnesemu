@@ -51,14 +51,14 @@ void	CGameOptionDlg::OnInitialMember()
 		CApp::LoadString( i, szStr, sizeof(szStr) );
 		::SendDlgItemMessage( m_hWnd, IDC_OPT_IRQTYPE_COMBO, CB_INSERTSTRING, (WPARAM)j, (LPARAM)szStr );
 	}
-	for( i = IDS_OPT_VIDEOMODE_NTSC, j = 0; i <= IDS_OPT_VIDEOMODE_PAL; i++, j++ ) {
+	for( i = IDS_OPT_VIDEOMODE_NTSC, j = 0; i <= IDS_OPT_VIDEOMODE_PAL3; i++, j++ ) {
 		CApp::LoadString( i, szStr, sizeof(szStr) );
 		::SendDlgItemMessage( m_hWnd, IDC_OPT_VIDEOMODE_COMBO, CB_INSERTSTRING, (WPARAM)j, (LPARAM)szStr );
 	}
 
 	::SendDlgItemMessage( m_hWnd, IDC_OPT_RENDER_COMBO, CB_SETCURSEL, (WPARAM)GameOption.nRenderMethod, 0 );
 	::SendDlgItemMessage( m_hWnd, IDC_OPT_IRQTYPE_COMBO, CB_SETCURSEL, (WPARAM)GameOption.nIRQtype, 0 );
-	::SendDlgItemMessage( m_hWnd, IDC_OPT_VIDEOMODE_COMBO, CB_SETCURSEL, (WPARAM)(GameOption.bVideoMode?1:0), 0 );
+	::SendDlgItemMessage( m_hWnd, IDC_OPT_VIDEOMODE_COMBO, CB_SETCURSEL, (WPARAM)GameOption.nVideoMode, 0 );
 
 	BTNCHECK( IDC_OPT_FRAMEIRQ, !GameOption.bFrameIRQ );
 }
@@ -79,14 +79,14 @@ DLGCMD	CGameOptionDlg::OnOK( DLGCMDPARAM )
 	GameOption.nRenderMethod = ::SendDlgItemMessage( m_hWnd, IDC_OPT_RENDER_COMBO, CB_GETCURSEL, 0, 0 );
 	GameOption.nIRQtype      = ::SendDlgItemMessage( m_hWnd, IDC_OPT_IRQTYPE_COMBO, CB_GETCURSEL, 0, 0 );
 	ret = ::SendDlgItemMessage( m_hWnd, IDC_OPT_VIDEOMODE_COMBO, CB_GETCURSEL, 0, 0 );
-	GameOption.bVideoMode = (ret == 0)?FALSE:TRUE;
+	GameOption.nVideoMode = (ret > 3)?0:ret;
 	GameOption.bFrameIRQ = !IsBTNCHECK( IDC_OPT_FRAMEIRQ );
 
 	// Ý’è‚µ‚é
 	Emu.GetNES()->SetRenderMethod( (NES::RENDERMETHOD)GameOption.nRenderMethod );
 	Emu.GetNES()->SetIrqType     ( GameOption.nIRQtype );
 	Emu.GetNES()->SetFrameIRQmode( GameOption.bFrameIRQ );
-	Emu.GetNES()->SetVideoMode   ( GameOption.bVideoMode );
+	Emu.GetNES()->SetVideoMode   ( GameOption.nVideoMode );
 
 	// ƒZ[ƒu
 	if( Emu.GetNES()->rom->GetMapperNo() == 20 ) {
@@ -113,7 +113,7 @@ DLGCMD	CGameOptionDlg::OnDefault( DLGCMDPARAM )
 	GameOption.nRenderMethod = GameOption.defRenderMethod;
 	GameOption.nIRQtype      = GameOption.defIRQtype;
 	GameOption.bFrameIRQ     = GameOption.defFrameIRQ;
-	GameOption.bVideoMode    = GameOption.defVideoMode;
+	GameOption.nVideoMode    = GameOption.defVideoMode;
 
 	OnInitialMember();
 }
@@ -126,14 +126,14 @@ DLGCMD	CGameOptionDlg::OnNotSave( DLGCMDPARAM )
 	GameOption.nRenderMethod = ::SendDlgItemMessage( m_hWnd, IDC_OPT_RENDER_COMBO, CB_GETCURSEL, 0, 0 );
 	GameOption.nIRQtype      = ::SendDlgItemMessage( m_hWnd, IDC_OPT_IRQTYPE_COMBO, CB_GETCURSEL, 0, 0 );
 	ret = ::SendDlgItemMessage( m_hWnd, IDC_OPT_VIDEOMODE_COMBO, CB_GETCURSEL, 0, 0 );
-	GameOption.bVideoMode = (ret == 0)?FALSE:TRUE;
+	GameOption.nVideoMode = (ret > 3)?0:ret;
 	GameOption.bFrameIRQ = !IsBTNCHECK( IDC_OPT_FRAMEIRQ );
 
 	// Ý’è‚µ‚é
 	Emu.GetNES()->SetRenderMethod( (NES::RENDERMETHOD)GameOption.nRenderMethod );
 	Emu.GetNES()->SetIrqType     ( GameOption.nIRQtype );
 	Emu.GetNES()->SetFrameIRQmode( GameOption.bFrameIRQ );
-	Emu.GetNES()->SetVideoMode   ( GameOption.bVideoMode );
+	Emu.GetNES()->SetVideoMode   ( GameOption.nVideoMode );
 
 	::EndDialog( m_hWnd, IDOK );
 }

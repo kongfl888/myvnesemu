@@ -115,8 +115,8 @@ public:
 	BOOL	GetFrameIRQmode() { return bFrameIRQ; }
 
 	// NTSC/PAL
-	void	SetVideoMode( BOOL bMode );
-	BOOL	GetVideoMode() { return bVideoMode; }
+	void	SetVideoMode( INT nMode );
+	INT	GetVideoMode() { return nVideoMode; }
 
 	//
 	INT	GetDiskNo();
@@ -281,7 +281,7 @@ protected:
 protected:
 // ÉÅÉìÉoïœêî
 	INT	nIRQtype;
-	BOOL	bVideoMode;
+	INT	nVideoMode;
 	BOOL	bFrameIRQ;
 
 	BOOL	bZapper;

@@ -24,8 +24,8 @@ protected:
 	BYTE	prg[4];
 	BYTE	chr[8];
 	BYTE	we_sram;
+	BYTE	JMaddr, JMaddrDAT[3];
 
-	BYTE	irq_type;
 	BYTE	irq_enable;
 	BYTE	irq_counter;
 	BYTE	irq_latch;

@@ -792,7 +792,7 @@ void	CGameOption::Load( DWORD crc )
 	nRenderMethod =       CRegistry::GetProfileInt( szSection, "RenderMethod",    defRenderMethod );
 	nIRQtype      =       CRegistry::GetProfileInt( szSection, "IRQtype",         defIRQtype );
 	bFrameIRQ     = (BOOL)CRegistry::GetProfileInt( szSection, "FrameIRQ",        defFrameIRQ );
-	bVideoMode    = (BOOL)CRegistry::GetProfileInt( szSection, "VideoMode",       defVideoMode );
+	nVideoMode    = CRegistry::GetProfileInt( szSection, "VideoMode",       defVideoMode );
 }
 
 void	CGameOption::Save( LPCSTR name, DWORD crc )
@@ -805,7 +805,7 @@ void	CGameOption::Save( LPCSTR name, DWORD crc )
 	CRegistry::WriteProfileInt( szSection, "RenderMethod",    nRenderMethod );
 	CRegistry::WriteProfileInt( szSection, "IRQtype",         nIRQtype );
 	CRegistry::WriteProfileInt( szSection, "FrameIRQ",        (INT)bFrameIRQ );
-	CRegistry::WriteProfileInt( szSection, "VideoMode",       (INT)bVideoMode );
+	CRegistry::WriteProfileInt( szSection, "VideoMode",       nVideoMode );
 }
 
 void	CGameOption::Load( DWORD gid, DWORD mid )

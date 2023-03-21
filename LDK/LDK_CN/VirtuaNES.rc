@@ -1538,7 +1538,7 @@ STRINGTABLE DISCARDABLE
 BEGIN
     IDS_ERROR_ILLEGALMAPPERNO 
                             "请指定 Mapper 的值,范围为从 0 到 255。"
-    IDS_ERROR_ILLEGALHEADER "为这个 NES 头部是非法的,\n 那样可能无法正常的运行。\n要执行吗?"
+    IDS_ERROR_ILLEGALHEADER "检测到游戏文件头不合规范,\n 可能无法正常地运行。\n要执行吗?"
     IDS_ERROR_ILLEGALSTATECRC 
                             "因为与已记录的CRC有不同,\n 那样可能无法正常的读取。\n要读取吗?"
     IDS_ERROR_ILLEGALMOVIECRC 

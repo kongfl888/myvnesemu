@@ -109,6 +109,7 @@ PPU::PPU( NES* parent ) : nes(parent)
 	bVSMode = FALSE;
 	nVSColorMap = -1;
 	VSSecurityData = 0;
+	bVromWe = 0;
 
 	// 左右反転マスクテーブル
 	for( INT i = 0; i < 256; i++ ) {
@@ -217,6 +218,9 @@ void	PPU::Write( WORD addr, BYTE data )
 
 	switch( addr ) {
 		// Read only Register
+		case	0x2008:
+			//for SB2000
+			break;
 		case	0x2002: // PPU Status register(R)
 			break;
 		// Write Register
@@ -307,12 +311,31 @@ void	PPU::Write( WORD addr, BYTE data )
 				}
 				vaddr &= 0xEFFF;
 			}
-			
+
 			//loopy_v  vaddr
 			nes->mapper->PpuWrite(vaddr,data);
 			//if( PPU_MEM_TYPE[vaddr>>10] != BANKTYPE_VROM ) {
 				//PPU_MEM_BANK[vaddr>>10][vaddr&0x03FF] = data;
 			//}
+
+			break;
+		case	0x2010:
+		case	0x2011:
+		case	0x2012:
+		case	0x2013:
+		case	0x2014:
+		case	0x2015:
+		case	0x2016:
+		case	0x2017:
+		case	0x2018:
+		case	0x2019:
+		case	0x201A:
+		case	0x201B:
+		case	0x201C:
+		case	0x201D:
+		case	0x201E:
+		case	0x201F:
+			nes->mapper->WriteExPPU(addr, data);
 			break;
 	}
 }
@@ -404,9 +427,11 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 {
 BYTE	BGwrite[33+1];
 BYTE	BGmono[33+1];
+BYTE	sppadr_offset;	//for YuXing and PYRAMID
 
 	ZEROMEMORY( BGwrite, sizeof(BGwrite) );
 	ZEROMEMORY( BGmono, sizeof(BGmono) );
+	sppadr_offset = 0;
 
 	// Linecolor mode
 	lpColormode[scanline] = ((PPUREG[1]&PPU_BGCOLOR_BIT)>>5)|((PPUREG[1]&PPU_COLORMODE_BIT)<<7);
@@ -497,6 +522,8 @@ BYTE	BGmono[33+1];
 				BYTE	cache_attr = 0xFF;
 
 				BYTE	chr_h, chr_l, attr, exattr;
+
+				sppadr_offset = nes->mapper->PPU_ExtLatchSP();	//for YuXing and PYRAMID
 
 				for( INT i = 0; i < 33; i++ ) {
 					nes->mapper->PPU_ExtLatchX( i );
@@ -687,6 +714,8 @@ BYTE	BGmono[33+1];
 
 				BYTE	chr_h, chr_l, attr, exattr;
 
+				sppadr_offset = nes->mapper->PPU_ExtLatchSP();	//for YuXing and PYRAMID
+
 				for( INT i = 0; i < 33; i++ ) {
 					if( i != 0 ) {
 						nes->EmulationCPU( FETCH_CYCLES*4 );
@@ -837,7 +866,7 @@ BYTE	BGmono[33+1];
 		}
 
 		// Attribute
-		LPBYTE	pSPPAL = &SPPAL[(sp->attr&SP_COLOR_BIT)<<2];
+		LPBYTE	pSPPAL = &SPPAL[(sp->attr&SP_COLOR_BIT)<<2] + sppadr_offset;	//"sppadr_offset" for YuXing and PYRAMID
 		// Ptr
 		LPBYTE	pScn   = lpScanline+sp->x+8;
 

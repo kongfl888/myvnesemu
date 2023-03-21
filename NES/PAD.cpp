@@ -190,6 +190,105 @@ void	PAD::Reset()
 		SetExController( EXCONTROLLER_GYROMITE );
 	}
 
+	if( crc == 0xf9def527		// Family BASIC(Ver2.0)
+	 || crc == 0xde34526e		// Family BASIC(Ver2.1a)
+	 || crc == 0xf050b611		// Family BASIC(Ver3)
+	 || crc == 0x3aaeed3f ) {	// Family BASIC(Ver3)(Alt)
+		SetExController( EXCONTROLLER_KEYBOARD );
+	}
+
+	if( crc == 0x82F1Fb96		// [Subor] Subor V1.0 (Russian) [Mapper167]
+	 || crc == 0xAA044941		// [Subor] Subor Win2000 (Russian)
+	 || crc == 0xE4460DF2		// [Subor] Subor V1.1 (C)
+	 || crc == 0x0930349E		// [Subor] Subor V3.0 (C) (With Dr.Mario)
+	 || crc == 0x6733607A		// [Subor] Subor V3.0 (C) (With Chinese Chess)
+	 || crc == 0x589b6b0d		// [Subor] Subor V3.0 tpu
+	 || crc == 0x41EF9AC4		// [Subor] Subor V4.0 (C)
+	 || crc == 0x41401c6d		// [Subor] Subor V4.0 tpu
+	 || crc == 0x85068811		// [Subor] Subor V6.0 (C)
+	 || crc == 0x04260DBC		// [Subor] Subor V7.0 (C)
+	 || crc == 0xE475D89A		// [Subor] Subor V9.0 (C)
+	 || crc == 0x900D9E00		// [Subor] Subor V9.1 (C)
+	 || crc == 0x6F84076D		// [Subor] Subor V10.0 (C)
+	 || crc == 0x12D61CE8		// [Subor] Subor V11.0 (C)
+	 || crc == 0x5F693117		// [Subor] Subor V13.0 (C)
+	 || crc == 0xF18BC238		// [Subor] Subor V14.0 (C)
+	 || crc == 0x366C20D7		// [Subor] Subor LOGO V1.0 (C)
+	 || crc == 0x5E073A1B		// [Subor] Subor English Word Blaster V1.0 (C)
+	 || crc == 0x8b265862		// [Subor] Subor English tpu
+	 || crc == 0xF9BC83B9		// [Subor] Cang Ku Shi Jia & Dong Nao Jin (C)
+	 || crc == 0x669A32F2		// [Subor] Ma Bu Mi Zhen & Qu Wei Cheng Yu Wu (C)
+	 || crc == 0x40139EE3		// [Subor] Tu Xing Tui Li & Zhi Li Pin Tu (C)
+	 || crc == 0x3C8F92BD		// [Subor] Zheng Fu Tai Yang Xi & Xiao Guan Jia (C)
+	 || crc == 0x0A9329B5		// [Subor] Qi Zhi Wu A (C)
+	 || crc == 0x15058291		// [Subor] Qi Zhi Wu B (C)
+	 || crc == 0x60E33D27		// [Subor] Ren Shi Ma Xue Xi (C)
+	 || crc == 0xD3906F32		// [Subor] Xiao Xue Shu Xue Jiao Shou Xi Tong - San Nian Ji (C)
+	 || crc == 0x40A4C574		// [Subor] Yu Yin Zhi Xing Sheng Ji Mu Ka (C)
+	 || crc == 0xCA501706		// [Subor] Yu Yin Zhi Xing Sheng Ji Mu Ka + You Sheng Ci Ba (C)
+	 || crc == 0xFDD9321C		// [Subor] Yu Yin Zhi Xing Sheng Ji Mu Ka + Xiao Xue Yu Wen Da Biao Le Yuan (C)
+
+	 || crc == 0x6A21D8F8		// [BenLi] Ben Li Dian Nao Ka (C)-1
+	 || crc == 0x827207FD		// [BenLi] Ben Li Dian Nao Ka (C)-2
+	 || crc == 0xDD150A3C		// [SB-918] Xue Sheng Dian Nao (C)
+	 || crc == 0x45A9F4E5		// Chao Ba Dian Nao (C)
+
+	 || crc == 0xE90A6AEB		// Jin Ka Wang - Xue Dian Nao (C)
+	 || crc == 0x2AF63A19		// RONG FENG - Study Card (C)
+	 || crc == 0x957ABE27		// Sheng Ba Ka (C)
+	 || crc == 0x2726FC11		// [FengLi] Jin Ka Wang (C)
+
+	 || crc == 0xb3d11a3c		// BBK bios V1.0
+	 || crc == 0x9c7d4833		// BBK bios V2.0
+
+	 || crc == 0xd5d6eac4 ) {	// EDU Computer (C)
+		SetExController( EXCONTROLLER_Subor_KEYBOARD );
+		nes->SetVideoMode( 2 );
+	}
+
+	if( crc == 0xAC7E98FB		// [PYRAMID] PEC-586 Computer & Game (C)_NoTapeOut
+	 || crc == 0x6EEF8BB7		// [PYRAMID] PEC-586 Computer & Game (C)
+	 || crc == 0x05F958C4		// [PYRAMID] PEC-686F Computer & Game (C)
+	 || crc == 0xFE31765B		// [PYRAMID] PEC-9588 Computer & Game (C)
+	 || crc == 0x42F89EFD ) {	//
+		SetExController( EXCONTROLLER_PEC_KEYBOARD );
+	}
+
+	if( crc == 0xAC11B570		// [Kingwon] Jin Ka V5.0 (C)
+	 || crc == 0x8D51A23B		// [KeWang] Chao Ji Wu Bi Han Ka (C) V1
+	 || crc == 0x2CD32DB0		// [KeWang] Dian Nao Xue Xi Ka III (C)
+	 || crc == 0xE4284379 ) {	// [PATTER] 30IN1 Han Ka Wang (C)
+		SetExController( EXCONTROLLER_Kingwon_KEYBOARD );
+		nes->SetVideoMode( 2 );
+	}
+
+	if( crc == 0x6310DDE6		// [ZeCheng] Chao Ji Xue Xi Ka (C)
+	 || crc == 0x25C76773		// [KeWang] Chao Ji Wu Bi Han Ka (C) V2
+	 || crc == 0x428C1C1D		// [FengLi] Zhong Ying Wen Dian Nao Ka (C)
+	 || crc == 0x836CDDEF		// [BaTong] Zhong Ying Wen Dian Nao Ka (C)
+	 || crc == 0x44479A27		// [BiTe] Dian Nao Xue Xi Ka (C)
+	 || crc == 0xB93F00D3 ) {	// [XinKe] Tiao Zhan Han Ka (C)
+		SetExController( EXCONTROLLER_ZeCheng_KEYBOARD );
+		nes->SetVideoMode( 2 );
+	}
+
+	if( crc == 0x6058DB1C		// [Subor] Subor V15.0 (C) [for KeyBoard]
+	 || crc == 0xB72B17ED		// Xue Sheng Dian Nao (C) [for KeyBoard]
+	 || crc == 0x8B23F1AA		// Duo Mei Ti Shu Biao Xue Xi Ka (C)
+	 || crc == 0x85FD927E		// [BenLi] Jing Pin Yi Zu - Mouse Card (C)
+	 || crc == 0x488482c0
+	 || crc == 0x3BD46A90		// Game Star - Smart Genius (Unl) P1 2048K
+	 || crc == 0xAD82BBEA ) {	// Game Star - Smart Genius (Unl)
+		SetExController( EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE );
+	}
+
+	if( crc == 0x6085fee8	//YX_V9.0-98
+	 || crc == 0xdf730735	//9.2F+YXNet.NES
+	 || crc == 0x7fb3a9aa
+	 || crc == 0xd1f6b0fb
+	 || crc == 0x38D982E3 ) {
+		SetExController( EXCONTROLLER_YuXing_Mouse );
+	}
 //	if( crc == 0x4ee735c1 ) {	// Stack-Up (JU)
 //		SetExController( EXCONTROLLER_STACKUP );
 //	}
@@ -225,6 +324,17 @@ void	PAD::SetExController( INT type )
 			break;
 		case	EXCONTROLLER_SUPOR_KEYBOARD:
 			expad = new EXPAD_Supor_Keyboard( nes );
+		case	EXCONTROLLER_Subor_KEYBOARD:
+			expad = new EXPAD_Subor_Keyboard( nes );
+			break;
+		case	EXCONTROLLER_PEC_KEYBOARD:
+			expad = new EXPAD_PEC_Keyboard( nes );
+			break;
+		case	EXCONTROLLER_Kingwon_KEYBOARD:
+			expad = new EXPAD_Kingwon_Keyboard( nes );
+			break;
+		case	EXCONTROLLER_ZeCheng_KEYBOARD:
+			expad = new EXPAD_ZeCheng_Keyboard( nes );
 			break;
 		case	EXCONTROLLER_CRAZYCLIMBER:
 			expad = new EXPAD_CrazyClimber( nes );
@@ -257,6 +367,17 @@ void	PAD::SetExController( INT type )
 		case	EXCONTROLLER_TURBOFILE:
 			expad = new EXPAD_TurboFile( nes );
 			break;
+		case	EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE:
+			expad = new EXPAD_ChinaEduMouse( nes );
+			DirectDraw.SetZapperMode( TRUE );
+			DirectDraw.SetZapperDrawMode( TRUE );
+			break;
+
+		case	EXCONTROLLER_YuXing_Mouse:
+			expad = new EXPAD_YuXing_Mouse( nes );
+			DirectDraw.SetZapperMode( TRUE );
+			DirectDraw.SetZapperDrawMode( TRUE );
+			break;
 
 		case	EXCONTROLLER_VSUNISYSTEM:
 			expad = new EXPAD_VSUnisystem( nes );
@@ -270,6 +391,9 @@ void	PAD::SetExController( INT type )
 
 		case	EXCONTROLLER_GYROMITE:
 			expad = new EXPAD_Gyromite( nes );
+			break;
+		case	EXCONTROLLER_YuXingMouse:
+			expad = new EXPAD_YuXingMouse( nes );
 			break;
 
 // Buggy:(
@@ -314,7 +438,10 @@ DWORD	data = 0;
 		case	EXCONTROLLER_PADDLE:
 		case	EXCONTROLLER_SPACESHADOWGUN:
 		case	EXCONTROLLER_OEKAKIDS_TABLET:
+		case	EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE:
+		case	EXCONTROLLER_YuXing_Mouse:
 		case	EXCONTROLLER_VSZAPPER:
+		case	EXCONTROLLER_YuXingMouse:
 			{
 			LONG	x, y;
 				x = expad->GetSyncData( 0 );
@@ -363,7 +490,10 @@ void	PAD::SetSyncExData( DWORD data )
 		case	EXCONTROLLER_PADDLE:
 		case	EXCONTROLLER_SPACESHADOWGUN:
 		case	EXCONTROLLER_OEKAKIDS_TABLET:
+		case	EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE:
+		case	EXCONTROLLER_YuXing_Mouse:
 		case	EXCONTROLLER_VSZAPPER:
+		case	EXCONTROLLER_YuXingMouse:
 			{
 			LONG	x, y;
 				if( data & 0x80000000 ) {
@@ -682,6 +812,11 @@ void	PAD::NsfSub()
 #include "EXPAD_HyperShot.cpp"
 #include "EXPAD_Keyboard.cpp"
 #include "EXPAD_Supor_Keyboard.cpp"
+#include "EXPAD_Subor_Keyboard.cpp"
+#include "EXPAD_PEC_Keyboard.cpp"
+#include "EXPAD_Kingwon_Keyboard.cpp"
+#include "EXPAD_ZeCheng_Keyboard.cpp"
+#include "EXPAD_YuXing_Mouse.cpp"
 #include "EXPAD_CrazyClimber.cpp"
 #include "EXPAD_Toprider.cpp"
 #include "EXPAD_SpaceShadowGun.cpp"
@@ -695,4 +830,6 @@ void	PAD::NsfSub()
 #include "EXPAD_VSUnisystem.cpp"
 #include "EXPAD_VSZapper.cpp"
 
+#include "EXPAD_ChinaEduMouse.cpp"
+#include "EXPAD_YuXingMouse.cpp"
 #include "EXPAD_Gyromite.cpp"

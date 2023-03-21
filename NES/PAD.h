@@ -73,6 +73,10 @@ public:
 		EXCONTROLLER_HYPERSHOT,
 		EXCONTROLLER_ZAPPER,
 		EXCONTROLLER_KEYBOARD,
+		EXCONTROLLER_Subor_KEYBOARD,
+		EXCONTROLLER_PEC_KEYBOARD,
+		EXCONTROLLER_Kingwon_KEYBOARD,
+		EXCONTROLLER_ZeCheng_KEYBOARD,
 		EXCONTROLLER_CRAZYCLIMBER,
 		EXCONTROLLER_TOPRIDER,
 		EXCONTROLLER_SPACESHADOWGUN,
@@ -84,9 +88,14 @@ public:
 		EXCONTROLLER_OEKAKIDS_TABLET,
 		EXCONTROLLER_TURBOFILE,
 
+		EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE,
+
+		EXCONTROLLER_YuXing_Mouse,
+
 		EXCONTROLLER_VSUNISYSTEM,
 		EXCONTROLLER_VSZAPPER,
 
+		EXCONTROLLER_YuXingMouse,
 		EXCONTROLLER_GYROMITE,
 		EXCONTROLLER_STACKUP,
 
@@ -143,6 +152,11 @@ private:
 #include "EXPAD_HyperShot.h"
 #include "EXPAD_Keyboard.h"
 #include "EXPAD_Supor_Keyboard.h"
+#include "EXPAD_Subor_Keyboard.h"
+#include "EXPAD_PEC_Keyboard.h"
+#include "EXPAD_Kingwon_Keyboard.h"
+#include "EXPAD_ZeCheng_Keyboard.h"
+#include "EXPAD_YuXing_Mouse.h"
 #include "EXPAD_CrazyClimber.h"
 #include "EXPAD_Toprider.h"
 #include "EXPAD_SpaceShadowGun.h"
@@ -155,6 +169,9 @@ private:
 
 #include "EXPAD_VSUnisystem.h"
 #include "EXPAD_VSZapper.h"
+#include "EXPAD_ChinaEduMouse.h"
+
+#include "EXPAD_YuXingMouse.h"
 
 #include "EXPAD_Gyromite.h"
 

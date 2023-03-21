@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <mbstring.h>
 
 #include "typedef.h"
 #include "macro.h"
@@ -43,6 +44,7 @@ NESCONFIG NESCONFIG_NTSC = {
 	1789772.5f,		// Cpu clock
 
 	262,			// Total scanlines
+	241,			// VBlank start line
 
 	1364,			// Scanline total cycles(15.75KHz)
 
@@ -64,6 +66,7 @@ NESCONFIG NESCONFIG_PAL = {
 	1662607.125f,		// Cpu clock
 
 	312,			// Total scanlines
+	241,			// VBlank start line
 
 //	1362,			// Scanline total cycles(15.625KHz)
 	1278,			// Scanline total cycles(15.625KHz)
@@ -406,6 +409,7 @@ void	NES::Reset()
 	}
 
 	ZEROMEMORY( CRAM, sizeof(CRAM) );
+	ZEROMEMORY( YCRAM, sizeof(YCRAM) );
 	ZEROMEMORY( VRAM, sizeof(VRAM) );
 
 	ZEROMEMORY( SPRAM, sizeof(SPRAM) );
@@ -429,6 +433,13 @@ void	NES::Reset()
 	PROM_8K_SIZE  = rom->GetPROM_SIZE()*2;
 	PROM_16K_SIZE = rom->GetPROM_SIZE();
 	PROM_32K_SIZE = rom->GetPROM_SIZE()/2;
+
+	//for Game Star - Smart Genius (Unl)
+	if(PROM_16K_SIZE==0xff){
+		PROM_8K_SIZE  = (rom->GetPROM_SIZE()+1)*2;
+		PROM_16K_SIZE = rom->GetPROM_SIZE()+1;
+		PROM_32K_SIZE = (rom->GetPROM_SIZE()+1)/2;
+	}
 
 	VROM_1K_SIZE = rom->GetVROM_SIZE()*8;
 	VROM_2K_SIZE = rom->GetVROM_SIZE()*4;
@@ -491,7 +502,7 @@ void	NES::SoftReset()
 
 void	NES::EmulationCPU( INT basecycles )
 {
-INT	cycles;
+	INT	cycles;
 
 	base_cycles += basecycles;
 #if	!ASMVER
@@ -659,7 +670,7 @@ INT	scanline = 0;
 					ppu->VBlankEnd();
 				}
 				if( RenderMethod < POST_RENDER ) {
-					if( scanline == 241 ) {
+					if( scanline == nescfg->VBlankLine ) {
 						ppu->VBlankStart();
 						if( PPUREG[0] & PPU_VBLANK_BIT ) {
 							cpu->NMI();
@@ -668,7 +679,7 @@ INT	scanline = 0;
 					EmulationCPU( nescfg->ScanlineCycles );
 					mapper->HSync( scanline );
 				} else {
-					if( scanline == 241 ) {
+					if( scanline == nescfg->VBlankLine ) {
 						ppu->VBlankStart();
 						if( PPUREG[0] & PPU_VBLANK_BIT ) {
 							cpu->NMI();
@@ -766,7 +777,7 @@ INT	scanline = 0;
 				if( scanline == nescfg->TotalScanlines-1 ) {
 					ppu->VBlankEnd();
 				}
-				if( scanline == 241 ) {
+				if( scanline == nescfg->VBlankLine ) {
 					ppu->VBlankStart();
 					if( PPUREG[0]&PPU_VBLANK_BIT ) {
 						cpu->NMI();
@@ -972,9 +983,13 @@ BYTE	NES::ReadReg( WORD addr )
 		case 0x08: case 0x09: case 0x0A: case 0x0B:
 		case 0x0C: case 0x0D: case 0x0E: case 0x0F:
 		case 0x10: case 0x11: case 0x12: case 0x13:
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				return mapper->ReadExAPU(addr);
 			return	apu->Read( addr );
 			break;
 		case	0x15:
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				return mapper->ReadExAPU(addr);
 			return	apu->Read( addr );
 			break;
 
@@ -990,6 +1005,8 @@ BYTE	NES::ReadReg( WORD addr )
 			}
 			break;
 		case	0x17:
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				return mapper->ReadExAPU(addr);
 			if( rom->IsVSUNISYSTEM() ) {
 				return	pad->Read( addr );
 			} else {
@@ -997,6 +1014,8 @@ BYTE	NES::ReadReg( WORD addr )
 			}
 			break;
 		default:
+			if((NES_ROM_get_unifBoardID(rom->GetBoardName())==643)&&(addr<0x4040))
+				return mapper->ReadExAPU(addr);
 			return	mapper->ExRead( addr );
 			break;
 	}
@@ -1013,6 +1032,8 @@ void	NES::WriteReg( WORD addr, BYTE data )
 		case 0x15:
 			apu->Write( addr, data );
 			CPUREG[addr & 0xFF] = data;
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 
 		case	0x14:
@@ -1031,6 +1052,8 @@ void	NES::WriteReg( WORD addr, BYTE data )
 			CPUREG[addr & 0xFF] = data;
 			pad->Write( addr, data );
 			apu->Write( addr, data );
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 		// VirtuaNES固有ポート
 		case	0x18:
@@ -1061,23 +1084,33 @@ void	NES::WriteReg( WORD addr, BYTE data )
 #if	0
 		case	0x1C:
 			m_dwProfileTempCycle = cpu->GetTotalCycles();
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 		case	0x1D:
 			m_dwProfileCycle = cpu->GetTotalCycles()-m_dwProfileTempCycle-4;
 			m_dwProfileTotalCycle += m_dwProfileCycle;
 			m_dwProfileTotalCount++;
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 		case	0x1E:
 			m_dwProfileTotalCount = 0;
 			m_dwProfileTotalCycle = 0;
 			m_dwTotalTempCycle = cpu->GetTotalCycles();
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 		case	0x1F:
 			m_dwTotalCycle = cpu->GetTotalCycles()-m_dwTotalTempCycle-4;
+			if(NES_ROM_get_unifBoardID(rom->GetBoardName())==643)
+				mapper->WriteExAPU(addr,data);
 			break;
 #endif
 		default:
 			mapper->ExWrite( addr, data );
+			if((NES_ROM_get_unifBoardID(rom->GetBoardName())==643)&&(addr<0x4040))
+				mapper->WriteExAPU(addr,data);
 			break;
 	}
 }
@@ -3116,6 +3149,7 @@ void	NES::Movie()
 			 || exctr == PAD::EXCONTROLLER_FAMILYTRAINER_B
 			 || exctr == PAD::EXCONTROLLER_MAHJANG
 			 || exctr == PAD::EXCONTROLLER_EXCITINGBOXING
+			 || exctr == PAD::EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE
 			 || exctr == PAD::EXCONTROLLER_OEKAKIDS_TABLET ) {
 				// コマンドID
 				Data = 0xF0;
@@ -3166,6 +3200,7 @@ void	NES::Movie()
 		 || exctr == PAD::EXCONTROLLER_FAMILYTRAINER_B
 		 || exctr == PAD::EXCONTROLLER_MAHJANG
 		 || exctr == PAD::EXCONTROLLER_EXCITINGBOXING
+		 || exctr == PAD::EXCONTROLLER_CHINA_EDUCATIONAL_MOUSE
 		 || exctr == PAD::EXCONTROLLER_OEKAKIDS_TABLET ) {
 			// 拡張コントローラデータID
 			Data = 0xF3;

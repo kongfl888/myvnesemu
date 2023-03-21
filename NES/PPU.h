@@ -81,6 +81,8 @@ public:
 	void	SetChrLatchMode( BOOL bMode )	{ bChrLatch = bMode; }
 	void	SetExtNameTableMode( BOOL bMode ) { bExtNameTable = bMode; }
 	void	SetExtMonoMode( BOOL bMode )	{ bExtMono = bMode; }
+	void	SetVromWrite(BOOL bMode)		{ bVromWe = bMode;}
+	BOOL	IsVromWrite()		{ return bVromWe; }
 	BOOL	GetExtMonoMode()	{ return bExtMono; }
 
 	BOOL	IsDispON()	{ return PPUREG[1]&(PPU_BGDISP_BIT|PPU_SPDISP_BIT); }
@@ -118,6 +120,7 @@ protected:
 	BOOL	bChrLatch;	// For MMC2/MMC4
 	BOOL	bExtNameTable;	// For Super Monkey no Dai Bouken
 	BOOL	bExtMono;	// For Final Fantasy
+	BOOL	bVromWe;	// For Mapper74 and others
 
 	WORD	loopy_y;
 	WORD	loopy_shift;

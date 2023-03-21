@@ -37,6 +37,8 @@ public:
 	// $8000-$FFFF Memory read
 	virtual	BYTE	Read( WORD addr) {return CPU_MEM_BANK[addr>>13][addr&0x1FFF];}
 
+	virtual	BOOL	ReadHigh( WORD addr, LPBYTE pdata ) { return FALSE; }
+
 	// $4100-$7FFF Lower Memory read/write
 	virtual	BYTE	ReadLow ( WORD addr );
 	virtual	void	WriteLow( WORD addr, BYTE data );
@@ -58,6 +60,11 @@ public:
 		EXCMDWR_DISKEJECT,
 	};
 
+	virtual	void	WriteExPPU( WORD addr, BYTE data ) {}
+
+	virtual	BYTE	ReadExAPU ( WORD addr )	{ return 0x00; }
+	virtual	void	WriteExAPU( WORD addr, BYTE data ) {}
+
 	virtual	BYTE	ExCmdRead ( EXCMDRD cmd )	{ return 0x00; }
 	virtual	void	ExCmdWrite( EXCMDWR cmd, BYTE data ) {}
 
@@ -75,6 +82,9 @@ public:
 	// PPU Extension character/palette
 	virtual	void	PPU_ExtLatchX( INT x ) {}
 	virtual	void	PPU_ExtLatch( WORD addr, BYTE& chr_l, BYTE& chr_h, BYTE& attr ) {}
+
+	//YuXing
+	virtual	BYTE	PPU_ExtLatchSP() { return 0; }
 
 	// For State save
 	virtual	BOOL	IsStateSave() { return FALSE; }

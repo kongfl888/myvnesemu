@@ -33,6 +33,7 @@ typedef struct tagNESCONFIG {
 	FLOAT	CpuClock;		// NTSC: 1789772.5  PAL: 1773447.0
 
 	INT	TotalScanlines;		// NTSC: 262  PAL: 312
+	INT VBlankLine;			// NTSC: 241  PAL: 290
 
 	INT	ScanlineCycles;		// NTSC:1364  PAL:1362
 
@@ -76,6 +77,9 @@ public:
 public:
 	NES( const char* fname );
 	virtual	~NES();
+
+	int		want_hsync;
+	int		NES_scanline;
 
 // メンバ関数
 	// エミュレーション
@@ -291,8 +295,6 @@ protected:
 
 	SQWORD	base_cycles;
 	SQWORD	emul_cycles;
-
-	INT	NES_scanline;
 
 	INT	SAVERAM_SIZE;
 

@@ -283,10 +283,13 @@ void	PPU::Write( WORD addr, BYTE data )
 			break;
 
 		case	0x2007: // VRAM I/O Register(RW)
+		{
 			WORD	vaddr = loopy_v & 0x3FFF;
 			//WORD    AV = loopy_v;
-			if( PPUREG[0] & PPU_INC32_BIT ) loopy_v+=32;
-			else				loopy_v++;
+			if( PPUREG[0] & PPU_INC32_BIT )
+				loopy_v+=32;
+			else
+				loopy_v++;
 
 			if( vaddr >= 0x3000 ) {
 				if( vaddr >= 0x3F00 ) {
@@ -317,7 +320,7 @@ void	PPU::Write( WORD addr, BYTE data )
 			//if( PPU_MEM_TYPE[vaddr>>10] != BANKTYPE_VROM ) {
 				//PPU_MEM_BANK[vaddr>>10][vaddr&0x03FF] = data;
 			//}
-
+		}
 			break;
 		case	0x2010:
 		case	0x2011:

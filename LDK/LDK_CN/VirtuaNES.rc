@@ -1130,7 +1130,7 @@ END
 
 IDD_CFG_PALETTE DIALOG DISCARDABLE  0, 0, 252, 225
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "编辑调色版(&Z)"
+CAPTION "编辑调色板(&Z)"
 FONT 9, "Microsoft YaHei"
 BEGIN
     DEFPUSHBUTTON   "确定",IDOK,140,205,50,14
@@ -1413,7 +1413,7 @@ BEGIN
         MENUITEM "语言(&L)",                ID_CFG_LANGUAGE
         MENUITEM "电影(&M",                   ID_CFG_MOVIE
         MENUITEM "游戏选项(&O)",             ID_CFG_GAMEOPTION
-        MENUITEM "编辑调色版(&Z)",            ID_CFG_PALETTE
+        MENUITEM "编辑调色板(&Z)",            ID_CFG_PALETTE
         MENUITEM SEPARATOR
         MENUITEM "全屏",                 ID_FULLSCREEN
         POPUP "缩放"

@@ -29,9 +29,11 @@ No	Name					Comment
 025	Konami VRC4			
 026	Konami VRC6V			
 027	Konami VRC4 (World Hero)	
+030
 032	Irem G101			
 033	Taito TC0190/TC0350		
 034	Nina-1				
+035
 040	SMB2j				
 041	Caltron 6-in-1			
 042	Mario Baby			
@@ -41,8 +43,11 @@ No	Name					Comment
 046	Rumble Station			
 047	NES-QJ				
 048	Taito TC190V			
+049
 050	SMB2j				
 051	11-in-1 Ball Games		
+052	MMC3 BMC PIRATE D
+053	SUPERVISION 16-in-1
 057	54-in-1				
 058	68-in-1				
 060	65-in-1				
@@ -58,7 +63,7 @@ No	Name					Comment
 071	Camerica			
 072	Jaleco/Type1 lower bank switch	
 073	Konami VRC3			
-074					
+074	TW MMC3+VRAM Rev. A
 075	Konami VRC1/Jaleco D65005	
 076	Namco 109			
 077	Irem Early Mapper #0		
@@ -87,23 +92,52 @@ No	Name					Comment
 107	Magic Dragon			
 108					
 109					
-110					
+110
+111	Ninja Ryuukenden (CN)
 112	PC-Asder			
 113	PC-Sachen/Hacker		
-114					
-115					
+114	The Lion King II
+115	MMC3 PIRATE A /Yuyuhakusho Final
 116					
 117	PC-Future			
 118	IQS MMC3			
 119	TQ-ROM				
+120
+121
 122	Sunsoft 74161/32 (same 184)	
+132	TXC/MGENIUS 22111
 133					
 134					
 135					
-140					
-142					
+140	JALECO JF-11/14 (THE LEGEND OF KAGE)
+141
+142
+146
+147
+148
+149
+150
 151	VS-Unisystem (Konami)		
+156
 160	PC-Aladdin			
+162	Wai Xing The Legend of ZeldaÔºöA Link to the Past
+163	Nan Jing The Legend of ZeldaÔºöMagic Hat
+164	SAN GUO ZHI II/ POKEMON RED
+165	FE1/FE2 2021 (CN)
+166	Subor V1.0 (R)
+167
+168	Subor V5 (China) (Unl) [CHS](0918)
+169
+170
+171
+172
+173
+174
+175
+176	POKEMON KING/Shui Hu Shen Shou/BMCFK23C
+177	HENG GE DIAN ZI: Super Rich
+178	SAN GUO ZHONG LIE CHUAN
+179
 180	Nichibutsu			
 181	Hacker International Type2	
 182	PC-SuperDonkeyKong		
@@ -111,16 +145,24 @@ No	Name					Comment
 184	Sunsoft 74161/32 (same 122)	
 185	CHR-ROM Disable Protect		
 187	Street Fighter Zero 2 97	
-188	Bandai Karaoke Studio			éÊÇËä∏Ç¶Ç∏ìÆÇ≠ÇæÇØ
+188	Bandai Karaoke Studio			Âèñ„ÇäÊï¢„Åà„ÅöÂãï„Åè„Å†„Åë
 189	Street Fighter 2 Yoko version	
 190					
-191					
-193					
-194					
-198					
+191	TECHNOS RE XUE SHI DAI JU(CN)
+192	TW MMC3+VRAM Rev. B / DISNEY CHIP N DALE (CN)
+193	NTDEC TC-112
+194	TW MMC3+VRAM Rev. C / Dai-2-Ji Super Robot Taisen
+195	TW MMC3+VRAM Rev. D / Captain Tsubasa 2 (CN)
+198	TW MMC3+VRAM Rev. E / Wai Xing Cheng Ji Si Han
+199	DRAGON BALL Z2 (CN)
 200					
 201					
-202					
+202
+205
+212
+216
+217
+220
 222					
 225	72-in-1				
 226	76-in-1				
@@ -134,20 +176,27 @@ No	Name					Comment
 234	Maxi 15				
 235	150-in-1			
 236	800-in-1			
+237
 240	Gen Ke Le Zhuan			
-241					
+241	Xun Qin Ji
 242	Wai Xing Zhan Shi		
 243	PC-Sachen/Hacker		
-244					
+244	SaChen Decathlon
 245	Yong Zhe Dou E Long		
 246	Phone Serm Berm			
 248	Bao Qing Tian			
-249					
+249	Shui Hu Chuan
 251					
-252					
+252	SAN GUO ZHI I
+253	Wai Xing Dragon Ball Z (CN)
 254					
 255	110-in-1			
+268	CoolBoy
+632	SUBOR
+0x100	NES Sound Format
 
-íçÅjñ¢É`ÉFÉbÉNÇÃÉ}ÉbÉpÅ[Ç™Ç¢Ç≠Ç¬Ç©Ç†ÇËÇ‹Ç∑ÅBÇ«ÇÍÇæÇ¡ÇΩÇ©äoÇ¶ÇƒÇ»Ç¢ÇÃÇ≈
-    ìÆçÏÇµÇ»Ç¢ìôÇ†ÇËÇ‹ÇµÇΩÇÁåfé¶î¬Ç≈ÅB
+Ê≥®ÔºâÊú™„ÉÅ„Çß„ÉÉ„ÇØ„ÅÆ„Éû„ÉÉ„Éë„Éº„Åå„ÅÑ„Åè„Å§„Åã„ÅÇ„Çä„Åæ„Åô„ÄÇ„Å©„Çå„Å†„Å£„Åü„ÅãË¶ö„Åà„Å¶„Å™„ÅÑ„ÅÆ„Åß
+    Âãï‰Ωú„Åó„Å™„ÅÑÁ≠â„ÅÇ„Çä„Åæ„Åó„Åü„ÇâÊé≤Á§∫Êùø„Åß„ÄÇ
 
+Note: there are several unchecked mappers. I don't remember which one.
+	Do not work if you have to wait for the next update or updater.

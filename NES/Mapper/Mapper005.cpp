@@ -92,6 +92,16 @@ INT	i;
 	if (!VROM_1K_SIZE)
 		isUnl = 1;
 
+	if ( crc == 0xb3988453
+	 || crc == 0xb986f80f
+	 || crc == 0xadad2c7a
+		) // Sangokushi 2(0.96 cn all all)
+	{
+		sram_size = 2;
+		nes->SetSAVERAM_SIZE( 64*1024 );
+		chr_type = 1;
+	}
+
 	nes->ppu->SetExtLatchMode( TRUE );
 	nes->apu->SelectExSound( 8 );
 }
